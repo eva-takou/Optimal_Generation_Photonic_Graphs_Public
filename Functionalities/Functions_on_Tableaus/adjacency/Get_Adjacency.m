@@ -1,0 +1,168 @@
+function [Gamma,store_opers]=Get_Adjacency(varargin) %(Tab)
+%Function to obtain the adjacency matrix from a Stabilizer Tableau.
+%Input:  Tableau and 
+%        option: true or false, to store or not the operations that transform
+%        the Tableau in canonical form.
+%Output: Gamma: Adjacency matrix
+%        store_opers: The operations that transform the Sz part of the
+%        tableau to the canonical form.
+
+%To speed up the computation, discard the phase information.
+%Instead of rowsum do bitxor_rows
+
+Tab = varargin{1};
+cnt = 0;
+
+if nargin>1
+    
+    flag_opers = true;
+    
+else
+    
+    flag_opers  = false;
+    store_opers = [];
+end
+
+n  = size(Tab,2);
+n  = (n-1)/2;
+Sx = Tab(:,1:n);
+Sz = Tab(:,n+1:2*n);
+
+if all(all(Sx==eye(n,'int8')))
+   
+    Gamma=Sz;
+    
+    for ll=1:size(Gamma,1)
+
+        if Gamma(ll,ll)==1 
+            %There is a Y operator, which can be removed with a phase gate.
+            %disp('There is a Y operator, I will <<perform>> a phase gate.')
+
+            if flag_opers
+
+                cnt=cnt+1;
+                store_opers(cnt).qubit=ll;
+                store_opers(cnt).gate='P';
+
+            end
+
+            Gamma(ll,ll)=0;
+
+        end
+    end
+    
+    mustBeValidAdjacency(Gamma)
+    return
+    
+end
+
+
+for qubit=1:n
+   
+    Tq    = Tab(:,qubit);
+    locs  = find(Tq(qubit:n));    %Check the columns to see if we have X
+    %locs  = find(Tab(qubit:n,qubit)); 
+    locs  = locs+qubit-1;
+    
+    if isempty(locs)  || isempty(locs(locs>=qubit)) %If there is no X, do a Had
+
+       %Tab = Clifford_Gate(Tab,qubit,'H',n); 
+       %Tab=Had_Gate(Tab,qubit,n);
+       %Do not call Had gate, we do not need the phase information
+       
+        temp = Tab(:,qubit+n); 
+        Tab(:,qubit+n)=Tab(:,qubit);
+        Tab(:,qubit)=temp;       
+    
+       if flag_opers
+           
+           cnt=cnt+1;
+           store_opers(cnt).qubit=qubit;
+           store_opers(cnt).gate='H';
+           
+       end
+       
+    end
+    
+    if Tab(qubit,qubit)~=1
+        
+        for jj=qubit+1:n
+
+            if Tab(jj,qubit)==1  %SWAP rows
+
+                temp = Tab(jj,:);
+                Tab(jj,:)=Tab(qubit,:);
+                Tab(qubit,:)=temp;
+
+                break
+
+            end
+
+        end
+        
+    end
+    
+    for jj=qubit+1:n %Remove Xs appearing below the diagonal entry
+       
+        if Tab(jj,qubit)==1
+            
+            Tab(jj,:)=bitxor(Tab(jj,:),Tab(qubit,:));
+            
+        end
+        
+    end
+    
+end
+
+for qubit=1:n %Back-substitution
+    
+   for k=qubit-1:-1:1
+       
+       if Tab(k,qubit)==1 
+           
+           Tab(k,:)=bitxor(Tab(k,:),Tab(qubit,:));
+           
+       end
+       
+   end
+   
+end
+
+%-------------------------------------
+
+
+for ll=1:n
+
+    if Tab(ll,ll)==1 && Tab(ll,ll+n)==1 %Eliminate Ys (remove self-loops)
+       
+        %Tab = Clifford_Gate(Tab,ll,'P',n); 
+        %Tab=Phase_Gate(Tab,ll,n);
+        
+        Tab(:,ll+n) = bitxor(Tab(:,ll),Tab(:,ll+n));                    
+        
+        if flag_opers
+           
+            cnt=cnt+1;
+            store_opers(cnt).qubit=ll;
+            store_opers(cnt).gate='P';
+            
+        end
+        
+    end
+   
+end
+
+
+Sx    = Tab(:,1:n);
+Gamma = Tab(:,n+1:2*n);
+
+if ~all(all(eye(n,'int8')==Sx))
+    error('At the end of Gauss elimination, the Sx part of the Tableau is not identity')
+end
+
+
+mustBeValidAdjacency(Gamma)
+Gamma=single(Gamma);
+
+
+end
