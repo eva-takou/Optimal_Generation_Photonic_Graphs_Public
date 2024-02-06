@@ -16,15 +16,15 @@ function [Tab,Circuit,graphs]=free_emitter_for_PA(n,Tab,Circuit,graphs,Store_Gra
 
 for jj=1:length(emitters) %Disentangle the emitter from the rest via CNOT.
 
-   Tab        = CNOT_Gate(Tab,[emitters(jj),emitter],n);
-   Circuit    = store_gate_oper([emitters(jj),emitter],'CNOT',Circuit,Store_Gates); 
+   Tab     = CNOT_Gate(Tab,[emitters(jj),emitter],n);
+   Circuit = store_gate_oper([emitters(jj),emitter],'CNOT',Circuit,Store_Gates); 
+
    
    if Store_Graphs
-
-        graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',num2str(emitters(jj)),',',num2str(emitter),'} [DE]'),graphs);
-
+        graphs  = store_graph_transform(Get_Adjacency(Tab),...
+             strcat('After CNOT_{',num2str(emitters(jj)),',',num2str(emitter),'} [DE]'),graphs);
    end
-
+   
 end    
 
 Circuit.EmCNOTs = Circuit.EmCNOTs+length(emitters);
