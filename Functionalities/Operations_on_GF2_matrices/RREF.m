@@ -4,7 +4,6 @@ function Tab=RREF(Tab,n)
 %       n: # of qubits
 %Output: The updated Tableau.
 
-
 Active_Region_Start_Row = 1;
 Active_Region_Start_Col = 1;
 Active_Region_End_Row   = n;
@@ -48,9 +47,6 @@ while FLAG==0
         
     else %there are Zs
 
-        
-        %Pauli_Pos_Z = find(subTabX==0   &  subTabZ==1,1);
-        
         Pauli_Pos_Z = find(~Xpos  &  Zpos,1);
         
     end
@@ -63,8 +59,6 @@ while FLAG==0
         
     else
        
-        %Pauli_Pos_X = find( subTabX==1   & subTabZ==0,1);
-    
         Pauli_Pos_X = find( Xpos   & ~Zpos,1);
         
     end
@@ -78,7 +72,6 @@ while FLAG==0
         
 
         Pauli_Pos_Y = find( Xpos   &  Zpos,1); 
-        %Pauli_Pos_Y = find( subTabX   &  subTabZ,1); 
         onlyY       = isempty([Pauli_Pos_X,Pauli_Pos_Z]);   
         
     end
@@ -116,10 +109,7 @@ while FLAG==0
 
         NL = NL+1;
         KU = KU+1;
-        
     
-        
-
     else %>=2 kinds of operators XY, YZ, XZ or XZY.
 
         temp    = [Pauli_Pos_X;Pauli_Pos_Z;Pauli_Pos_Y];
