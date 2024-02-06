@@ -67,46 +67,6 @@ for l=1:L
     
 end
 
-%------------ Alternative (but slower) ----------------------------------
-%L       = 0;
-%cond2 = bitxor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),bitand(TabrowI(1:n),TabrowH(n+1:2*n)));
-% for k=1:n
-%    
-%     if cond2(k)==1 %anticommute
-%    
-%         if TabrowH(k)==1 && TabrowH(k+n)==0 %X
-% 
-%             if TabrowI(k)==1 %&& z2(k)==1 %Y
-% 
-%                 cnt_p=cnt_p+1;
-% 
-%             end
-% 
-%         elseif bitand(TabrowH(k),TabrowH(k+n))==1 %TabrowH(k)==1 && TabrowH(k+n)==1 %Y
-% 
-%             if TabrowI(k)==0 %&& z2(k)==1  %Z
-% 
-%                 cnt_p=cnt_p+1;
-% 
-%             end
-% 
-%         else  %has to be Z   %if x1(k)==0 && z1(k)==1 %Z  
-% 
-%             if TabrowI(k+n)==0 %&& x2(k)==1  %X
-% 
-%                 cnt_p=cnt_p+1;
-%                 
-%             end
-% 
-%         end
-%         
-%         L = L+1;
-%         
-%     end
-%     
-% end
-%-------------------------------------------------------------------------
-
 cnt_m = L-cnt_p;    
 
 temp = (+1i)^cnt_p * (-1i)^cnt_m;
