@@ -17,13 +17,6 @@ N  = Active_Region_End_Col;
 
 FLAG=0;
 
-% bool=is_in_RREF(Tab,n);
-% 
-% if bool
-%     
-%     return
-%     
-% end
 
 while FLAG==0
 
@@ -44,14 +37,21 @@ while FLAG==0
     
     flag    = [false,false];
     
+    Zpos = subTabZ>0; %Fast comparison for int8
+    Xpos = subTabX>0;
+    
     if sum(subTabZ)==0 
+        
         
         Pauli_Pos_Z=[];
         flag(1)=true;
         
     else %there are Zs
 
-        Pauli_Pos_Z = find(subTabX==0   &  subTabZ==1,1);
+        
+        %Pauli_Pos_Z = find(subTabX==0   &  subTabZ==1,1);
+        
+        Pauli_Pos_Z = find(~Xpos  &  Zpos,1);
         
     end
     
@@ -60,9 +60,12 @@ while FLAG==0
         Pauli_Pos_X=[];
         flag(2)=true;
         
+        
     else
        
-        Pauli_Pos_X = find( subTabX==1   & subTabZ==0,1);
+        %Pauli_Pos_X = find( subTabX==1   & subTabZ==0,1);
+    
+        Pauli_Pos_X = find( Xpos   & ~Zpos,1);
         
     end
     
@@ -73,7 +76,9 @@ while FLAG==0
         
     else
         
-        Pauli_Pos_Y = find( subTabX   &  subTabZ,1); 
+
+        Pauli_Pos_Y = find( Xpos   &  Zpos,1); 
+        %Pauli_Pos_Y = find( subTabX   &  subTabZ,1); 
         onlyY       = isempty([Pauli_Pos_X,Pauli_Pos_Z]);   
         
     end
@@ -85,33 +90,29 @@ while FLAG==0
         %                             false,true  -> onlyZ
         %If it is false,false, we need to also test onlyY
         
-        k = [Pauli_Pos_X,Pauli_Pos_Y,Pauli_Pos_Z]; %only 1 out of 3 kinds will be non-empty
-        k = k(1);
+        k = [Pauli_Pos_X;Pauli_Pos_Y;Pauli_Pos_Z]; %only 1 out of 3 kinds will be non-empty
         k = k + (KU-1); %We redefine k because in the find command the first row is KU.
                         %e.g. if KU=4 and k=2, then k is actually 4+(2-1)=5th row of the stabs
-                        
+                 
         if k~=KU  %SWAP if necessary:
 
+            Tab = SWAP_rows(Tab,k,KU); %SWAP stabs 
             
-            Tab = SWAP_rows(Tab,k,KU); %SWAP stabs
-
         end
-
-        
         
         for ll=(KU+1):K %Multiply row KU with all other rows in the active
-                        %region that have the same Pauli in column NL.
-                        
-            xi = Tab(ll,NL); zi=Tab(ll,NL+n);
+                                  %region that have the same Pauli in column NL.
+                                  
+            xi = Tab(ll,NL);  zi=Tab(ll,NL+n);
 
-            if  xi~=0 || zi~=0 %non-identity 0.018 sec
-                
+            if  xi>0 || zi>0
                 
                 Tab = rowsum(Tab,n,ll,KU); %Stab update
                 
             end
             
         end
+        
 
         NL = NL+1;
         KU = KU+1;
@@ -121,7 +122,7 @@ while FLAG==0
 
     else %>=2 kinds of operators XY, YZ, XZ or XZY.
 
-        temp    = [Pauli_Pos_X,Pauli_Pos_Z,Pauli_Pos_Y];
+        temp    = [Pauli_Pos_X;Pauli_Pos_Z;Pauli_Pos_Y];
         %temp    = sort(temp); %If we don't sort, we might exchange k1 with k2 positions.
         %k1      = temp(1);    %Pick 1st occurence of non-trivial pauli
         %k2      = temp(2);
@@ -281,15 +282,6 @@ while FLAG==0
 
 end
 
-% bool=is_in_RREF(Tab,n);
-% 
-% if ~bool
-%     
-%     [s]=Tab_To_String(Tab);
-%     s
-%     error('The tableau is not in RREF?')
-%     
-% end
 
 
 end
