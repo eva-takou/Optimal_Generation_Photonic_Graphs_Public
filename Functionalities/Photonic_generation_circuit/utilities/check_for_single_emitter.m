@@ -16,12 +16,12 @@ S    = Tab(Stabrow,:);
 SXem = S(np+1:n);
 SZem = S(np+1+n:2*n);
 
-X =SXem==1;
-Z =SZem==1; 
+X = SXem>0;
+Z = SZem>0; 
 
-Y =X & Z;
-X =X & ~Y;
-Z =Z & ~Y;
+Y = X & Z;
+X = X & ~Y;
+Z = Z & ~Y;
 
 %Check if there is a single true value:
 
