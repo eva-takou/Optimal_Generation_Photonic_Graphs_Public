@@ -27,10 +27,10 @@ TabrowI = (Tab(rowI,:));
 cnt_p   = 0;
 
 
-cond2 = xor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),bitand(TabrowI(1:n),TabrowH(n+1:2*n))); %Anticommuting relations
+anti_comm = xor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),bitand(TabrowI(1:n),TabrowH(n+1:2*n))); %Anticommuting relations
 
 indices = 1:n;
-indices = indices(cond2);
+indices = indices(anti_comm);
 L       = length(indices);
 
 for l=1:L
@@ -79,65 +79,6 @@ Tab(rowH,end)   = rH;
 
 end
 
-%My version (slower):
-function Tab=gAlt(rowH,rowI,rH,rI,Tab,n)
-%Rh->Rh*Ri
-
-TabrowH = (Tab(rowH,:));
-TabrowI = (Tab(rowI,:));
-cnt_p   = 0;
-
-L       = 0;
-cond2 = bitxor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),bitand(TabrowI(1:n),TabrowH(n+1:2*n)));
-
-for k=1:n
-   
-    if cond2(k)==1 %anticommute
-   
-        if TabrowH(k)==1 && TabrowH(k+n)==0 %X
-
-            if TabrowI(k)==1 %&& z2(k)==1 %Y
-
-                cnt_p=cnt_p+1;
-
-            end
-
-        elseif bitand(TabrowH(k),TabrowH(k+n))==1 %TabrowH(k)==1 && TabrowH(k+n)==1 %Y
-
-            if TabrowI(k)==0 %&& z2(k)==1  %Z
-
-                cnt_p=cnt_p+1;
-
-            end
-
-        else  %has to be Z   %if x1(k)==0 && z1(k)==1 %Z  
-
-            if TabrowI(k+n)==0 %&& x2(k)==1  %X
-
-                cnt_p=cnt_p+1;
-                
-            end
-
-        end
-        
-        L = L+1;
-        
-    end
-    
-end
-
-
-cnt_m = L-cnt_p;    
-
-temp = (+1i)^cnt_p * (-1i)^cnt_m;
-rH   = mod(rH+rI-1/2*(temp-1),2);
-
-
-Tab(rowH,:)     = bitxor(TabrowH, TabrowI);
-Tab(rowH,end)   = rH;
-
-
-end
 
 
 %This is based on gotesman and aaronson
