@@ -11,25 +11,26 @@ n     = np+ne;
 
 cnt   = 0;
 
-for ii=n:-1:1  %n:-1:1 (I think it is safe to explore only from n till n-2*ne
+for ii=n:-1:1  
     
-    Sx_p = Tab(ii,not_absorbed_photons);
+    %Sx_p = Tab(ii,not_absorbed_photons); %Do not consider those w support on photons at all?
+    Sx_p = Tab(ii,1:np);
     
-    if any(Sx_p)
+    if any(Sx_p>0)
         
         continue
         
     end
     
-    Sz_p = Tab(ii,not_absorbed_photons+n);
+    %Sz_p = Tab(ii,not_absorbed_photons+n);
+    Sz_p = Tab(ii,n+1:n+np);
 
-    if any(Sz_p)
+    if any(Sz_p>0)
         
         continue
         
     end
 
-    
     %Make sure that we do not have all identities on the emitters:
         
     Sx_em=Tab(ii,np+1:n);

@@ -62,54 +62,58 @@ COL=1;
 
 while ROW<=n && COL<=n
 
-for col=col_start:n
+    for col=col_start:n
 
-    nnz_el=nnz(Tab(row_start:n,col+n));
-
-    if nnz_el>0
-        col_loc = col;
-        row_loc = find(Tab(row_start:n,col+n),1); 
-        break
-    end
-
-end
-
-%Use row operations to put a 1 in the topmost position of this column, i.e. SWAP the rows
-
-
-Tab = SWAP_rows(Tab,ROW,row_loc+(row_start-1)); %SWAP Stabilizers
-
-
-%Use elementary row operations to put 1s below the pivot position
-nnz_rows=find(Tab(row_start:n,n+col_loc)); %Sz part
-
-if ~isempty(nnz_rows)
-
-    nnz_rows=nnz_rows+(row_start-1);
-    
-    nnz_rows(nnz_rows==ROW)=[]; %=setxor(nnz_rows,ROW);
-
-    for jj=1:length(nnz_rows)
-
-        Tab = rowsum(Tab,n,nnz_rows(jj),ROW); %Stab update
+        temp = Tab(row_start:n,col+n);
         
+        cond1 = temp>0;
+
+        if any(cond1)
+            
+            col_loc    = col;
+            nnz_rows   = find(temp); 
+            row_loc    = row_locs(1);
+            nnz_rows(1) = [];
+            
+            break
+        end
+
+    end
+
+    %Use row operations to put a 1 in the topmost position of this column, i.e. SWAP the rows
+
+    Tab = SWAP_rows(Tab,ROW,row_loc+(row_start-1)); %SWAP Stabilizers
+
+    %Use elementary row operations to put 1s below the pivot position
+    
+
+    if ~isempty(nnz_rows)
+
+        nnz_rows=nnz_rows+(row_start-1);
+
+        nnz_rows(nnz_rows==ROW)=[]; %=setxor(nnz_rows,ROW);
+
+        for jj=1:length(nnz_rows)
+
+            Tab = rowsum(Tab,n,nnz_rows(jj),ROW); %Stab update
+
+        end
+
+
     end
 
 
-end
+    nnz_full_rows=nnz(Tab(ROW+1:n,1:2*n));
 
+    if nnz_full_rows==0
+        break
 
-nnz_full_rows=nnz(Tab(ROW+1:n,1:2*n));
+    end
 
-if nnz_full_rows==0
-    break
-
-end
-
-ROW=ROW+1;   
-COL=COL+1;
-col_start=col_start+1;
-row_start=row_start+1;
+    ROW=ROW+1;   
+    COL=COL+1;
+    col_start=col_start+1;
+    row_start=row_start+1;
 
 end            
 
