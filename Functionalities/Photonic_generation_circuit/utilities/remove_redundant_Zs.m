@@ -70,9 +70,8 @@ while ROW<=n && COL<=n
 
         if any(cond1)
             
-            col_loc    = col;
             nnz_rows   = find(temp); 
-            row_loc    = row_locs(1);
+            row_loc    = nnz_rows(1);
             nnz_rows(1) = [];
             
             break
