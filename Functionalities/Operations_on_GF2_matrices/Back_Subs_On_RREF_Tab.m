@@ -17,7 +17,9 @@ function Tab=Back_Subs_On_RREF_Tab(Tab,n,Insert_Rows)
 if isempty(Insert_Rows)
    
     exit_row = 1;
+    
 else
+    
     exit_row = Insert_Rows;
     
 end
@@ -29,20 +31,19 @@ while true
 
     for jj=Rowk-1:-1:1   
 
-        StabRow  = Tab(jj,:);
-        StabRowX = StabRow(1:n);
-        StabRowZ = StabRow(n+1:2*n);
-
-        weight_before = sum(StabRowX+StabRowZ)-sum(bitand(StabRowX,StabRowZ));
-
-
+        StabRow  = Tab(jj,:); 
+        SX = StabRow(1:n);
+        SZ = StabRow(n+1:2*n);
+        
+        weight_before = sum(SX+SZ)-sum(bitand(SX,SZ));
+        
         if weight_before>1
 
-            newRow   = bitxor(StabRow,Tab(Rowk,:));
-            StabRowX = newRow(1:n);
-            StabRowZ = newRow(n+1:2*n);
+            newRow = bitxor(StabRow,Tab(Rowk,:));
+            SX = newRow(1:n);
+            SZ = newRow(n+1:2*n);
 
-            weight_after = sum(StabRowX+StabRowZ)-sum(bitand(StabRowX,StabRowZ));
+            weight_after = sum(SX+SZ)-sum(bitand(SX,SZ));
             
             if weight_after<weight_before
 
