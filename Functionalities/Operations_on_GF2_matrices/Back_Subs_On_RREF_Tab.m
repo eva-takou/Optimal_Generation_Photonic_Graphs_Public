@@ -33,27 +33,8 @@ while true
         StabRowX = StabRow(1:n);
         StabRowZ = StabRow(n+1:2*n);
 
-        if sum(StabRowX)==0
+        weight_before = sum(StabRowX+StabRowZ)-sum(bitand(StabRowX,StabRowZ));
 
-            %There are only Zs and no Ys or Xs
-            weight_before = sum(StabRowZ);
-
-        elseif sum(StabRowZ)==0
-
-            %There are only Xs and no Ys
-            weight_before = sum(StabRowX);
-
-        else
-
-            Xpos = StabRowX>0;
-            Zpos = StabRowZ>0;
-
-            count_X_before = (  Xpos  &  ~Zpos);
-            count_Z_before = ( ~Xpos  &   Zpos);
-            count_Y_before = (  Xpos  &   Zpos);
-            weight_before  = sum([count_X_before,count_Z_before,count_Y_before]);
-
-        end
 
         if weight_before>1
 
@@ -61,73 +42,16 @@ while true
             StabRowX = newRow(1:n);
             StabRowZ = newRow(n+1:2*n);
 
-            cond_enter=true;
-
-            if sum(StabRowX)==0
-
-                if sum(StabRowZ)>=weight_before
-                   cond_enter=false; 
-
-                end
-
-            elseif sum(StabRowZ)==0
-
-
-                if sum(StabRowX)>=weight_before
-                    cond_enter=false; 
-                end
-
-            else
-
-                Xpos  = StabRowX>0;
-                Zpos  = StabRowZ>0;
-
-                count_X_after = (  Xpos & ~Zpos);
-                CNT = sum(count_X_after);
-
-                if CNT>=weight_before
-
-                    cond_enter=false;
-
-                else
-
-
-                    count_Y_after = ( Xpos & Zpos );
-
-                    CNT = CNT+sum(count_Y_after);
-
-                    if CNT>=weight_before
-                       cond_enter=false;
-
-                    else
-
-                        count_Z_after = (~Xpos &  Zpos);
-
-                       CNT = CNT+sum(count_Z_after);
-
-                       if CNT>=weight_before
-                           cond_enter=false;
-                       end
-
-
-                    end
-
-
-
-                end
-
-
-            end
-
-
-            if cond_enter %weight_after<weight_before
+            weight_after = sum(StabRowX+StabRowZ)-sum(bitand(StabRowX,StabRowZ));
+            
+            if weight_after<weight_before
 
                 Tab = rowsum(Tab,n,jj,Rowk);
 
             end                
 
         end
-
+        
     end
 
     Rowk = Rowk-1;
