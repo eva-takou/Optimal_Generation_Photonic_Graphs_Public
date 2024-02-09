@@ -27,11 +27,8 @@ while true
     subTabX = subTabX(KU:end);
     subTabZ = subTabZ(KU:end);
     
-    
-    
-    Ys = bitand(subTabZ,subTabX);
-    
-    Pauli_Pos_Y=find(Ys,1);
+    Ys          = bitand(subTabZ,subTabX);
+    Pauli_Pos_Y = find(Ys,1);
     
     %Remove Ys
     subTabZ = bitxor(subTabZ,Ys); 
@@ -65,17 +62,10 @@ while true
         continue
     end
 
-    if length(k)==1 %any(flag) || onlyY   %onlyX || onlyY || onlyZ %Only 1 kind of Pauli Operator for this qubit
-        
-        %The above is true if we have true,false  -> onlyX
-        %                             false,true  -> onlyZ
-        %If it is false,false, we need to also test onlyY
-        
-        %k = [Pauli_Pos_X;Pauli_Pos_Y;Pauli_Pos_Z]; %only 1 out of 3 kinds will be non-empty
+    if length(k)==1 %Only 1 kind of Pauli Operator for this qubit
+
         k = k + (KU-1); %We redefine k because in the find command the first row is KU.
                         %e.g. if KU=4 and k=2, then k is actually 4+(2-1)=5th row of the stabs
-        
-                                               
                         
         if k~=KU  %SWAP if necessary:
 
@@ -84,7 +74,6 @@ while true
             Tab(KU,:)=temp;
 
         end
-   
         
         for ll=(KU+1):K %Multiply row KU with all other rows in the active
                                   %region that have the same Pauli in column NL.
@@ -175,12 +164,9 @@ while true
             temp = Tab(k2,:);
             Tab(k2,:)=Tab(KU+1,:);
             Tab(KU+1,:)=temp;
-            
-
+        
         end
 
-    
-        
         for row=KU+2:K %Multiply all other rows in the active region either 
                        %with row KU,row KU+1, both or none, depending on their element
                        
