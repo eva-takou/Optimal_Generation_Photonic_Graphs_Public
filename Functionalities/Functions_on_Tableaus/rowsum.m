@@ -33,6 +33,7 @@ indices = 1:n;
 indices = indices(anti_comm);
 L       = length(indices);
 
+
 for l=1:L
     
     k=indices(l);
@@ -68,7 +69,6 @@ for l=1:L
 end
 
 cnt_m = L-cnt_p;    
-
 temp = (+1i)^cnt_p * (-1i)^cnt_m;
 rH   = mod(rH+rI-1/2*(temp-1),2);
 
