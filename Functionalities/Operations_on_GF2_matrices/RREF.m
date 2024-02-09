@@ -34,24 +34,24 @@ while true
     subTabZ = bitxor(subTabZ,Ys); 
     subTabX = bitxor(subTabX,Ys);
       
-   if sum(subTabX)==0
+   if sum(subTabX)>0 
       
-       Pauli_Pos_X=[];
+       Pauli_Pos_X=find(subTabX,1);
        
    else
        
-       Pauli_Pos_X=find(subTabX,1);
+       Pauli_Pos_X=[];
        
    end
     
     
-   if sum(subTabZ)==0
+   if sum(subTabZ)>0
         
-        Pauli_Pos_Z=[];
+        Pauli_Pos_Z=find(subTabZ,1);
         
    else
        
-        Pauli_Pos_Z=find(subTabZ,1);
+       Pauli_Pos_Z=[];
         
     end
 
