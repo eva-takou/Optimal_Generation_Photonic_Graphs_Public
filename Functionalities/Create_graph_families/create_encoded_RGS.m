@@ -2,6 +2,11 @@ function Adj=create_encoded_RGS(n,opt)
 %n: number of core qubits. 
 %opt: true to add leaves to the graph
 
+if (-1)^n~=1
+   error('Need even core for the encoded RGS.') 
+end
+
+
 %Make complete graph:
 EdgeList={};
 for k=1:n
