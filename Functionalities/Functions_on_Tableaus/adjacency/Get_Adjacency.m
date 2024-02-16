@@ -61,18 +61,15 @@ for qubit=1:n
    
     Tq    = Tab(:,qubit);
     locs  = find(Tq(qubit:n));    %Check the columns to see if we have X
-    %locs  = find(Tab(qubit:n,qubit)); 
     locs  = locs+qubit-1;
     
-    if isempty(locs)  || isempty(locs(locs>=qubit)) %If there is no X, do a Had
+    if isempty(locs)  %|| isempty(locs(locs>=qubit)) %If there is no X, do a Had
 
-       %Tab = Clifford_Gate(Tab,qubit,'H',n); 
-       %Tab=Had_Gate(Tab,qubit,n);
-       %Do not call Had gate, we do not need the phase information
+       %Tab=Had_Gate(Tab,qubit,n); %Do not call Had gate, we don't need the phase information
        
-        temp = Tab(:,qubit+n); 
-        Tab(:,qubit+n)=Tab(:,qubit);
-        Tab(:,qubit)=temp;       
+       temp           = Tab(:,qubit+n); 
+       Tab(:,qubit+n) = Tab(:,qubit);
+       Tab(:,qubit)   = temp;       
     
        if flag_opers
            
@@ -86,13 +83,15 @@ for qubit=1:n
     
     if Tab(qubit,qubit)~=1
         
+        SliceTab = Tab(:,qubit);
+        
         for jj=qubit+1:n
 
-            if Tab(jj,qubit)==1  %SWAP rows
+            if SliceTab(jj)==1 %Tab(jj,qubit)==1  %SWAP rows
 
-                temp = Tab(jj,:);
-                Tab(jj,:)=Tab(qubit,:);
-                Tab(qubit,:)=temp;
+                temp         = Tab(jj,:);
+                Tab(jj,:)    = Tab(qubit,:);
+                Tab(qubit,:) = temp;
 
                 break
 
@@ -102,9 +101,11 @@ for qubit=1:n
         
     end
     
+    SliceTab = Tab(:,qubit);
+    
     for jj=qubit+1:n %Remove Xs appearing below the diagonal entry
        
-        if Tab(jj,qubit)==1
+        if SliceTab(jj)==1 %Tab(jj,qubit)==1
             
             Tab(jj,:)=bitxor(Tab(jj,:),Tab(qubit,:));
             
@@ -116,9 +117,11 @@ end
 
 for qubit=1:n %Back-substitution
     
+   SliceTab = Tab(:,qubit); 
+    
    for k=qubit-1:-1:1
        
-       if Tab(k,qubit)==1 
+       if SliceTab(k)==1 %Tab(k,qubit)==1 
            
            Tab(k,:)=bitxor(Tab(k,:),Tab(qubit,:));
            
@@ -128,33 +131,41 @@ for qubit=1:n %Back-substitution
    
 end
 
-%-------------------------------------
+%------------------ Remove self-loops -------------------------------------
 
-
-for ll=1:n
-
-    if Tab(ll,ll)==1 && Tab(ll,ll+n)==1 %Eliminate Ys (remove self-loops)
-       
-        %Tab = Clifford_Gate(Tab,ll,'P',n); 
-        %Tab=Phase_Gate(Tab,ll,n);
+if flag_opers
+   
+    for ll=1:n
         
-        Tab(:,ll+n) = bitxor(Tab(:,ll),Tab(:,ll+n));                    
-        
-        if flag_opers
-           
+        if Tab(ll,ll+n)==1 %Eliminate Ys (remove self-loops)
+
+            %Tab = Clifford_Gate(Tab,ll,'P',n); 
+            %Tab=Phase_Gate(Tab,ll,n);
+
+            %Tab(:,ll+n) = bitxor(Tab(:,ll),Tab(:,ll+n));                    
+
+            Tab(ll,ll+n)=0;
+
             cnt=cnt+1;
             store_opers(cnt).qubit=ll;
             store_opers(cnt).gate='P';
-            
+
         end
         
+        
+        
     end
-   
+    
+    Gamma = Tab(:,n+1:2*n);
+    
+else
+    
+    Gamma = Tab(:,n+1:2*n);
+    Gamma = Gamma - diag(diag(Gamma));
+    
 end
 
-
 Sx    = Tab(:,1:n);
-Gamma = Tab(:,n+1:2*n);
 
 if ~all(all(eye(n,'int8')==Sx))
     error('At the end of Gauss elimination, the Sx part of the Tableau is not identity')
