@@ -8,13 +8,16 @@ function row_indx_Stabs = Stabs_with_support_on_emitters(Tab,np,ne,not_absorbed_
 %Output: the row indices of stabilizers.
 
 n     = np+ne;    
-
 cnt   = 0;
+
+Xp    = Tab(:,1:np);
+Zp    = Tab(:,n+1:n+np);
+Xem   = Tab(:,np+1:n);
+Zem   = Tab(:,np+1+n:2*n);
 
 for ii=n:-1:1  
     
-    %Sx_p = Tab(ii,not_absorbed_photons); %Do not consider those w support on photons at all?
-    Sx_p = Tab(ii,1:np);
+    Sx_p = Xp(ii,:);
     
     if any(Sx_p>0)
         
@@ -22,9 +25,8 @@ for ii=n:-1:1
         
     end
     
-    %Sz_p = Tab(ii,not_absorbed_photons+n);
-    Sz_p = Tab(ii,n+1:n+np);
-
+    Sz_p = Zp(ii,:);
+    
     if any(Sz_p>0)
         
         continue
@@ -32,8 +34,8 @@ for ii=n:-1:1
     end
 
     %Make sure that we do not have all identities on the emitters:
-        
-    Sx_em=Tab(ii,np+1:n);
+     
+    Sx_em = Xem(ii,:);
 
     if any(Sx_em)
 
@@ -44,7 +46,7 @@ for ii=n:-1:1
 
     end
 
-    Sz_em=Tab(ii,np+1+n:2*n);
+    Sz_em = Zem(ii,:);
 
     if any(Sz_em) 
 
