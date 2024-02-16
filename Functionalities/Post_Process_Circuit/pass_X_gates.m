@@ -8,7 +8,7 @@ qubits = flip(Circuit.Gate.qubit);
 
 for photon=1:np
     
-   
+    Xpos=[];
     for k=1:length(Gates)
         
         %Check first gate that involves this photon:
@@ -23,6 +23,10 @@ for photon=1:np
         end
         
         
+    end
+    
+    if isempty(Xpos)
+        continue
     end
     
     for k=Xpos+1:length(Gates)
