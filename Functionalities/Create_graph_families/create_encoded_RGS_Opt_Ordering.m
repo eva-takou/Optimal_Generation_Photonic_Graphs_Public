@@ -1,12 +1,11 @@
 function Adj=create_encoded_RGS_Opt_Ordering(n)
-%
+%Encoded RGS with optimal emission ordering.
 
 if (-1)^n~=1
 
    error('Need even core for encoded RGS.') 
    
 end
-
 
 %Pattern: (core->leaves->core->leaves->top) x num of triangles.
 %if l>=2 exchange labeling of top with last core node.
@@ -16,7 +15,8 @@ EdgeList={};
 v         = 1;
 triangles = n/2;
 leaves    = 4;
-all_cores=[];
+all_cores = [];
+
 for l=1:triangles
     
     %Core - leaves
@@ -93,9 +93,5 @@ for l1=1:length(all_cores)
 end
 
 Adj=full(edgelist_to_Adj(EdgeList,max([EdgeList{:}])));
-
-
-
-
 
 end
