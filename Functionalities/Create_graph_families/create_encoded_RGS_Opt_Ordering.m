@@ -1,5 +1,5 @@
 function Adj=create_encoded_RGS_Opt_Ordering(n)
-%n: number of core qubits.
+%
 
 if (-1)^n~=1
 
@@ -7,113 +7,92 @@ if (-1)^n~=1
    
 end
 
-%Leaf -> core 1-> leaf -> core 2-> triangle -> leaf of core 1 -> leaf of
-%core 2
 
-%triangle -> core -> core -> leaf of 1st core -> leaf of 2nd core
-%triangle -> core -> core -> leaf of 1st core -> leaf of 2nd core.
-
+%Pattern: (core->leaves->core->leaves->top) x num of triangles.
+%if l>=2 exchange labeling of top with last core node.
 
 EdgeList={};
 
-
-
-v=1:3;
-
-w=[];
-for k=1:n/2
+v         = 1;
+triangles = n/2;
+leaves    = 4;
+all_cores=[];
+for l=1:triangles
     
-    %Make triangle
-    w=[w,v(2:end)];
-    
-
-    
-    for l1=1:length(v)
-        
-        for l2=l1+1:length(v)
-        
-            EdgeList=[EdgeList,{[v(l1),v(l2)]}];
-        end
-        
-    end
-    
-    
-    
-    %Add 2 leaves per core
-    
-    for m=1:2
+    %Core - leaves
+    cores=[v];
+    for m=1:leaves
        
-        core = v(m+1);
+        w = max([EdgeList{:},v]);
+        if isempty(w)
+            w=1;
+        end
+        EdgeList=[EdgeList,{[v,w+1]}];
         
-        for leaf=1:2
+    end
+    
+    v=max([EdgeList{:}])+1;
+    cores=[cores,v];
+    %Core -leaves
+    for m=1:leaves
+       
+        w = max([EdgeList{:},v]);
+        EdgeList=[EdgeList,{[v,w+1]}];
+        
+    end    
+    
+    
+    %Top:
+    k = max([EdgeList{:}]);
+    for m=1:2
+        
+        
+        EdgeList=[EdgeList,{[k+1,cores(m)]}];
+        
+    end
+    
+    v=max([EdgeList{:}])+1;
+    all_cores=[all_cores,cores];
+    
+    %Exchange core with top if even?
+    
+    if l>=2%(-1)^l==1
+       
+        for m=1:length(EdgeList)
+           
+            this_edge=EdgeList{m};
             
-            leaf_label = max([EdgeList{:}])+1;
-            EdgeList=[EdgeList,{[core,leaf_label]}];
+            loc1 = this_edge==k+1;
+            loc2 = this_edge==all_cores(end);
+            
+            if any(loc1) || any(loc2)
+                new_edge=this_edge;
+                new_edge(loc1)=all_cores(end);
+                new_edge(loc2)=k+1;
+                EdgeList{m}=new_edge;
+                
+            end
+            
             
             
         end
-        
-        
+        all_cores(end)=k+1;
         
     end
     
-
-    
-    %Make next triangle:
-    v=max([EdgeList{:}])+1:max([EdgeList{:}])+3;
-    
-    %Store the core nodes:
-    
-    
 end
 
-for l1=1:length(w)
-    
-    for l2=l1+1:length(w)
-        
+for l1=1:length(all_cores)
    
-        EdgeList=[EdgeList,{[w(l1),w(l2)]}];
+    for l2=l1+1:length(all_cores)
+       
+        EdgeList=[EdgeList,{[all_cores(l1),all_cores(l2)]}];
         
-
     end
+    
 end
 
-
-%Exchange position of 1-2 with first leaf
-
-
-
-Adj=edgelist_to_Adj(EdgeList,max([EdgeList{:}]));
-%Because it has duplicates, the locs of 2s put them 1s
-
-[row,col]=find(Adj==2);
-
-for k=1:length(row)
-    Adj(row(k),col(k))=1;
-end
-
-Adj=exchange_labels(Adj,1,2);
-Adj=exchange_labels(Adj,1,4);
-Adj=exchange_labels(Adj,2,4);
-Adj=exchange_labels(Adj,3,7);
-Adj=exchange_labels(Adj,4,7);
-Adj=exchange_labels(Adj,5,7);
-Adj=exchange_labels(Adj,6,7);
-Adj=exchange_labels(Adj,1,2);
-Adj=exchange_labels(Adj,3,4);
-
-
-
-%This is the best for n=4
-
-Adj=exchange_labels(Adj,7,1);
-
-
-
-
-
-
-
+Adj=full(edgelist_to_Adj(EdgeList,max([EdgeList{:}])));
 
 
 
