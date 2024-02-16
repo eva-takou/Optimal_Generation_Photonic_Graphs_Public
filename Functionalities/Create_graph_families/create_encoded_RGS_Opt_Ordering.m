@@ -1,4 +1,4 @@
-function Adj=create_encoded_RGS_Opt_Ordering(n)
+function Adj=create_encoded_RGS_Opt_Ordering(n,leaves)
 %Encoded RGS with optimal emission ordering.
 
 if (-1)^n~=1
@@ -14,7 +14,7 @@ EdgeList={};
 
 v         = 1;
 triangles = n/2;
-leaves    = 4;
+%leaves    = 4;
 all_cores = [];
 
 for l=1:triangles
