@@ -14,7 +14,6 @@ EdgeList={};
 
 v         = 1;
 triangles = n/2;
-%leaves    = 4;
 all_cores = [];
 
 for l=1:triangles
