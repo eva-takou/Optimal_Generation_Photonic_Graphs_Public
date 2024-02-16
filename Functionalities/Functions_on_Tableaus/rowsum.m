@@ -1,4 +1,4 @@
-function Tab=rowsum(Tab,n,H_replace,I)
+function Tab=rowsum(Tab,n,H_replace,I,varargin)
 %Function to add 2 rows together in the Tableau.
 %Input: Tab: Tableau
 %       H_replace: The row to replace
@@ -14,6 +14,7 @@ rI = Tab(I,end);
 
 Tab = g(H_replace,I,rH,rI,Tab,n);
 
+    
 
 end
 
@@ -22,17 +23,17 @@ end
 function Tab=g(rowH,rowI,rH,rI,Tab,n)
 %Rh->Rh*Ri
 
+cnt_p   = 0;
 TabrowH = (Tab(rowH,:));
 TabrowI = (Tab(rowI,:));
-cnt_p   = 0;
-
 
 anti_comm = xor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),bitand(TabrowI(1:n),TabrowH(n+1:2*n))); %Anticommuting relations
 
-indices = 1:n;
-indices = indices(anti_comm);
-L       = length(indices);
+%indices = 1:n;
+%indices = indices(anti_comm);
 
+indices = find(anti_comm);
+L       = length(indices);
 
 for l=1:L
     
@@ -69,8 +70,8 @@ for l=1:L
 end
 
 cnt_m = L-cnt_p;    
-temp = (+1i)^cnt_p * (-1i)^cnt_m;
-rH   = mod(rH+rI-1/2*(temp-1),2);
+temp  = (+1i)^cnt_p * (-1i)^cnt_m;
+rH    = mod(rH+rI-1/2*(temp-1),2);
 
 
 Tab(rowH,:)     = bitxor(TabrowH, TabrowI);
