@@ -7,10 +7,11 @@ function Adj=create_encoded_RGS_Opt_Ordering(n,leaves)
 %Input: n: number of core nodes
 %       leaves: leaf nodes per core node
 %Output: Encoded RGS with optimal emission ordering that needs only 2 emitters.
+%        The branching parameters are b0=2, and b1=leaves.
 
 if (-1)^n~=1
 
-   error('Need even core for encoded RGS.') 
+   error('Need even # of core nodes for encoded RGS.') 
    
 end
 

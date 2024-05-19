@@ -4,9 +4,10 @@ function Adj=create_encoded_RGS(n,opt)
 %Last modified: May 19, 2024
 %--------------------------------------------------------------------------
 %
-%n: number of core qubits. 
-%opt: true to add leaves to the graph
-%Output: Adjacency matrix of encoded RGS
+%Input: n: number of core qubits. 
+%       opt: true to add leaves to the graph
+%Output: Adjacency matrix of encoded RGS for tree encoding with
+%        b0=b1=2.
 
 if (-1)^n~=1
     
