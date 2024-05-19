@@ -1,4 +1,9 @@
 function  M=bitxor_rows(Matrix,row_replace,row_fixed)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
 %Function to output the updated matrix after adding 2 rows.
 %The row_replace is updated in the input matrix.
 %Input: Matrix: The matrix to do the row operation
