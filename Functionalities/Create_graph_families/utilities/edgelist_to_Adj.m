@@ -8,7 +8,7 @@ function Adj=edgelist_to_Adj(EdgeList,n)
 %
 %Input: EdgeList: A cell array with the edges of the graph
 %       n: # of graph nodes
-%Output: Adj: The adjacency matrix of the graph
+%Output: Adj: The adjacency matrix of the graph (sparse)
 
 Adj = sparse(n,n);
 
