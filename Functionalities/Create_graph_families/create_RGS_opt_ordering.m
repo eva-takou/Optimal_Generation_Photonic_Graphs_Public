@@ -1,7 +1,13 @@
 function Adj=create_RGS_opt_ordering(n)
-
-
-%Start with natural emission ordering:
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
+%Input: n: number of core nodes of RGS
+%Output: Adjacency matrix of RGS
+%
+%Start with natural emission ordering.
 %Leaves labeled with step 2 as 1,3,... till n
 
 leaf_labels = 1:2:2*n;
@@ -34,8 +40,5 @@ P=eye(2*n);
 P(:,[core_labels(end-1),leaf_labels(end)])=P(:,[leaf_labels(end),core_labels(end-1)]);
 
 Adj=P*Adj*P';
-
-
-
 
 end
