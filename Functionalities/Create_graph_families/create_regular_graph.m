@@ -1,5 +1,11 @@
 function Adj=create_regular_graph(n)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
 
+%Input: n: number of graph nodes
+%Output: Adj: Adjacency matrix
 
 while true
     
@@ -16,11 +22,6 @@ while true
        
    end
     
-    
 end
-
-
-
-
 
 end
