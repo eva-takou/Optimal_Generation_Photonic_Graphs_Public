@@ -1,4 +1,9 @@
 function h=draw_qubits(np,ne,vertical_spacing,Xmax,Init_State_Option)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
 %Function to draw the qubits for a circuit. 
 %Inputs:  np: # of photons
 %         ne: # of emitters
@@ -8,8 +13,8 @@ function h=draw_qubits(np,ne,vertical_spacing,Xmax,Init_State_Option)
 
 y       = 0; 
 qubits  = np+ne;
-fntsize = 15; 
-xloc    = -0.7; %0.5
+fntsize = 18; 
+xloc    = -0.7; 
 lnwidth = 1;
 Y0      = vertical_spacing;
 
@@ -33,16 +38,13 @@ for ii=1:qubits
 
     if ii<=np
 
-        %text(xloc,y+(ii-1)*Y0,strcat('p_{',num2str(ii),'}'),'fontsize',fntsize)
-        
         text(xloc,y+(ii-1)*Y0,[state,num2str(ii),'}$'],'fontsize',fntsize,'interpreter','latex')
         hold on
 
     else
 
         hold on
-        %text(xloc,y+(ii-1)*Y0,strcat('e_{',num2str(ii-np),'}'),'fontsize',fntsize,'color','b')
-
+        
         text(xloc,y+(ii-1)*Y0,strcat(state,num2str(ii),'}$'),'fontsize',fntsize,'color','b','interpreter','latex')
         
     end
