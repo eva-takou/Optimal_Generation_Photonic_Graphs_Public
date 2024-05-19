@@ -12,7 +12,10 @@ function plot_graph_evol(graphs,emitters,fignum,emitter_Color)
 %       emitter_Color: the node color of emitters        
 %
 %By default, the node color of photons is black.
-
+%
+%This script plots the graph evolution during the photonic generation.
+%It omits showing the graph after single qubit gates (it only plots the
+%graph after two-qubit gates).
 
 figure(fignum) 
 
