@@ -9,6 +9,7 @@ function h=draw_qubits(np,ne,vertical_spacing,Xmax,Init_State_Option)
 %         ne: # of emitters
 %         vertical_spacing: the vertical spacing separation of qubit lines
 %         Xmax: the max right X value that the qubit line extends.
+%         Init_State_Option: '0' or '+' initial state of qubits
 
 
 y       = 0; 
