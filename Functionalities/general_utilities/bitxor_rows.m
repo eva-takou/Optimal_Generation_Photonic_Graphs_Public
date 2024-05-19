@@ -14,7 +14,7 @@ function  M=bitxor_rows(Matrix,row_replace,row_fixed)
 
 M                = Matrix;
 M(row_replace,:) = bitxor(M(row_replace,:),M(row_fixed,:));
-%M(row_replace,:) = bitxor(Matrix(row_replace,:),Matrix(row_fixed,:));
+
 
 
 end
