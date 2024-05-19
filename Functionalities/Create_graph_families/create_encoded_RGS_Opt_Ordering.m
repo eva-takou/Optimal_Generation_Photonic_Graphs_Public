@@ -1,5 +1,12 @@
 function Adj=create_encoded_RGS_Opt_Ordering(n,leaves)
-%Encoded RGS with optimal emission ordering.
+%%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
+%Input: n: number of core nodes
+%       leaves: leaf nodes per core node
+%Output: Encoded RGS with optimal emission ordering that needs only 2 emitters.
 
 if (-1)^n~=1
 
@@ -40,11 +47,9 @@ for l=1:triangles
         
     end    
     
-    
     %Top:
     k = max([EdgeList{:}]);
     for m=1:2
-        
         
         EdgeList=[EdgeList,{[k+1,cores(m)]}];
         
@@ -53,9 +58,9 @@ for l=1:triangles
     v=max([EdgeList{:}])+1;
     all_cores=[all_cores,cores];
     
-    %Exchange core with top if even?
+    %Exchange core with top 
     
-    if l>=2%(-1)^l==1
+    if l>=2 
        
         for m=1:length(EdgeList)
            
