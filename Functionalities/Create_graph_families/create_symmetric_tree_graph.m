@@ -1,4 +1,9 @@
 function out = create_symmetric_tree_graph(bj,gen,formatOption)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
 %Create a symmetric tree graph.
 %Input : bj, the branching parameters per generation (parent node), it is 
 %        an array of 
@@ -30,13 +35,11 @@ for this_gen = 1:gen
     edges = edges + bj(this_gen)*this_gen;
 end
 
-
 EdgeList  = cell(1,edges);
-
 parents   = 1;
-
 previous_nodes = 1;
-cnt=0;
+cnt            = 0;
+
 for this_gen = 1 : gen
    
     num_of_children = bj(this_gen);
@@ -47,9 +50,10 @@ for this_gen = 1 : gen
     for ll=1:length(parents)
         
         for kk=1:num_of_children
+            
             cnt=cnt+1;
             EdgeList{cnt}=[parents(ll),children(kk+(ll-1)*bj(this_gen))];
-            %[EdgeList,[parents(ll),children(kk+(ll-1)*bj(this_gen))]];
+       
         end
         
     end
@@ -66,13 +70,11 @@ switch formatOption
         return
         
     case 'Adjacency'
+        
         n = max([EdgeList{:}]);
         out=edgelist_to_Adj(EdgeList,n);
         
 end
-
-
-
 
 
 
