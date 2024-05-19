@@ -1,9 +1,14 @@
 function out=create_cluster(m,n,formatOption)
+%%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
 %Create the edgelist or the adjacency of a cluster state.
 %Default labeling is per vertical column i.e. per m-th column.
 %Input: m,n: size of cluster
 %       formatOption: 'Edgelist' or 'Adjacency' to control the output.
-
+%Ouput: Adjacency matrix of Edgelist of mxn cluster
 
 EdgeList = [];
 
