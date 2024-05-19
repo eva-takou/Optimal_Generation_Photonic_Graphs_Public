@@ -1,8 +1,13 @@
 function out=create_Cn(n,formatOption)
+%%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
 %Create a circle graph of order n. 
 %Input: n: The number of nodes
 %       formatOption: 'Edgelist' or 'Adjacency' to control the output.
-
+%Output: Adjacency or Edgelist of Cn graph
 
 cnt=0;
 for jj=1:n
@@ -17,10 +22,10 @@ for jj=1:n
         end
         
     end
+    
 end
 
 Edgelist{end+1} = [1,n];
-
 
 switch formatOption
     
@@ -28,16 +33,11 @@ switch formatOption
         
         out = Edgelist;
         
-        
     case 'Adjacency'
-
 
         out = edgelist_to_Adj(Edgelist,n);
         
-        
-        
 end
-
 
 
 end
