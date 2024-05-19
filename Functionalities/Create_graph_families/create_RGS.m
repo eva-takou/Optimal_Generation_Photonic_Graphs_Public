@@ -1,14 +1,20 @@
-function out=create_RGS(core_qubits,ordering,max_leafs,formatOption) %,leafs
+function out=create_RGS(core_qubits,ordering,max_leaves,formatOption) %,leafs
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
 %Create a repeater graph state. 
 %Input: core qubits: fully connected inner qubits
-%       leafs: # of leaf qubits per core qubit
+%       max_leaves: # of leaf qubits per core qubit
 %       ordering: ordering of nodes i.e., how to name them assuming we
 %       start from core-qubits and traverse them clock-wise and then we
 %       traverse the leafs again clock-wise.
+%       formatOption: 'Edgelist' or 'Adjacency' to control the output
+%Output: Adjacency or Edgelist of the RGS
 
-%The RGS is created by first creating clock-wise the inner core, and then
-%labeling clock-wise the leafs. 
-
+%This RGS follows clock-wise labeling of core nodes and then clock-wise
+%labeling of leaves.
 
 
 %Make fully connected core first:
@@ -30,7 +36,7 @@ end
 
 leaf=core_qubits;
 
-for node = 1:max_leafs
+for node = 1:max_leaves
     
    leaf     = leaf+1;
    EdgeList = [EdgeList,[node,leaf]];
@@ -49,13 +55,9 @@ if ~isempty(ordering) %I think this is ok?
         
     end
     
-    
-    
-    
 end
 
-n = core_qubits + max_leafs;
-
+n = core_qubits + max_leaves;
 
 switch formatOption
     
