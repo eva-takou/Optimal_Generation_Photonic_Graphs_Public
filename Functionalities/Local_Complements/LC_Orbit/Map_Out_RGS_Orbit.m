@@ -1,7 +1,15 @@
 function [AdjLC,all_nodes]=Map_Out_RGS_Orbit(n,ordering)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
 %Function to map the orbit of RGS, w/o including isomorphs.
 %First n qubits in ordering are core qubits
 %Last n qubits in ordering are leaf qubits
+%Input: n: number of core nodes
+%       ordering: first n qubits are core nodes, last n qubits are leaf
+%       nodes.
 
 Adj = create_RGS(n,ordering,n,'Adjacency');
 
@@ -45,6 +53,7 @@ end
 
 
 if length(all_nodes)~=length(AdjLC)
+    
    error('Generated wrong orbit?') 
     
 end
