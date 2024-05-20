@@ -1,8 +1,15 @@
 function eF=count_e_Bouchet(Adj)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%
 %Recursive implementation to count the e number for a given graph F. 
+%The graph F MUST be a circle graph, otherwise the result is invalid.
 %Based on Bouchet's paper: Recognizing locally equivalent graphs, 1991.
+%
 %Input : Adjacency matrix of graph
 %Output: The index e(F).
+
 
 if length(Adj)==1 %graph P_1 (single node)
     
