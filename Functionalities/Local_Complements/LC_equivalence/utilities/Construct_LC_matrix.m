@@ -1,9 +1,17 @@
 function [Anew,free_variables]=Construct_LC_matrix(G1,G2)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
+%Input: The 2 adjacency matrices G1 and G2
+%Output: Anew: The matrix A
+%        free_variables: the free variables to solve the problem
+%--------------------------------------------------------------------------
 %Construct the LC matrix according to Bouchet's paper. The final goal is to
 %solve the problem Ax=0. This script constructs the A matrix.
 %A is a n^2 (# of equations) x 4n (# of unknowns) matrix.
 %
-%Input: 2 adjacency matrices
 %
 %We want to construct the matrix A:
 %alpha_1^{11} ... alpha_n^{11} beta_1^{11} ... beta_n^{11} gamma_1^{11} ... gamma_n^{11} delta_1{11} ... delta_n^{11}
@@ -11,11 +19,13 @@ function [Anew,free_variables]=Construct_LC_matrix(G1,G2)
 %     .
 %     .
 %%alpha_1^{nn} ... alpha_n^{nn} beta_1^{nn} ... beta_n^{nn} gamma_1^{nn} ... gamma_n^{nn} delta_1{nn} ... delta_n^{nn}
-
+%
 %alpha_i^{vw}=1 if G1(i,v)=1 & G2(i,w)=1
 %beta_i^{vw} =1 if G1(i,v)=1 & i=w
 %gamma_i^{vw}=1 if i=v and G2(i,w)=1
 %delta_i^{vw}=1 if i=v=w
+%
+%--------------------------------------------------------------------------
 
 n     = size(G1,1); %number of qubits
 ntest = size(G2,1);
@@ -85,11 +95,6 @@ for ii=1:n
             A(row,col_gamma) = gamma_i_vw;
             A(row,col_delta) = delta_i_vw;
             
-%             A = A + sparse(row,col_alpha,alpha_i_vw,n^2,4*n);
-%             A = A + sparse(row,col_beta,beta_i_vw,n^2,4*n);
-%             A = A + sparse(row,col_gamma,gamma_i_vw,n^2,4*n);
-%             A = A + sparse(row,col_delta,delta_i_vw,n^2,4*n);
-
         end
     end
 
@@ -102,7 +107,8 @@ Anew = Gauss_elim_GF2(A);
 
 %Get the non-free variables:
 
-cnt=0;
+cnt = 0;
+
 for row=1:n^2
 
     %Could be non-existing pivot if an entire row is 0
@@ -126,8 +132,6 @@ for ll=length(pivots):-1:1
     row_locs = find(Anew(:,pivots(ll)));
     row_locs(row_locs==rows_w_pivots(ll))=[];
     
-    %row_locs = setxor(row_locs,rows_w_pivots(ll));
-
     if length(row_locs)>=1 %back-substitution
 
         for jj=1:length(row_locs)
@@ -137,11 +141,7 @@ for ll=length(pivots):-1:1
 
 end
 
-
 free_variables = setxor(1:4*n,pivots);
-
-
-
 
 end
 
