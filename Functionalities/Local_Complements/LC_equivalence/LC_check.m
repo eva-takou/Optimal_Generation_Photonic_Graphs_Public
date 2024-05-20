@@ -1,4 +1,10 @@
 function [Q_transf,flag,strSols]=LC_check(G1,G2)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
+%Function to check if two graphs are LC equivalent.
 %Solve the problem Ax=0, where x is the vector:
 %x = [c_1 ... c_n a_1 ... a_n d_1 ... d_n b_1 ... b_n]^T
 %given the constraints a_i d_i + b_i c_i = 1 (i.e., det[Q_i]=1)
