@@ -1,9 +1,16 @@
 function sols = Constrained_NullSpace(NullVecMatrix)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
 %Constrain the null-space to find if there is a solution for the two graphs
 %to be LC equivalent.
 %When dimV<=4 we can enumerate all 16-1 (trivial) possibilities of adding vectors together.
-
+%
 %Input: NullVecMatrix: An 4n x # of free variables matrix whose columns are the null vectors (unconstrained).
+%Output: sols: solutions that solve Ax = 0 , with the constraint that det(Q_i)=1
+%        If there are no solutions, sols is an empty array.
 
 [k,dimV]  = size(NullVecMatrix); %k=4n
 n         = k/4; 
@@ -26,12 +33,10 @@ if dimV<=4
         end
 
         inspect_Vec = mod(inspect_Vec,2);
-        cond        = Test_abcd_constraint(inspect_Vec,n);
+        sol_Found   = Test_abcd_constraint(inspect_Vec,n);
 
-        if cond
+        if sol_Found
 
-            %disp('Found Null vector that satisfies constraints.') 
-            
             sol_count       = sol_count+1;
             sols{sol_count} = inspect_Vec;
 
@@ -43,14 +48,13 @@ else %Do not enumerate all vectors--inspect only combinations of adding 2 basis 
 
      for l1=1:dimV
 
-         for l2=l1+1:dimV
+         for l2=l1+1:dimV 
 
              inspect_Vec = mod(NullVecMatrix(:,l1)+NullVecMatrix(:,l2),2);
-             cond        = Test_abcd_constraint(inspect_Vec,n);
+             sol_Found   = Test_abcd_constraint(inspect_Vec,n);
 
-             if cond
+             if sol_Found %Solution found.
                  
-                 %disp('Found Null vector that satisfies constraints.') 
                  sol_count       = sol_count+1;
                  sols{sol_count} = inspect_Vec;
                  
@@ -59,16 +63,14 @@ else %Do not enumerate all vectors--inspect only combinations of adding 2 basis 
          end
 
      end
-
      
-     for l1=1:dimV
+     for l1=1:dimV %Check also every vector against the constraints
 
          inspect_Vec = NullVecMatrix(:,l1);
-         cond        = Test_abcd_constraint(inspect_Vec,n);
+         sol_Found   = Test_abcd_constraint(inspect_Vec,n);
          
-         if cond
+         if sol_Found %Solution found
              
-             %disp('Found Null vector that satisfies constraints.') 
              sol_count       = sol_count+1;
              sols{sol_count} = inspect_Vec;
              
@@ -79,14 +81,8 @@ end
 
 if sol_count==0
 
-    %disp('Input graphs are not LC equivalent.')
-    sols=[];
-
-else
-
-    %disp('Input graphs are LC equivalent.')
+    sols=[]; %Input graphs are not LC equivalent
 
 end
-
 
 end
