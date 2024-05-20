@@ -9,13 +9,16 @@ for iter=1:iterMax
 
     Adj0        = create_random_graph(n);
     l           = count_l_Bouchet(double(Adj0));
-    Adj_LC      = Map_Out_Orbit(Adj0,'bruteforce');
+    Adj_LC      = Map_Out_Orbit(Adj0,'all'); %Need to include isomorphs
     
-    if l~=length(Adj_LC)
+    if ~isnan(l) %Only if it is a circle graph we count correctly
+        
+        if l~=length(Adj_LC)
 
-        error('Something is wrong in the code.')
-
+            error('Something is wrong in the code.')
+            
+        end
+        
     end
-
 
 end
