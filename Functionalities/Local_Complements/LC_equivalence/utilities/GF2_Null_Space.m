@@ -1,11 +1,20 @@
 function NullVecMatrix = GF2_Null_Space(Anew,free_variables)
-%Anew is the matrix after Gaussian elimination (& we have performed back-substitution).
-%The rows of Anew where we zero-out the pivots are the null-vectors
-%x = [c_1 ... c_n a_1 ... a_n d_1 ... d_n b_1 ... b_n]^T
-
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%
+%Input: Anew the matrix 'A' to solve Ax=0
+%       free_variables: The free variables.
 %Output: The unconstrained nullspace (null vectors) in matrix form. Each
 %column is a vector of the nullspace of matrix Anew. The NullVecMatrix is a
 %4n x length(free_variables) matrix.
+%
+%
+%Anew is the matrix after Gaussian elimination (& we have performed back-substitution).
+%The rows of Anew where we zero-out the pivots are the null-vectors
+%x = [c_1 ... c_n a_1 ... a_n d_1 ... d_n b_1 ... b_n]^T
+%--------------------------------------------------------------------------
  
 rowSz = size(Anew,1); %n^2
 n     = sqrt(rowSz);
@@ -18,8 +27,6 @@ for rows=1:n^2
     pivot  = find(Anew(rows,:),1);
  
     if ~isempty(pivot) && ~any(pivot==free_variables) %isempty(intersect(pivot,free_variables)) && ~isempty(pivot)
-        
-        
     
         locs       = find(Anew(rows,:));
         locs(locs==pivot)=[];
@@ -48,15 +55,11 @@ for jj=1:length(var)
 
         NullVecMatrix(jj,kk)=1;
          
-        %NullVecMatrix = NullVecMatrix+sparse(jj,kk,1,4*n,length(free_variables));
-
      end
 
  end
 
 end
-
-
 
 
 end
