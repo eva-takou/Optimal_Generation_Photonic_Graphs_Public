@@ -1,4 +1,8 @@
 function [bool,identifier]=is_in_class_mu(Adj)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%
 %Check if the graph belongs in class_mu.
 %Input:  Adj: Adjacency matrix
 %Output: bool: true or false
