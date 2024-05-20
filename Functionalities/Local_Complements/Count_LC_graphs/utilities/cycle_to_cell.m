@@ -1,4 +1,13 @@
 function newcycles=cycle_to_cell(cycles)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%
+%Convert the cycles (output as nodes) as a list of edges contained in the
+%cycle.
+%Input: cycles: A list of cycles, which contain an array of nodes
+%Output: newcycles: A list of cycles, which contain a list of edges. Each
+%                   edge is defined by 2 nodes.
 
 LC = length(cycles);
 
