@@ -1,4 +1,8 @@
 function nu_xy = neighborhood_xy(Adj,x,y)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%
 %This function can be define for every non-ordered pair of distinct
 %vertices x and y. It outputs the intersection of the neighborhood of two
 %vertices x and y.
