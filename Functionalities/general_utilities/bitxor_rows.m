@@ -11,10 +11,7 @@ function  M=bitxor_rows(Matrix,row_replace,row_fixed)
 %       row_fixed: the row that is added to the row that is replaced.
 %Output: The updated matrix.
 
-
 M                = Matrix;
 M(row_replace,:) = bitxor(M(row_replace,:),M(row_fixed,:));
-
-
 
 end

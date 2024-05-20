@@ -14,7 +14,4 @@ function Adj=exchange_labels(Adj,v,w)
 Adj([v,w],:)=Adj([w,v],:);
 Adj(:,[v,w])=Adj(:,[w,v]);
 
-
-
-
 end

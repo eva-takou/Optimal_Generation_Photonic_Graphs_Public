@@ -10,12 +10,6 @@ function M=SWAP_cols(M,j1,j2)
 %       j2: index of second column
 %Output: The updated matrix M
 
-
 M(:,[j1,j2])=M(:,[j2,j1]);
-
-
-
-
-
 
 end
