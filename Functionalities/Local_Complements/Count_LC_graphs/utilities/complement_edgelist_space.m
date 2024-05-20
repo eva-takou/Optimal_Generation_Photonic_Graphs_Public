@@ -1,4 +1,8 @@
 function [MEB,store_nu_xy]=complement_edgelist_space(Adj)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%
 %Function to output the basis for the power set of the complement edgelist space in
 %binary rep. Each vector is a row of the output matrix EB.
 %Input:  Adj: The adjacency matrix of input graph G.
