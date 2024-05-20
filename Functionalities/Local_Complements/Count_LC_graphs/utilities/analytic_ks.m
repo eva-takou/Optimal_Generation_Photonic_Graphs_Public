@@ -1,4 +1,13 @@
 function k=analytic_ks(n,graphtype)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%
+%Get the index e(G) for various graph types.
+%
+%Input: n: # of graph nodes
+%      graphtype: can be: 'Pn', 'Kn','Sn', 'RGS_n_n', 'Cn'
+%Output: The value of k(G) for the closed-form expression.
 
 
 switch graphtype
@@ -14,48 +23,25 @@ switch graphtype
             
             k = 4;
             
-            
         end
-        
         
         
     case 'Sn' %OK
         
         if n==2
-            
             k=6;
-            
         else
-            
             k = 2^(n-1);
-            
         end
-            
         
         
     case 'Kn' %OK
         
-        k = 2^(n-1);
-        
-    case 'RGS_s'  %OK
-        
-        k = 2^(n-2);
-        
-        
-    case 'RGS_d' %OK
-        
-        k = 2^(n-3);
-
-    case 'RGS_t' %OK
-        
-        k = 2^(n-4);
-        
-        
-
-    case 'RGS_n_n_minus_1'  %OK
-        
-        k = 2^(n-(n+1)/2);
-            
+        if n==2
+            k=6;
+        else
+            k = 2^(n-1);
+        end
         
     case 'RGS_n_n'  
         
@@ -69,18 +55,15 @@ switch graphtype
             
         elseif n==4 
             
-            k=4;
+            k = 4;
             
         elseif n==3 %becomes the Kn
             
-            
             k = 2^(n-1);
             
+        else
             
-            
-        elseif n==2 %becomes path graph
-            
-            k=4;
+            error('The Cn graph needs to have at least 3 nodes.')
            
             
         end
