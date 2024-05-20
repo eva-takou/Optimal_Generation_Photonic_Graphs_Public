@@ -1,8 +1,12 @@
 function [CB,newcycles,store_nu_C]=cycle_basis(Adj)
-%Basis for the even cycles of an input graph G. CB is represented
-%by the rows of the output matrix (binary rep).
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%
+%Basis for the neighborhood of even cycles of an input graph G. 
+%CB is represented by the rows of the output matrix (binary rep).
 %Input:  Adj: Adjacency matrix
-%Output: CB: The basis of cycles in binary rep.
+%Output: CB: The neighborhood function on the basis of cycles in binary rep.
 %        newcycles:  The cycles in a list.
 %        store_nu_C: The symmetric difference of all nodes in each cycle.
 
