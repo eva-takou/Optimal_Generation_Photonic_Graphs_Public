@@ -1,5 +1,9 @@
 function k=index_k_of_F(Adj)
-%Count the index k of a graph. 
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%
+%Count the index k(G) of a graph. %Based on Bouchet's paper: Recognizing locally equivalent graphs, 1991.
 %Input: Adj: Adjacency matrix
 %Output:  k: index k of the graph.
 
