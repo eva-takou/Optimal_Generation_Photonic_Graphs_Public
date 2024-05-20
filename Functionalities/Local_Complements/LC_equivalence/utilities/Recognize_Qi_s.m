@@ -1,4 +1,13 @@
 function strQ = Recognize_Qi_s(Qi)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
+%Input: The symplectic matrix Qi which corresponds to the single-qubit
+%       Clifford gate.
+%Output: A char corresponding to the local gate.
+%
+%--------------------------------------------------------------------------
 %Transformation rules of [Sz|Sx]^T matrix under single Clifford gate.
 
 QP = ([1 1 ; ...
@@ -13,6 +22,7 @@ QPH  = mod(QP*QH,2);
 QHP  = mod(QH*QP,2);
 QHPH = mod(QH*QP*QH,2);
 
+%--------------------------------------------------------------------------
 
 cond_eq =@(A,B) all(all(A==B));
 
@@ -48,7 +58,5 @@ else
     error('Unknown Q.')
 
 end
-
-
 
 end
