@@ -15,6 +15,4 @@ Nx    = Get_Neighborhood(Adj,x);
 Ny    = Get_Neighborhood(Adj,y);
 nu_xy = intersect(Nx,Ny);
 
-
-
 end
