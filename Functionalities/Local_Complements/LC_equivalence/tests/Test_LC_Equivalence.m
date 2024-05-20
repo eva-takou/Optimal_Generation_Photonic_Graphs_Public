@@ -5,7 +5,7 @@ clc;
 %% Test that all Adj from within the orbit are LC equivalent
 
 clc
-n      = 5;
+n      = 7;
 G1     = create_random_graph(n);
 Adj_LC = Map_Out_Orbit(G1,'all');
 
