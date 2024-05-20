@@ -4,14 +4,14 @@ function Tab=Clifford_Gate(Tab,qubit,Oper,n)
 %Last modified: May 19, 2024
 %
 %Function to apply Clifford gates on a stabilizer Tableau.
-%Input:  Tab: The stabilizer tableau (n x 2n+1 array).
+%Input:    Tab: The stabilizer tableau (n x 2n+1 array).
 %        qubit: indices of qubit(s) as ordered in the Tableau. 
 %               For a 2-qubit gate, qubit is a two-element vector with
 %               the first qubit being the control.
-%        Oper:  char of the name of the operation 
+%         Oper: char of the name of the operation 
 %               ('H', 'P', 'X', 'Y', 'Z', 'CNOT', 'CZ', etc)
+%            n: The # of qubits.
 %Output: The updated Tableau.
-
 
 switch Oper
     
