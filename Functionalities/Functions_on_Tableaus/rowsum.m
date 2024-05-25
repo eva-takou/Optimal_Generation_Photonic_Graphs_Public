@@ -1,36 +1,33 @@
 function Tab=rowsum(Tab,n,H_replace,I,varargin)
-%Function to add 2 rows together in the Tableau.
-%Input: Tab: Tableau
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 25, 2024
+%--------------------------------------------------------------------------
+%
+%Function to add 2 rows together in the Tableau. Rowsum operates as:
+%Rh -> Rh*Ri.
+%Input: Tab: Input stabilizer Tableau (n x 2n+1 array)
 %       H_replace: The row to replace
 %       I: The row to add to H_replace
 %Output: The updated Tableau.
-%--------------------------------------------------------------------------
-%Rowsum operates as Rh -> Rh*Ri
 %--------------------------------------------------------------------------
 
 rH = Tab(H_replace,end);
 rI = Tab(I,end);
 
-
 Tab = g(H_replace,I,rH,rI,Tab,n);
-
-    
 
 end
 
 
-%My version:
 function Tab=g(rowH,rowI,rH,rI,Tab,n)
-%Rh->Rh*Ri
+%My version of phase update (Rh->Rh*Ri)
 
 cnt_p   = 0;
 TabrowH = (Tab(rowH,:));
 TabrowI = (Tab(rowI,:));
 
 anti_comm = xor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),bitand(TabrowI(1:n),TabrowH(n+1:2*n))); %Anticommuting relations
-
-%indices = 1:n;
-%indices = indices(anti_comm);
 
 indices = find(anti_comm);
 L       = length(indices);
@@ -73,19 +70,13 @@ cnt_m = L-cnt_p;
 temp  = (+1i)^cnt_p * (-1i)^cnt_m;
 rH    = mod(rH+rI-1/2*(temp-1),2);
 
-
 Tab(rowH,:)     = bitxor(TabrowH, TabrowI);
 Tab(rowH,end)   = rH;
 
-
 end
 
-
-
-%This is based on gotesman and aaronson
 function rH=oldg(rowH,rowI,rH,rI,Tab,n)
-%This is still faster than the code above....
-%Can we speed this up? Q: Can this be vectorized?
+%Phase update based on Gottesman and Aaronson
 
 %------------------- Old code ---------------------------------------------
 
