@@ -20,7 +20,7 @@ for jj=1:size(perm5,1)
   P         = P0;
   P(:,1:5)  = P(:,this_perm);
 
-  if all(all(P*Adj*P'==AdjCn))
+  if all(all(P*single(Adj)*P'==AdjCn))
 
       m    = double_occurrence_Cn(5,this_perm,false);
       test = double_occur_words_to_LC_graphs(m,'Adjacency');
