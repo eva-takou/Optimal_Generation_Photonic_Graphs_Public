@@ -44,7 +44,7 @@ for l1=1:length(edges)
         
         if any(ismember(edge_1,edge_2))
             
-            TEMP = zeros(max_node,max_node);
+            TEMP = zeros(max_node,max_node,'int8');
             TEMP(nodes(l1),nodes(l2))=1;
             TEMP=TEMP+TEMP';
             
