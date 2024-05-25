@@ -9,7 +9,6 @@ function out=create_Kn(n,formatOption)
 %       formatOption: 'Edgelist' or 'Adjacency' to control the output.
 %Output: The edgelist or adjacency of the graph.
 
-
 cnt = 0;
 
 for jj=1:n
@@ -36,7 +35,6 @@ switch formatOption
     case 'Adjacency'
 
         out = edgelist_to_Adj(Edgelist,n);
-        out = (full(out));
         
 end
 
