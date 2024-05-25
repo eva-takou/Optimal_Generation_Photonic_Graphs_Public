@@ -13,8 +13,13 @@ function m=construct_word_g5(Adj)
 
 Adj0  = Adj;
 AdjCn = create_Cn(5,'Adjacency');
-edges = sum(Adj,'all')/2;
-degs  = degree(graph(Adj));
+edges = nnz(Adj)/2; 
+if ~isa(Adj,'single') && ~isa(Adj,'double')
+   
+    degs  = degree(graph(single(Adj)));
+
+end
+
 
 %======= First, is the graph already C5? ==================================
 
