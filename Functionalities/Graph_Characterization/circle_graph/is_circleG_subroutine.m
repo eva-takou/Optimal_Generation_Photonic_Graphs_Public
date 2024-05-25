@@ -69,12 +69,11 @@ elseif length(Adj)==3
        P        = P0;
        P(:,1:3) = P(:,p3(jj,:));
         
-       if all(all(P*Adj*P'==Adj_test))
+       if all(all(P*single(Adj)*P'==Adj_test))
            
            m    = double_occurrence_Pn(3,p3(jj,:),false);
            bool = true;
            return
-           
            
        end
         
