@@ -40,7 +40,6 @@ switch formatOption
     case 'Adjacency'
 
         out = edgelist_to_Adj(EdgeList,n);
-        out = full(out);
         
 end
 
