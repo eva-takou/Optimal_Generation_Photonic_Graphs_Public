@@ -1,11 +1,16 @@
 function [cond_product, state_flag]= qubit_in_product(Tab,n,qubit)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 25, 2024
+%--------------------------------------------------------------------------
+%
 %Function to check if a qubit from the tableau is in product state.
-%Input: Tab: Tableau
-%       n: # of qubits
+%Input: Tab: Input stabilizer Tableau (n x 2n+1 array)
+%         n: Total # of qubits
 %       qubit: The qubit index to inspect if it is in product state
 %Output: cond_product: true or false
 %        state_flag: if cond_product is true, it outputs the state of the
-%        qubit.
+%        qubit (char 'Z', 'X', or 'Y').
 
 StabsX = Tab(:,qubit);     
 
