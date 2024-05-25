@@ -1,14 +1,14 @@
 function [stab_str]=Tab_To_String(Tab)
-%Function to output the stabilizer and destabilizer of a tableau as Pauli
-%strings.
-%Input: Tab: The tableau
-%Output: destab_str: the destabizer Pauli strings in cell array
-%        stab_str  : the stabilizer Pauli strings in cell array
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 25, 2024
+%
+%Function to output the stabilizer of a tableau as Pauli strings.
+%Input: Tab: The stabilizer tableau (n x 2n+1 array)
+%Output: stab_str: the stabilizer Pauli strings in cell array
 
 n          = (size(Tab,2)-1)/2;
 stab_str   = cell(1,n);
-
-
 
 for ii=1:n %Stabs
 
