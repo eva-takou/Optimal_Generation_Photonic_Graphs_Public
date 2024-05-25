@@ -1,7 +1,13 @@
 function Stabs=Stabs_String_to_Binary(S)
-%Input should be a cell array of strings containing I,X,Y,Z.
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 25, 2024
+%
+%Convert stabilizer string to binary matrix.
+%
+%Input: S: cell array of char which contain a pauli sequence of I,X,Y,Z.
 %Each element of the cell array is a stabilizer generator.
-%Output: The stabilizer representation in binary.
+%Output: The stabilizer (n x 2n) representation in binary.
 
 if ~iscell(S)
     
