@@ -97,6 +97,6 @@ for l1=1:length(all_cores)
     
 end
 
-Adj=full(edgelist_to_Adj(EdgeList,max([EdgeList{:}])));
+Adj=edgelist_to_Adj(EdgeList,max([EdgeList{:}]));
 
 end
