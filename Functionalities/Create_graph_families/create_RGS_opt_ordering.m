@@ -39,6 +39,7 @@ Adj=edgelist_to_Adj(EdgeList,2*n);
 P=eye(2*n);
 P(:,[core_labels(end-1),leaf_labels(end)])=P(:,[leaf_labels(end),core_labels(end-1)]);
 
-Adj=P*Adj*P';
+Adj=P*single(Adj)*P';
+Adj=int8(Adj);
 
 end
