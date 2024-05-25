@@ -22,7 +22,7 @@ if edges==5 && all(degs==2)
 
    m = permute_to_C5(AdjCn,Adj);
    
-   if ~is_correct_word(Adj,m)
+   if ~is_correct_word_for_Adj(Adj,m)
        
        error('Error in construction of word for g5.')
        
@@ -82,7 +82,7 @@ else
     
 end
 
-if ~is_correct_word(Adj0,m)
+if ~is_correct_word_for_Adj(Adj0,m)
 
    error('Check construction of word again.')
 
