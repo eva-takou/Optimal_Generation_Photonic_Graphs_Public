@@ -1,4 +1,4 @@
-function [bool,m]=is_circleG(Adj,verbose)
+function [bool,m]=is_circleG(Adj)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
 %Last modified: May 25, 2024
