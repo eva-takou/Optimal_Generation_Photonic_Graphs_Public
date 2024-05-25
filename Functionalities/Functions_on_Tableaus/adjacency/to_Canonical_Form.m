@@ -1,13 +1,19 @@
 function Tab=to_Canonical_Form(Tab)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 25, 2024
+%--------------------------------------------------------------------------
+%
 %Function to put the stabilizers in canonical form by using only row
-%multiplications and SWAPs.
-%If it's not possible to do that, we return the tableau that might be
-%partialy in canonical form.
+%multiplications and row SWAPs.
+%If it's not possible to do that, we return the tableau modified based on
+%row SWAPS and row multiplications.
+%
+%Input: Tab: Stabilizer tableau (array n x 2n+1)
+%Output: Tab: The update stabilizer tableau
 
-n  = size(Tab,2);
-n  = (n-1)/2;
+n  = size(Tab,1);
 Sx = Tab(:,1:n);
-
 
 if all(all(Sx==eye(n,'int8')))
     
@@ -43,7 +49,6 @@ for qubit=1:n %Back-substitution
     
    locs = find(Tab(:,qubit));
    locs(locs==qubit)=[];
-   %locs = setxor(locs,qubit); %remove the diagonal position where we want to keep the X
    
    for kk=1:length(locs)
        
@@ -56,13 +61,5 @@ for qubit=1:n %Back-substitution
    end
    
 end
-
-Sx = Tab(:,1:n);
-if ~all(all(Sx==eye(n,'int8')))
-   
-    %warning('Multiplication of stabilizers is not enough for canonical form.')
-    
-end
-
 
 end
