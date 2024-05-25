@@ -10,7 +10,8 @@ function mnew=insert_occurences_v(m,v,locs)
 %Input: m: the double occurrence word
 %       v: the node v
 %       locs: an array of 2 numbers which is the locations where we want to
-%       put occurrences of v.
+%       put occurrences of v. Locations have indices up to the length of
+%       the new word mnew.
 %Output: mnew: The updated double occurrence word
 
 
