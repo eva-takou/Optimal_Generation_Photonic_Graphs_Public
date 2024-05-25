@@ -1,4 +1,9 @@
 function binary_rank=sprank_GF2(binary_matrix)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 25, 2024
+%--------------------------------------------------------------------------
+%
 %Function to find the rank of the binary matrix.
 %Input: the binary matrix
 %Output: the binary rank.
