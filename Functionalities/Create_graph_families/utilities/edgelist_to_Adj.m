@@ -1,7 +1,7 @@
 function Adj=edgelist_to_Adj(EdgeList,n)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: May 19, 2024
+%Last modified: June 14, 2024
 %--------------------------------------------------------------------------
 %
 %Function to convert an Edgelist to the adjacency matrix.
@@ -18,9 +18,9 @@ for jj=1:length(EdgeList)
    v         = this_edge(1);
    w         = this_edge(2);
    Adj(v,w)  = 1;
+   Adj(w,v)  = 1;
    
 end
 
-Adj = Adj + Adj';
 
 end
