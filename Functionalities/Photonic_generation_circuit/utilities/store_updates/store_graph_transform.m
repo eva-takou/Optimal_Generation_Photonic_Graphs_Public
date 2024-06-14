@@ -1,4 +1,8 @@
 function graphs = store_graph_transform(Adj,identifier,graphs)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: June 14, 2024
+%
 %Function to store the graphs of the circuit generation in a list.
 %Input: inp: The adjacency matrix.
 %       identifier: if this after a TRM, a decoupling step, or photon
@@ -18,8 +22,5 @@ else
     graphs.identifier{end+1} = identifier;
     
 end
-    
-    
-
-
+   
 end
