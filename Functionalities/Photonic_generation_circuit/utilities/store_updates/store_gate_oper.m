@@ -1,4 +1,8 @@
 function Circuit = store_gate_oper(qubit,operation,Circuit,Store_Gates)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: June 14, 2024
+%
 %Function to store the gates of the circuit generation in a list.
 %Input: qubit: the qubit(s) onto which the operation is acted
 %       operation: an char of the operation e.g. 'CNOT','H','P' etc
@@ -11,7 +15,7 @@ if ~Store_Gates
     
     if isempty(Circuit)
         
-        Circuit.EmCNOTs       = 0;
+        Circuit.EmCNOTs = 0;
         
     end
     
@@ -25,8 +29,9 @@ else
         
     else
         
-        Circuit.Gate.qubit{end+1}=qubit;
-        Circuit.Gate.name{end+1}=operation;
+        L=length(Circuit.Gate.qubit);
+        Circuit.Gate.qubit{L+1}=qubit;
+        Circuit.Gate.name{L+1}=operation;
         
     end
     
