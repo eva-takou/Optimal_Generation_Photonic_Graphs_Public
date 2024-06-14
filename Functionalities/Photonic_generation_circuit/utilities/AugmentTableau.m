@@ -8,8 +8,8 @@ function Tab_Aug = AugmentTableau(Tab,ne)
 %II...ZI...II). 
 %
 %Inputs: Tab (in RREF)
-%        ne  (# of emitters needed to generate the graph)
-%        The # of emitters is determined by the height fun.
+%        ne: # of emitters needed to generate the graph 
+%            (determined by the height function)
 %Output: The augmented tableau where we initialize emitters in |0>.
 
 np = (size(Tab,2)-1)/2;
