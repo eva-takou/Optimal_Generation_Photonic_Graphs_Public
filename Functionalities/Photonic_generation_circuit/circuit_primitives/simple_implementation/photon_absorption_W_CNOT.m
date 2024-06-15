@@ -1,4 +1,9 @@
 function [Tab,Circuit,graphs]=photon_absorption_W_CNOT(Tab,np,ne,photon,Circuit,graphs,Store_Graphs,Store_Gates)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: June 15, 2024
+%--------------------------------------------------------------------------
+%
 %Function to perform photon absorption in the case where we need emitter
 %gates first. There can be at most 2 photonic rows that start with
 %non-trivial Pauli from the photon to be absorbed. We pick the photonic row 
@@ -18,7 +23,7 @@ function [Tab,Circuit,graphs]=photon_absorption_W_CNOT(Tab,np,ne,photon,Circuit,
 
 
 n=np+ne;
-disp(['Emitters are entangled. Need gates before photon absorption of photon #',num2str(photon)])
+disp(['Emitters are entangled. Need gates before photon absorption of photon #',int2str(photon)])
 
 %Get stabs whose left index starts from a Pauli on the photon to be absorbed
 [potential_rows,photon_flag_Gate] = detect_Stabs_start_from_photon(Tab,photon,n);
