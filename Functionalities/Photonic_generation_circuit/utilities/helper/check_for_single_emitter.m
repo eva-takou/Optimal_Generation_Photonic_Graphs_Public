@@ -128,7 +128,6 @@ else %Verify that there are no qubits in product state:
     
     emitter = [emitters_in_X,emitters_in_Y,emitters_in_Z];
     
-    
     if ~isempty(emitters_in_X)
        
         emitter_flag_Gate='X';
@@ -142,7 +141,6 @@ else %Verify that there are no qubits in product state:
         emitter_flag_Gate='Z';
         
     end
-        
     
 end
 
