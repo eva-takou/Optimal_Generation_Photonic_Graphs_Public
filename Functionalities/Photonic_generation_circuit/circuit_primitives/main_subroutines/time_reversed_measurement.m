@@ -1,4 +1,9 @@
 function [Tab,Circuit,graphs]=time_reversed_measurement(Tab,np,ne,photon,Circuit,graphs,Store_Graphs,Store_Gates)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: June 15, 2024
+%--------------------------------------------------------------------------
+%
 %Function to perform time reversed measurement of the emitter, when photon
 %absorption is not possible.
 %Inputs: Tab: Tableau
@@ -9,6 +14,7 @@ function [Tab,Circuit,graphs]=time_reversed_measurement(Tab,np,ne,photon,Circuit
 %        graphs: the graphs for each step of the generation
 %        Store_Graphs: true or false to store the updates on the graph
 %        level.
+%        Store_Gates: true or false to store the gate updates.
 %Output: Tab: The updated tableau
 %        Circuit: The updated circuit
 %        graphs: The updated graphs
@@ -47,11 +53,11 @@ for emitter_qubit=np+1:n
             
        if Store_Graphs
             graphs  = store_graph_transform(Get_Adjacency(Tab),...
-                strcat('After CNOT_{',num2str(emitter_qubit),',',num2str(photon),'} [TRM]'),graphs);
+                strcat('After CNOT_{',int2str(emitter_qubit),',',int2str(photon),'} [TRM]'),graphs);
        end
        
        
-       disp(['Applied TRM on emitter:',num2str(emitter_qubit)])
+       disp(['Applied TRM on emitter:',int2str(emitter_qubit)])
        
        return
        
@@ -59,13 +65,12 @@ for emitter_qubit=np+1:n
     
 end
 
-%If function didn't return above then we need CNOT emitter gates.
+%If function didn't return above then we need emitter CNOT gates.
 
 disp('Need emitter gates before TRM.') 
 
 not_absorbed_photons=1:photon;
 [emitter_qubit,other_emitters,Tab,Circuit]=minimize_emitter_length(Tab,Circuit,n,np,ne,not_absorbed_photons,Store_Gates);
-
 
 for jj=1:length(other_emitters) %disentangle emitters
     
@@ -75,8 +80,9 @@ for jj=1:length(other_emitters) %disentangle emitters
    
    if Store_Graphs
         graphs  = store_graph_transform(Get_Adjacency(Tab),...
-            strcat('After CNOT_{',num2str(control),',',num2str(emitter_qubit),'} [DE]'),graphs);
+            strcat('After CNOT_{',int2str(control),',',int2str(emitter_qubit),'} [DE]'),graphs);
    end
+   
 end
 
 Circuit.EmCNOTs = Circuit.EmCNOTs+length(other_emitters);
@@ -90,10 +96,10 @@ Circuit = store_gate_oper(emitter_qubit,'H',Circuit,Store_Gates);
 Circuit = store_gate_oper([emitter_qubit,photon],'Measure',Circuit,Store_Gates); 
 
 if Store_Graphs
-    graphs  = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',num2str(emitter_qubit),',',num2str(photon),'} [TRM]'),graphs);
+    graphs  = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(emitter_qubit),',',int2str(photon),'} [TRM]'),graphs);
 end
 
-disp(['Applied TRM on emitter:',num2str(emitter_qubit)])
+disp(['Applied TRM on emitter:',int2str(emitter_qubit)])
 end
 
 
