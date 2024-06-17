@@ -10,7 +10,12 @@ function [CNOT_H2,T]=Emitter_CNOTs_encoded_RGS(nmin,nmax,leaves)
 %In the condition of search for disconnected components, we make it always
 %true. (This is needed to find the min value of CNOTs).
 %
-%
+%Input: nmin: min # of nodes for branching parameter b0
+%       nmax: max # of nodes for branching parameter b0
+%       leaves: leaf nodes per core qubit of b0
+%Output: CNOT_H2: CNOT counts obtained by Heuristics #2
+%        T: Total computational time
+
 
 close all;
 
