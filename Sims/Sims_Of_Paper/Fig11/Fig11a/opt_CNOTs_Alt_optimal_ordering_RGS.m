@@ -47,4 +47,10 @@ plot(nmin:nmax,[nmin:nmax]-2,'linewidth',2,'linestyle','--','color','k')
 legend('Heuristics $\#1$','$y=n-2$','interpreter','latex','location','best',...
     'color','none','edgecolor','none')
 
+figure(2)
+Adj=double(create_RGS_opt_ordering(100));
+plot(graph(Adj),'layout','circle','NodeColor','k','MarkerSize',5)
+
+
+
 end
