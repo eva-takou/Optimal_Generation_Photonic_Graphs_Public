@@ -1,44 +1,65 @@
 function draw_circuit(np,ne,Gate_Sequence,circuit_order,layer_shift,Init_State_Option)
-%Draw single/two-qubit gates (all these need to be performed in parallel).
-%If SingleQ or TwoQ is empty then we do not draw on same column.
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: May 19, 2024
+%--------------------------------------------------------------------------
 %
-%Input: # of photons, # of emitters, 
-%       Gate_Sequence: A struct Gate_Sequence.Gate with 2 fields qubit (indices of qubits) and
-%       name (name of the gate). For 2-qubit gates, the first qubit is by
-%       default the control.
+%Input: np: # of photons, 
+%       ne: # of emitters, 
+%       Gate_Sequence: A struct Gate_Sequence.Gate with 2 fields "qubit" 
+%                      (indices of qubits) & "name" (name of the gate). For
+%                      2-qubit gates, the first qubit is the control.
 %       circuit_order: 'forward' or 'backward' regarding how we pass the
-%       order of the circuit as an input.
-%       Layer shift: some value to shift the gate boxed by 1 layer (indicating different depth index)
-%       Right_X: Length of qubit lines (how far they extend). This is
-%       currently adjusted externally.
+%                      order of the circuit as an input.
+%       Layer shift: Value for spacing between gate boxes
+%       Init_State_Option: '0' or '+' to show initial state of qubits as 
+%                          |0> or |+>. If |+>, the Hadamard box on that
+%                          qubit is removed.
 %
 %
+%--------------------------------------------------------------------------
 %This scripts draws a quantum circuit with 1:np photons (bottom lines)
 %and np+1:np+ne emitters (top lines).
-%
-%
+%--------------------------------------------------------------------------
 
-%--- Fix some parameters which work good for visualization ----------------
+
+%--- Fix parameters which work good for visualization ---------------------
 vspace     = 1;
-box_width  = (vspace/4)*30/20; 
+box_width  = (vspace/4)*40/20; %30/20
 box_height = box_width;
 LnWidths   = 1;
 %==========================================================================
 
-fntGate     = 9;
+fntGate     = 11;
 gate_colors = get_Gate_Colors;
 gate_names  = get_Gate_Names;
 
-
-%Get an approximate total length based on the # of gates the circuit has:
-
 %h=draw_qubits(np,ne,vspace,Right_X,'0');
 
+%Get an approximate total length based on the # of gates the circuit has:
 Right_X=length(Gate_Sequence.Gate.name)*(box_width+box_width)+layer_shift;
 
 
 %If the Init_State_Option=='+', then check if every qubit starts with an H
 %gate. Then, remove those gates and, start all the qubits with '+'
+
+if strcmpi(circuit_order,'backward') %Bring to forward, & set P -> Pdagger
+   
+    for k=1:length(Gate_Sequence.Gate.name)
+
+        if strcmpi(Gate_Sequence.Gate.name{k},'P')
+
+            Gate_Sequence.Gate.name{k}='Pdag';
+
+        end
+
+    end                
+    
+    Gate_Sequence.Gate.name  = flip(Gate_Sequence.Gate.name);
+    Gate_Sequence.Gate.qubit = flip(Gate_Sequence.Gate.qubit);
+    
+end
+
 
 switch Init_State_Option
     
@@ -56,6 +77,17 @@ switch Init_State_Option
                 
                 Gates  = flip(Gate_Sequence.Gate.name);
                 Qubits = flip(Gate_Sequence.Gate.qubit);
+                
+                for k=1:length(Gate_Sequence.Gate.name)
+
+                    if strcmpi(Gate_Sequence.Gate.name{k},'P')
+
+                        Gate_Sequence.Gate.name{k}='Pdag';
+
+                    end
+
+                end                
+                
         end
         
         
@@ -104,6 +136,15 @@ switch Init_State_Option
                     Gate_Sequence.Gate.qubit=flip(Qubits);
                     Gate_Sequence.Gate.name=flip(Gates);
                     
+                    for k=1:length(Gate_Sequence.Gate.name)
+                       
+                        if strcmpi(Gate_Sequence.Gate.name{k},'P')
+                            
+                            Gate_Sequence.Gate.name{k}='Pdag';
+                            
+                        end
+                        
+                    end
 
             end
             
@@ -164,7 +205,7 @@ for ll=l0:lstep:lf
         if ~strcmpi(gates,'Pdag')
             text(pos(1)+pos(3)/2,pos(2)+pos(4)/2,gate_names.(gates),'HorizontalAlignment','center','fontsize',fntGate)      
         else
-            text(pos(1)+pos(3)/2,pos(2)+pos(4)/2,'$P^\dagger$','HorizontalAlignment','center','fontsize',fntGate,'interpreter','latex')      
+            text(pos(1)+pos(3)/2,pos(2)+pos(4)/2,'P$^\dagger$','HorizontalAlignment','center','fontsize',fntGate,'interpreter','latex')      
         end
 
         layer_shift=layer_shift+0.5+box_width/2;
