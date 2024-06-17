@@ -1,7 +1,6 @@
 function plot_slice_np(np)
 
 close all;
-clearvars;
 
 load('500_graphs_per_np.mat')
 
