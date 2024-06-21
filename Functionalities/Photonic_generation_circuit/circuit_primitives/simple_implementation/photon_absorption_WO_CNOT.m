@@ -100,7 +100,7 @@ if length(potential_rows)>1
 end
 
 %=== Search for emitter not entangled with others to absorb the photon ====
-row_ids_emitters     = Stabs_with_support_on_emitters(Tab,np,ne,1:photon); %These rows can include emitters in product state.
+row_ids_emitters     = Stabs_with_support_on_emitters(Tab,np,ne); %These rows can include emitters in product state.
 
 if isempty(row_ids_emitters)
     
