@@ -21,7 +21,7 @@ function [emitter_qubit,other_emitters,Tab,Circuit,min_Stabrow]=minimize_emitter
 %        Circuit: the updated circuit
 %        min_Stabrow: index of stab row with minimum weight on emitters
 
-row_indx_Stabs = Stabs_with_support_on_emitters(Tab,np,ne,not_absorbed_photons);
+row_indx_Stabs = Stabs_with_support_on_emitters(Tab,np,ne);
 
 if isempty(row_indx_Stabs)
    emitter_qubit=[];
@@ -85,9 +85,5 @@ emm_in_Z = sort([emm_in_X,emm_in_Y,emm_in_Z]);
 %Pick the 1st one:
 emitter_qubit  = emm_in_Z(1); %Will be used next for TRM
 other_emitters = emm_in_Z(2:end);
-
-% emitter_qubit  = emitter_qubit+np;
-% other_emitters = other_emitters+np;
-
 
 end
