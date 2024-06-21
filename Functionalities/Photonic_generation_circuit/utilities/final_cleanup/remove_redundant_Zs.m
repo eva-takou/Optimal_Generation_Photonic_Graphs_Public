@@ -57,7 +57,7 @@ for qubit = 1:n
 end
 
 
-Tab=do_gauss(Tab,n);  %this will not update correctly destabilizers, but put them as Xs
+Tab=do_gauss(Tab,n);  
 
 end
 
@@ -104,13 +104,12 @@ while ROW<=n && COL<=n
 
         end
 
-
     end
-
 
     nnz_full_rows=nnz(Tab(ROW+1:n,1:2*n));
 
     if nnz_full_rows==0
+        
         break
 
     end
