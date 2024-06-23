@@ -1,7 +1,7 @@
-function [CNOT_Naive,CNOT_Best,MeanReduction,MaxReduction,nrange]=Heuristics_1_CNOTs_Edge_Density(p,iterMax)
+function [CNOT_Naive,CNOT_Best,MeanReduction,MaxReduction,nrange,Adj_Store]=Heuristics_1_CNOTs_Edge_Density(p,iterMax)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: June 22, 2024
+%Last modified: June 23, 2024
 %--------------------------------------------------------------------------
 %
 %Script to find the optimal CNOT counts using the Heuristics 1 optimizer
@@ -30,6 +30,7 @@ parfor n=nmin:nmax
     for k=1:iterMax
 
         Adj  = full(create_ER_Graph(n,p));
+        Adj_Store{n,k} = Adj;
         temp = Tableau_Class(Adj,'Adjacency');
 
         %-------------- Naive ---------------------------------------------
@@ -119,5 +120,6 @@ ylabel('Reduction $\%$','interpreter','latex')
 title(['$p=$',num2str(p),', $\#$ of samples:',num2str(iterMax)],'interpreter','latex')
 legend('Mean','Max','location','best',...
     'color','none','edgecolor','none')
-
+set(gca,'ytick',[0,25,50,70])
+ylim([0,70])
 end
