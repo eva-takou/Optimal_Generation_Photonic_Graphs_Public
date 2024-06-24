@@ -1,7 +1,7 @@
-function [CNOT_Naive,CNOT_Best,MeanReduction,MaxReduction,nrange]=Heuristics_2_CNOTs_Edge_Density(p,iterMax)
+function [CNOT_Naive,CNOT_Best,MeanReduction,MaxReduction,nrange,Adj_Store]=Heuristics_2_CNOTs_Edge_Density(p,iterMax)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: June 22, 2024
+%Last modified: June 23, 2024
 %--------------------------------------------------------------------------
 %
 %Script to find the optimal CNOT counts using the Heuristics 2 optimizer
@@ -27,9 +27,9 @@ Store_Graphs    = false;
 Store_Gates     = false;
 Verify_Circuit  = false;
 EXTRA_OPT_LEVEL = true;
-emitter_cutoff0 = 5;
-future_step     = 2;
-recurse_further = true; 
+emitter_cutoff0 = 4;       
+future_step     = 2;       
+recurse_further = false;   
 
 
 parfor l=1:length(nrange) 
@@ -40,6 +40,7 @@ parfor l=1:length(nrange)
         
 
         Adj  = full(create_ER_Graph(n,p));
+        Adj_Store{l,k} = Adj;
         temp = Tableau_Class(Adj,'Adjacency');
 
         %------------ Naive -----------------------------------------------
@@ -128,7 +129,7 @@ legend('$\#$ of emitter CNOTs (Naive)','$\#$ of emitter CNOTs (Heuristics $\#2$)
     'color','none','edgecolor','none')
 
 set(gca,'ytick',[0:25:50])
-
+xlim([min(nrange),max(nrange)])
 subplot(2,1,2)
 plot(nrange,MeanReduction,'color','k','marker','o','markerfacecolor','r','markeredgecolor','k','linewidth',2)
 hold on
@@ -142,5 +143,6 @@ ylabel('Reduction $\%$','interpreter','latex')
 title(['$p=$',num2str(p),', $\#$ of samples:',num2str(iterMax)],'interpreter','latex')
 legend('Mean','Max','location','best',...
     'color','none','edgecolor','none')
-
+xlim([min(nrange),max(nrange)])
+set(gca,'ytick',[0,20,40,60])
 end
