@@ -2,14 +2,23 @@
 
 clear; close all; clc;
 
-n   = 3; %number of core nodes
-Adj = create_RGS(n,1:2*n,n,'Adjacency');
-m=double_occurrence_RGS(n); %Word for RGS
+nmin = 3;
+nmax = 6;
 
+for n=nmin:nmax %number of core nodes
 
-EdgeList = double_occur_words_to_multigraph_edges(m);
-s        = EdgeList{1}(:,1);
-t        = EdgeList{1}(:,2);
-G        = graph(s,t);
+    Adj = create_RGS(n,1:2*n,n,'Adjacency');
+    m   = double_occurrence_RGS(n); %Word for RGS
 
-plot(G,'layout','circle')
+    EdgeList = double_occur_words_to_multigraph_edges(m);
+    s        = EdgeList(:,1);
+    t        = EdgeList(:,2);
+    G        = graph(s,t);
+
+    nexttile
+    plot(G,'layout','circle')
+    hold on
+    
+end
+
+set(gcf,'color','w')
