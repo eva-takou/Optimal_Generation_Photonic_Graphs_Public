@@ -1,14 +1,20 @@
 function RGS_clockwise_order_circuit
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: June 25, 2024
+%
+%Plot the generation circuit of an RGS with clock-wise emission ordering.
+
 
 close all;
 
-n              = 6;
-node_ordering  = 1:2*n;
+n              = 6;     %#of core nodes of RGS
+node_ordering  = 1:2*n; %node ordering (clock-wise)
 Store_Graphs   = false;
 Store_Gates    = true;
 Verify_Circuit = true;
-return_cond    = false;
-BackSubsOption = true;
+return_cond    = true; %Do not enable extra inspection for free PA
+BackSubsOption = true; %Enable Back-substitution
 
 Adj  = create_RGS(n,1:2*n,n,'Adjacency');
 temp = Tableau_Class(Adj,'Adjacency');
