@@ -45,7 +45,7 @@ disentangled_em=[];
 while true
     
    [Tab,flag,Circuit,graphs,disentangled_em]=disentangle_two_emitters(Tab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,disentangled_em,BackSubs);
-                 
+   
    if flag %flag is true when all the emitters are disentangled.
        
        %Maybe we did not leave the emitters in Z:
@@ -134,7 +134,7 @@ else
     [optimal_row,~,~,~] = smallest_weight_Stab_em(BackTab,np,ne,entangled_emitters);
     Tab=BackTab;  %This can bring further reduction!
                   %Also, we could try again to find how to break into
-                  %disconnected components.
+                  %disconnected components...
 end
 
 SX_em         = Tab(optimal_row,entangled_emitters);
