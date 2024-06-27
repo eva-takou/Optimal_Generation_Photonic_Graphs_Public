@@ -132,9 +132,10 @@ else
 
     BackTab=Back_Subs_On_RREF_Tab(Tab,n,[]);
     [optimal_row,~,~,~] = smallest_weight_Stab_em(BackTab,np,ne,entangled_emitters);
-    Tab=BackTab;  %This can bring further reduction!
-                  %Also, we could try again to find how to break into
-                  %disconnected components...
+    Tab=BackTab;  %This can bring further reduction in CNOTs.
+                  %We could try again to find how to break into
+                  %disconnected components, or perform parallel
+                  %elimination.
 end
 
 SX_em         = Tab(optimal_row,entangled_emitters);
