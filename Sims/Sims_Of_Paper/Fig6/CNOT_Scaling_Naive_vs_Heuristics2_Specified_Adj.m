@@ -1,7 +1,7 @@
 function [CNOT_Best,MeanReduction,MaxReduction]=CNOT_Scaling_Naive_vs_Heuristics2_Specified_Adj(iterMax,minK,maxK)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: June 21, 2024
+%Last modified: June 27, 2024
 %--------------------------------------------------------------------------
 %
 %Script to compare the CNOT counts obtained by the Naive and Heuristics #2
@@ -34,8 +34,8 @@ Store_Graphs    = false;
 Store_Gates     = false;
 Verify_Circuit  = false;
 EXTRA_OPT_LEVEL = true;
-emitter_cutoff0 = 5;
-future_step     = 2;
+emitter_cutoff0 = 5;    
+future_step     = 2;    
 recurse_further = true;
 nrange          = [6,8,10,12,18,26,30,40];
 
@@ -93,7 +93,7 @@ parfor iter=1:iterMax
             temp=temp.Generation_Circuit_Heu2(1:n,Store_Graphs,Store_Gates,BackSubs,Verify_Circuit,EXTRA_OPT_LEVEL,return_cond,...
                                               emitter_cutoff0,future_step,recurse_further);
                                       
-        else
+        else %Turn-off search for disconnected components (only allow weight 2 stab search)
             
             temp=temp.Generation_Circuit_Heu2(1:n,Store_Graphs,Store_Gates,BackSubs,Verify_Circuit,EXTRA_OPT_LEVEL,return_cond,...
                                               emitter_cutoff0,future_step,recurse_further,false);
