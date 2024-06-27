@@ -1,7 +1,7 @@
 function [Tab,Circuit,graphs,success_flag]=new_PA_w_CNOT_Heu2...
     (Tab,np,ne,photon,Circuit,graphs,Store_Graphs,Store_Gates,...
      EXTRA_OPT_LEVEL,return_cond,emitter_cutoff0,future_step,...
-     recurse_further,BackSubs)
+     recurse_further,BackSubs,varargin)
  
 %--------------------------------------------------------------------------
 %Created by Eva Takou
@@ -39,7 +39,7 @@ function [Tab,Circuit,graphs,success_flag]=new_PA_w_CNOT_Heu2...
 [Tab,Circuit,graphs,success_flag]=attempt_emitter_disentanglement...
     (Tab,Circuit,graphs,Store_Graphs,Store_Gates,...
      np,ne,photon,EXTRA_OPT_LEVEL,return_cond,...
-     emitter_cutoff0,future_step,recurse_further,BackSubs);
+     emitter_cutoff0,future_step,recurse_further,BackSubs,varargin{1});
 
 if success_flag
     
@@ -53,7 +53,7 @@ end
 function [Tab,Circuit,graphs,success_flag]=attempt_emitter_disentanglement...
            (Tab0,Circuit0,graphs0,Store_Graphs,Store_Gates,np,ne,photon,...
             EXTRA_OPT_LEVEL,return_cond,emitter_cutoff0,future_step,...
-            recurse_further,BackSubs)
+            recurse_further,BackSubs,varargin)
 
 
 n                       = np+ne;
@@ -65,7 +65,7 @@ while true
  
    [Tab0,Circuit0,graphs0,flag,number_conn_comp_after] = ...
        new_PA_w_CNOT_subroutine_Heu2(Adj0,Tab0,Circuit0,graphs0,Store_Graphs,Store_Gates,...
-       np,ne,photon,number_of_sub_G,number_conn_comp_before,emitter_cutoff0);
+       np,ne,photon,number_of_sub_G,number_conn_comp_before,emitter_cutoff0,varargin{1});
    
    number_conn_comp_before=number_conn_comp_after;
    
@@ -109,29 +109,31 @@ if EXTRA_OPT_LEVEL
 
     emitter_cutoff=min([length(all_emitters),emitter_cutoff0]);
 
-    for l=1:emitter_cutoff 
+    for l=1:emitter_cutoff  %Loop emitter choices
 
-        emitter  = all_emitters(l);
-        emitters = setdiff(all_emitters,emitter);
+        emitter     = all_emitters(l);  
+        emitters    = all_emitters;
+        emitters(l) = [];  %emitters = setdiff(all_emitters,emitter);
+        
 
         [testTab,testCirc,~] = free_emitter_for_PA(n,Tab,Circuit,graphs0,Store_Graphs,emitter,emitters,Store_Gates);
         CNOT_CNT             = testCirc.EmCNOTs;
 
         [workingTab,~,~]     = PA_subroutine(n,testTab,testCirc,graphs0,photon,emitter,'Z',photon_flag_Gate{indx},Store_Graphs,Store_Gates);
 
-        Circ   = [];  %Start an empty circuit, because we test future part of the circuit
+        Circ   = [];  %Start an empty circuit: will test future part of the circuit
         GG     = graphs0;
 
-        future_cutoff = photon-future_step;
+        future_cutoff = photon-future_step; %Future photon absorptions
 
         if future_cutoff<=1
 
-            FLAG_Absorbed_All=true; 
-            future_cutoff=2; 
+            FLAG_Absorbed_All = true; 
+            future_cutoff     = 2; 
 
         else
 
-            FLAG_Absorbed_All=false;
+            FLAG_Absorbed_All = false;
 
         end
 
@@ -157,9 +159,11 @@ if EXTRA_OPT_LEVEL
                 else
                     TEMP=false;  
                 end
-
-                [workingTab,Circ,GG]=new_PA_w_CNOT_Heu2(workingTab,np,ne,next_photon,Circ,GG,Store_Graphs,Store_Gates,TEMP,...
-                                                        return_cond,emitter_cutoff0,future_step,recurse_further,BackSubs);
+                
+                [workingTab,Circ,GG]=new_PA_w_CNOT_Heu2(workingTab,np,ne,...
+                    next_photon,Circ,GG,Store_Graphs,Store_Gates,TEMP,...
+                    return_cond,emitter_cutoff0,future_step,recurse_further,...
+                    BackSubs,varargin{1});
 
             end
 
@@ -170,33 +174,32 @@ if EXTRA_OPT_LEVEL
             end
 
         end
-
-         if FLAG_Absorbed_All
+        
+        %-------- Collect CNOT counts -------------------------------------
+        if FLAG_Absorbed_All
 
             [~,Circ,~] = disentangle_all_emitters(workingTab,np,ne,Circ,GG,Store_Graphs,Store_Gates,BackSubs);
+            CNOTs(l)   = CNOT_CNT + Circ.EmCNOTs;
 
-            CNOTs(l) = CNOT_CNT + Circ.EmCNOTs;
-
-         else
+        else
 
              if isempty(Circ)
                  CNOTs(l) = CNOT_CNT;
              else
                  CNOTs(l) = CNOT_CNT + Circ.EmCNOTs;
              end
-
-         end
-
-
+             
+        end
 
     end
 
+    %-------- Make emitter choice -----------------------------------------
     [~,CNOT_INDX] = min(CNOTs);
 
     emitter  = all_emitters(CNOT_INDX);
     emitters = all_emitters;
     emitters(CNOT_INDX)=[];
-
+    
 else
 
     edges=zeros(1,length(all_emitters));
@@ -233,7 +236,6 @@ else
     emitter             = all_emitters(Best_INDX);
     emitters            = all_emitters;
     emitters(Best_INDX) = [];
-
 
 end
 

@@ -1,7 +1,7 @@
 function [Tab,Circuit,graphs,flag,number_conn_comp_after]=...
     new_PA_w_CNOT_subroutine_Heu2(Adj0,Tab0,Circuit0,graphs0,Store_Graphs,...
     Store_Gates,np,ne,photon,number_of_sub_G,number_conn_comp_before,...
-    emitter_cutoff0)
+    emitter_cutoff0,varargin)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
 %Last modified: June 15, 2024
@@ -39,7 +39,7 @@ n       = np+ne;
 BackTab = Back_Subs_On_RREF_Tab(Tab0,n,np);
 
 %------------------- Check for weigth 2 emitter stab: ---------------------
-row_indx_Stabs = Stabs_with_support_on_emitters(BackTab,np,ne,[]);
+row_indx_Stabs = Stabs_with_support_on_emitters(BackTab,np,ne);
 
 for l=1:length(row_indx_Stabs)
 
@@ -231,8 +231,8 @@ Gates=combs([0,1,2,4],2); %Rest choices (3,5) seem to not be selected. Also 6 is
 %     
 % end
 
-if true %np<=20
-
+if isempty(varargin{1})
+   
     [potential_rows,~] = detect_Stabs_start_from_photon(Tab0,photon,n);
     [Stabrow,~] = detect_Stab_rows_of_minimal_weight(Tab0,potential_rows,np,n);
 
@@ -341,8 +341,16 @@ if true %np<=20
         end
 
     end
-
+    
+    
+else %Skip this search for efficiency (or perform the search only if np<=cutoff)
+    
+    
+    
 end
+
+
+
 
 
 
