@@ -1,6 +1,6 @@
 function [Tab,Circuit,graphs,flag,number_conn_comp_after]=...
     new_PA_w_CNOT_subroutine_Heu1(Adj0,Tab0,Circuit0,graphs0,Store_Graphs,...
-    Store_Gates,np,ne,photon,number_of_sub_G,number_conn_comp_before)
+    Store_Gates,np,ne,photon,number_of_sub_G,number_conn_comp_before,varargin)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
 %Last modified: June 15, 2024
@@ -29,6 +29,11 @@ function [Tab,Circuit,graphs,flag,number_conn_comp_after]=...
 %        flag: true or false whether the pattern succeeded
 %        number_conn_comp_after: # of disconnected components when exiting
 %        this script.
+%
+%TODO: Make a bit more efficient the search for disconnected components
+%      by applying only local gates based on the existing Paulis on the
+%      given row (?), such that the subsequent CNOT creates the 2  
+%      disconnected stabilizer Tableaux.
 
 flag      = false;
 n         = np+ne;
@@ -36,7 +41,7 @@ BackTab   = Back_Subs_On_RREF_Tab(Tab0,n,np); %Next calls probably should not ba
 
 %----------------- Check for weigth 2 emitter pair: -----------------------
 
-row_indx_Stabs = Stabs_with_support_on_emitters(BackTab,np,ne,[]);
+row_indx_Stabs = Stabs_with_support_on_emitters(BackTab,np,ne);
 
 for l=1:length(row_indx_Stabs)
 
@@ -213,8 +218,8 @@ Gates              = combs([0,1,2,4],2);
 [potential_rows,~] = detect_Stabs_start_from_photon(Tab0,photon,n);  %Here we could choose Tab0, or BackTab
 [Stabrow,~]        = detect_Stab_rows_of_minimal_weight(Tab0,potential_rows,np,n);
 
-[emitters_in_X,emitters_in_Y,emitters_in_Z]=emitters_Pauli_in_row(Tab0,Stabrow(1),np,ne); %Ignores emitters in product state
-all_emitters=[emitters_in_X,emitters_in_Y,emitters_in_Z];
+[emitters_in_X,emitters_in_Y,emitters_in_Z] = emitters_Pauli_in_row(Tab0,Stabrow(1),np,ne); %Ignores emitters in product state
+all_emitters                                = [emitters_in_X,emitters_in_Y,emitters_in_Z];
 
 if n>=30
     
@@ -226,71 +231,39 @@ else
     
 end
 
-%if np<=30 %This is an extra option (we can skip the search for np>30 for efficiency)
 
-for l1=1:emitter_cutoff 
+if isempty(varargin{1}) %Then do the search
+   
+    for l1=1:emitter_cutoff 
 
-    for l2=l1+1:emitter_cutoff 
+        for l2=l1+1:emitter_cutoff 
 
-        em1 = all_emitters(l1);
-        em2 = all_emitters(l2);
+            em1 = all_emitters(l1);
+            em2 = all_emitters(l2);
+            
+            for M=1:size(Gates,1)  %Gates={'I,H,P,HP,PH,HPH,PHP'};
 
-        for M=1:size(Gates,1)  %Gates={'I,H,P,HP,PH,HPH,PHP'};
+                gate1 = Gates(M,1); gate2 = Gates(M,2);
 
-            gate1 = Gates(M,1); gate2 = Gates(M,2);
+                testTab = subroutine_gate_application_no_phase_upd(Tab0,em1,em2,gate1,gate2,n);
+                testTab = CNOT_Gate_no_phase_upd(testTab,[em1,em2],n);
 
-            testTab = subroutine_gate_application_no_phase_upd(Tab0,em1,em2,gate1,gate2,n);
-            testTab = CNOT_Gate_no_phase_upd(testTab,[em1,em2],n);
-
-            number_conn_comp_after = number_of_sub_G(Get_Adjacency(testTab));
-
-            if number_conn_comp_after>number_conn_comp_before
-
-                disp(['!!!!!!!!! Gate comb:',int2str(Gates(M,:))])
-
-                flag          = true;
-                [Tab,Circuit] = subroutine_gate_application_phase_upd(Tab0,Circuit0,em1,em2,gate1,gate2,n,Store_Gates);
-                Tab           = CNOT_Gate(Tab,[em1,em2],n);
-
-                Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
-                Circuit.EmCNOTs = Circuit.EmCNOTs+1;
-
-                if Store_Graphs
-
-                    graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
-
-                else
-
-                    graphs=graphs0;
-
-                end
-
-                return
-
-            end
-
-            %Reverse also control target
-            if gate1==gate2
-
-                [testTab] = subroutine_gate_application_no_phase_upd(Tab0,em1,em2,gate1,gate2,n);
-                testTab   = CNOT_Gate_no_phase_upd(testTab,[em2,em1],n);
-                
                 number_conn_comp_after = number_of_sub_G(Get_Adjacency(testTab));
-
+                
                 if number_conn_comp_after>number_conn_comp_before
 
-                    disp(['!!!!!! Gate comb:',int2str(Gates(M,:))])
+                    disp(['!!!!!!!!! Gate comb:',int2str(Gates(M,:))])
                     
                     flag          = true;
                     [Tab,Circuit] = subroutine_gate_application_phase_upd(Tab0,Circuit0,em1,em2,gate1,gate2,n,Store_Gates);
-                    Tab           = CNOT_Gate(Tab,[em2,em1],n);
-                    
-                    Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit,Store_Gates);
+                    Tab           = CNOT_Gate(Tab,[em1,em2],n);
+
+                    Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
                     Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
                     if Store_Graphs
 
-                        graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em2),',',int2str(em1),'} [DE]'),graphs0);                    
+                        graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
 
                     else
 
@@ -302,17 +275,54 @@ for l1=1:emitter_cutoff
 
                 end
 
+                %Reverse also control target
+                if gate1==gate2
+
+                    [testTab] = subroutine_gate_application_no_phase_upd(Tab0,em1,em2,gate1,gate2,n);
+                    testTab   = CNOT_Gate_no_phase_upd(testTab,[em2,em1],n);
+
+                    number_conn_comp_after = number_of_sub_G(Get_Adjacency(testTab));
+
+                    if number_conn_comp_after>number_conn_comp_before
+
+                        disp(['!!!!!! Gate comb:',int2str(Gates(M,:))])
+
+                        flag          = true;
+                        [Tab,Circuit] = subroutine_gate_application_phase_upd(Tab0,Circuit0,em1,em2,gate1,gate2,n,Store_Gates);
+                        Tab           = CNOT_Gate(Tab,[em2,em1],n);
+
+                        Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit,Store_Gates);
+                        Circuit.EmCNOTs = Circuit.EmCNOTs+1;
+
+                        if Store_Graphs
+
+                            graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em2),',',int2str(em1),'} [DE]'),graphs0);                    
+
+                        else
+
+                            graphs=graphs0;
+
+                        end
+
+                        return
+
+                    end
+
+
+                end
+
 
             end
-
 
         end
 
     end
-
+    
+elseif ~varargin{1}{1} %If false, then do not search for this pattern (or search as long as np<=cut_off)
+    
+    
 end
 
-%end
 
 if ~flag %No pattern was successful
     
@@ -492,6 +502,3 @@ end
 Stab_row_indx = potential_rows(indx);
 
 end
-
-
-

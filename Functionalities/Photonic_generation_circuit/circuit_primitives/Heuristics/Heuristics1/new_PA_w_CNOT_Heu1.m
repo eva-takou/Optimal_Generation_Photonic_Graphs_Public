@@ -1,4 +1,4 @@
-function [Tab,Circuit,graphs,success_flag]=new_PA_w_CNOT_Heu1(Tab,np,ne,photon,Circuit,graphs,Store_Graphs,Store_Gates,return_cond)
+function [Tab,Circuit,graphs,success_flag]=new_PA_w_CNOT_Heu1(Tab,np,ne,photon,Circuit,graphs,Store_Graphs,Store_Gates,return_cond,varargin)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
 %Last modified: June 15, 2024
@@ -26,7 +26,7 @@ function [Tab,Circuit,graphs,success_flag]=new_PA_w_CNOT_Heu1(Tab,np,ne,photon,C
 
 
 
-[Tab,Circuit,graphs,success_flag]=attempt_emitter_disentanglement(Tab,Circuit,graphs,Store_Graphs,Store_Gates,np,ne,photon,return_cond);
+[Tab,Circuit,graphs,success_flag]=attempt_emitter_disentanglement(Tab,Circuit,graphs,Store_Graphs,Store_Gates,np,ne,photon,return_cond,varargin{1});
 
 if success_flag
     
@@ -39,7 +39,7 @@ end
 
 
 
-function [Tab,Circuit,graphs,success_flag]=attempt_emitter_disentanglement(Tab0,Circuit0,graphs0,Store_Graphs,Store_Gates,np,ne,photon,return_cond)
+function [Tab,Circuit,graphs,success_flag]=attempt_emitter_disentanglement(Tab0,Circuit0,graphs0,Store_Graphs,Store_Gates,np,ne,photon,return_cond,varargin)
 
 n                       = np+ne;
 number_of_sub_G         = @(G) length(unique(conncomp(graph(G))));
@@ -50,7 +50,7 @@ while true
  
    [Tab0,Circuit0,graphs0,flag,number_conn_comp_after] = ...
        new_PA_w_CNOT_subroutine_Heu1(Adj0,Tab0,Circuit0,graphs0,Store_Graphs,Store_Gates,...
-       np,ne,photon,number_of_sub_G,number_conn_comp_before);
+       np,ne,photon,number_of_sub_G,number_conn_comp_before,varargin{1});
    
    number_conn_comp_before=number_conn_comp_after;
    
