@@ -39,7 +39,9 @@ future_step     = 2;
 recurse_further = true;
 nrange          = [6,8,10,12,18,26,30,40];
 
-for iter=1:iterMax
+
+
+parfor iter=1:iterMax
     
     for k=minK:maxK %nmin:nstep:nmax
         
