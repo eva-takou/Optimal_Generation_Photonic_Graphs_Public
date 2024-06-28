@@ -47,8 +47,7 @@ for photon=1:np
         
         if any(qubits{k}==photon) && strcmpi(Gates{k},'CNOT')
         
-            CNOT_pos=k;
-            Q = qubits{k};
+            CNOT_pos = k;
             break
             
         end
