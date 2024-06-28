@@ -54,10 +54,10 @@ for photon=1:np
         
     end
     
-    Gates        =[Gates(1:CNOT_pos),{'X'},Gates(CNOT_pos+1:end)];
-    qubits       =[qubits(1:CNOT_pos),{photon},qubits(CNOT_pos+1:end)];
-    Gates{Xpos}  =[]; %Make the initial 'X' in the list empty
-    qubits{Xpos} =[]; %Make the qubit index also empty
+    Gates        = [Gates(1:CNOT_pos),{'X'},Gates(CNOT_pos+1:end)];
+    qubits       = [qubits(1:CNOT_pos),{photon},qubits(CNOT_pos+1:end)];
+    Gates{Xpos}  = []; %Make the initial 'X' in the list empty
+    qubits{Xpos} = []; %Make the qubit index also empty
     
 end
 
