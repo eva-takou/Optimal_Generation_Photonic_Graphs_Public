@@ -36,11 +36,13 @@ function [Tab,Circuit,graphs,success_flag]=new_PA_w_CNOT_Heu2...
 %        success_flag: Always successful because we make some choice and 
 %                      absorb the photon
 
+
 [Tab,Circuit,graphs,success_flag]=attempt_emitter_disentanglement...
     (Tab,Circuit,graphs,Store_Graphs,Store_Gates,...
      np,ne,photon,EXTRA_OPT_LEVEL,return_cond,...
      emitter_cutoff0,future_step,recurse_further,BackSubs,varargin{1});
 
+ 
 if success_flag
     
     return
@@ -199,6 +201,8 @@ if EXTRA_OPT_LEVEL
     emitter  = all_emitters(CNOT_INDX);
     emitters = all_emitters;
     emitters(CNOT_INDX)=[];
+    
+    
     
 else
 
