@@ -52,7 +52,7 @@ switch Option
             
         elseif n==70
             
-            load('100_samples_np_70.mat','Adj')
+            load('500_samples_np_70.mat','Adj')
             clearvars -except Adj n
             Nsamples = length(Adj);
             
