@@ -18,6 +18,10 @@ if strcmpi(CircuitOrder,'backward') %Put to forward order (& P->Pdag)
     Gates  = flip(Circuit.Gate.name);
     qubits = flip(Circuit.Gate.qubit);
     
+else
+    Gates  = Circuit.Gate.name;
+    qubits = Circuit.Gate.qubit;
+    
 end
 
 for photon=1:np
