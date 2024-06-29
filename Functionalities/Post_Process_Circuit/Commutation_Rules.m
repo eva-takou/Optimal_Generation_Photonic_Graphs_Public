@@ -109,7 +109,7 @@ if strcmpi(gatePrev,'X')
         
         return
         
-    elseif isempty(gateAfte) %Do we keep this?
+    elseif isempty(gateAfte) 
         
         updates_made=false;
         
