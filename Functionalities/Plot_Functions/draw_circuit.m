@@ -55,6 +55,11 @@ if strcmpi(circuit_order,'backward') %Bring to forward, & set P -> Pdagger
 
     end                
     
+else
+    
+    Gates  = Gate_Sequence.Gate.name;
+    Qubits = Gate_Sequence.Gate.qubit;    
+    
 end
 
 
