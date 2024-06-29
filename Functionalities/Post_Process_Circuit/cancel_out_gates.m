@@ -124,7 +124,7 @@ for jj = 1:n
                                             || ...
                (strcmpi(gate1,'P') && strcmpi(gate2,'CNOT') && strcmpi(gate3,'P')) ... %covers 5 and 6
                                             || ...
-               (strcmpi(gate1,'Pdag') && strcmpi(gate2,'CNOT') && strcmpi(gate3,'Pdag'))                                        \
+               (strcmpi(gate1,'Pdag') && strcmpi(gate2,'CNOT') && strcmpi(gate3,'Pdag'))                                        
            
             if Qubits{locs_Q(p+1)}(1)==jj %qubit (jj) has to be the control
                
