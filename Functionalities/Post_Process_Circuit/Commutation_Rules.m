@@ -53,7 +53,16 @@ if strcmpi(gatePrev,'X')
         
         Gates  = [Gates(1:locs_Q(2)),'Y',Gates(locs_Q(2)+1:end)];
         Qubits = [Qubits(1:locs_Q(2)),qubit,Qubits(locs_Q(2)+1:end)];
+    
+    elseif strcmpi(gateAfte,'Pdag') %Pdag*X -> -Y*Pdag
 
+        Gates{locs_Q(1)}  = [];
+        Qubits{locs_Q(1)} = [];
+        
+        Gates  = [Gates(1:locs_Q(2)),'Y',Gates(locs_Q(2)+1:end)];
+        Qubits = [Qubits(1:locs_Q(2)),qubit,Qubits(locs_Q(2)+1:end)];
+        
+        
     elseif strcmpi(gateAfte,'CNOT')    
 
         control = Qubits{locs_Q(2)}(1);
@@ -131,7 +140,7 @@ elseif strcmpi(gatePrev,'Z')
         Gates  =[Gates(1:locs_Q(2)),'X',Gates(locs_Q(2)+1:end)];
         Qubits =[Qubits(1:locs_Q(2)),qubit,Qubits(locs_Q(2)+1:end)];
         
-    elseif strcmpi(gateAfte,'P') %Commute after P
+    elseif strcmpi(gateAfte,'P') || strcmpi(gateAfte,'Pdag') %Commute after P
         
         Gates{locs_Q(1)}  = [];
         Qubits{locs_Q(1)} = [];
@@ -212,7 +221,7 @@ elseif strcmpi(gatePrev,'Y')
         Qubits = [Qubits(1:locs_Q(2)),qubit,Qubits(locs_Q(2)+1:end)];
         
         
-    elseif strcmpi(gateAfte,'P') %Y then P is P then X (up to global phase)
+    elseif strcmpi(gateAfte,'P') || strcmpi(gateAfte,'Pdag') %Y then P is P then X (up to global phase)
         
         Gates{locs_Q(1)}  = [];
         Qubits{locs_Q(1)} = [];
@@ -278,9 +287,5 @@ else %Neither X or Z or Y
     return
     
 end
-
-
-
-
 
 end
