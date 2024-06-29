@@ -63,8 +63,12 @@ end
 
 [Gates,qubits] = remove_empty_slots(Gates,qubits);
 
-%Return backwards circuit
-Circuit.Gate.name  = flip(Gates);  %(& Pdag->P)
-Circuit.Gate.qubit = flip(qubits);
+%Return backwards circuit if it was backward, otherwise return forward
+if strcmpi(CircuitOrder,'backward')
+    
+    Circuit.Gate.name  = flip(Gates);  %(& Pdag->P)
+    Circuit.Gate.qubit = flip(qubits);
+    
+end
 
 end
