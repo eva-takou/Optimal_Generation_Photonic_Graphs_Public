@@ -43,6 +43,15 @@ for jj = 1:n
                 Qubits{locs_Q(p)}   = [];
                 Qubits{locs_Q(p+1)} = [];
                 
+            elseif (strcmpi(gate1,'P') && strcmpi(gate2,'Pdag')) ...
+                                      || ...
+                   (strcmpi(gate1,'Pdag') && strcmpi(gate2,'P'))                   
+                
+                Gates{locs_Q(p)}    = [];
+                Gates{locs_Q(p+1)}  = [];
+                Qubits{locs_Q(p)}   = [];
+                Qubits{locs_Q(p+1)} = [];
+                
             elseif strcmpi(gate1,gate2) && strcmpi(gate2,'P') %Z
 
                 Gates{locs_Q(p)}    = [];
