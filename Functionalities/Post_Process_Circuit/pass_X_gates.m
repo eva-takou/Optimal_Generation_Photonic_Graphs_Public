@@ -13,7 +13,7 @@ function [Circuit]=pass_X_gates(Circuit,np,CircuitOrder)
 %
 %Output: The updated circuit.
 
-if strcmpi(CircuitOrder,'backward') %Put to forward order
+if strcmpi(CircuitOrder,'backward') %Put to forward order (& P->Pdag)
     
     Gates  = flip(Circuit.Gate.name);
     qubits = flip(Circuit.Gate.qubit);
@@ -61,10 +61,10 @@ for photon=1:np
     
 end
 
-[Gates,qubits]     = remove_empty_slots(Gates,qubits);
+[Gates,qubits] = remove_empty_slots(Gates,qubits);
 
 %Return backwards circuit
-Circuit.Gate.name  = flip(Gates);
+Circuit.Gate.name  = flip(Gates);  %(& Pdag->P)
 Circuit.Gate.qubit = flip(qubits);
 
 end
