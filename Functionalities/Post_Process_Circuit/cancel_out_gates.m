@@ -64,6 +64,33 @@ for jj = 1:n
                 Qubits{locs_Q(p)}   = [];
                 Gates{locs_Q(p+1)}  = 'Z';                 
                 
+            elseif (strcmpi(gate1,'X') && strcmpi(gate2,'Y'))...
+                                      || ...
+                   (strcmpi(gate1,'Y') && strcmpi(gate2,'X'))
+               
+               
+                Gates{locs_Q(p)}    = [];
+                Qubits{locs_Q(p)}   = [];
+                Gates{locs_Q(p+1)}  = 'Z';   
+                
+            elseif (strcmpi(gate1,'X') && strcmpi(gate2,'Z'))...
+                                      || ...
+                   (strcmpi(gate1,'Z') && strcmpi(gate2,'X'))
+               
+                Gates{locs_Q(p)}    = [];
+                Qubits{locs_Q(p)}   = [];
+                Gates{locs_Q(p+1)}  = 'Y';
+                
+            elseif (strcmpi(gate1,'Y') && strcmpi(gate2,'Z'))...
+                                      || ...
+                   (strcmpi(gate1,'Z') && strcmpi(gate2,'Y'))
+               
+                Gates{locs_Q(p)}    = [];
+                Qubits{locs_Q(p)}   = [];
+                Gates{locs_Q(p+1)}  = 'X';
+                
+               
+                
             end
             
         end
