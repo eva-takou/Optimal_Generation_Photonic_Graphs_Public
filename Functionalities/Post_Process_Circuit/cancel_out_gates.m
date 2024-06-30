@@ -34,7 +34,7 @@ for jj = 1:n
         gate1 = Gates{locs_Q(p)};  
         gate2 = Gates{locs_Q(p+1)};
         
-        if length(Qubits{locs_Q(p)})==1 %Single qubit gate: (X,Y,Z,P,H)
+        if length(Qubits{locs_Q(p)})==1 && length(Qubits{locs_Q(p+1)})==1 %Single qubit gate: (X,Y,Z,P,H)
             
             if strcmpi(gate1,gate2) && ~strcmpi(gate2,'P') %Identity
 
