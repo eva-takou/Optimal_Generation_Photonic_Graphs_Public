@@ -39,7 +39,7 @@ for qubit=1:n
        Tab(:,qubit+n) = Tab(:,qubit);
        Tab(:,qubit)   = temp;    
 
-    else
+    else %If the X is on or after the diagonal qubit position, do not apply H gate
 
         apply_Had=true;
 
@@ -72,7 +72,7 @@ for qubit=1:n
 
         for jj=qubit+1:n
 
-            if SliceTab(jj)==1 %Tab(jj,qubit)==1  %SWAP rows
+            if SliceTab(jj)==1  %SWAP rows
 
                 temp         = Tab(jj,:);
                 Tab(jj,:)    = Tab(qubit,:);
@@ -88,33 +88,20 @@ for qubit=1:n
 
     SliceTab    = Tab(:,qubit);
     rowToBitXor = Tab(qubit,:); 
-    indx        = find(SliceTab(qubit+1:end))+qubit;
-
-    for k=1:length(indx)
+    indx        = find(SliceTab(qubit+1:end))+qubit; 
+    
+    for k=1:length(indx) %Remove Xs appearing below the diagonal entry
 
         Tab(indx(k),:)=bitxor(Tab(indx(k),:),rowToBitXor);
 
     end
 
-
-%         for jj=qubit+1:n %Remove Xs appearing below the diagonal entry
-% 
-%             if SliceTab(jj)>0 %Tab(jj,qubit)==1
-% 
-%                 Tab(jj,:)=bitxor(Tab(jj,:),rowToBitXor); %0.266 sec
-% 
-%             end
-% 
-%         end                
-
-
 end
-
 
 
 %---Check alternative back-substitution -----------------------------------
 
-Tab=Tab'; %Transpose to access column-wise later
+Tab=Tab'; %Transpose to access column-wise (maybe slightly faster)
 
 for qubit=n:-1:2
    
