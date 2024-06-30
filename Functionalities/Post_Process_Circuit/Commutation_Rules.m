@@ -162,7 +162,7 @@ elseif strcmpi(gatePrev,'Z')
         Qubits{locs_Q(1)} = [];
         
         control = Qubits{locs_Q(2)}(1);
-        target  = Qubits{locs_Q(2)}(1);
+        target  = Qubits{locs_Q(2)}(2);
         
         if qubit==target
         
