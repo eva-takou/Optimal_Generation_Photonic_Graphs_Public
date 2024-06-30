@@ -199,7 +199,10 @@ if pass_emitter_Paulis
         [Gates,Qubits]=move_emitter_Paulis_for_each_rail(np,ne,pause_time,...
                        Gates,Qubits,Init_State_Option,CircuitOrder,...
                        fignum,monitor_update);    
-              
+        
+        [Gates,Qubits]=cancel_out_gates(Gates,Qubits,n);
+        [Gates,Qubits]=remove_empty_slots(Gates,Qubits);
+        
         flag_continue=false;
         
         for k=1:length(Gates)
