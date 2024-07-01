@@ -77,6 +77,7 @@ if ~isempty(p)
 else 
     
     disp('Outcome: determinate')
+    
     %In this case, we need to learn the \pm +1 sign. The \pm Z measurement  
     %commutes with all the stabilizers. For this reason, the state remains
     %invariant.
@@ -99,6 +100,8 @@ else
 % 
 %     outcome=(Tab(2*n+1,end));
 %     disp(['Outcome was',num2str(outcome)])
+
+    outcome = nan; %Unknown because we do not have destabs
 
 end
 
