@@ -23,6 +23,11 @@ switch Oper
         
         Tab = Phase_Gate(Tab,qubit,n);
         
+    case 'Pdag'
+        
+        Tab = Phase_Gate(Tab,qubit,n);
+        Tab = Pauli_Gate(Tab,qubit,n,'Z');
+        
     case 'X'
         
         Tab = Pauli_Gate(Tab,qubit,n,'X');
