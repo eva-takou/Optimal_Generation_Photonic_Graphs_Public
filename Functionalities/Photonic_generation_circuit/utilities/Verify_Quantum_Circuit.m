@@ -65,5 +65,4 @@ S   = [Sx,Sz];
 Tab = S;
 Tab = [Tab,zeros(n,1,'int8')];
 
-
 end
