@@ -70,12 +70,13 @@ end
 disp('Need emitter gates before TRM.') 
 
 not_absorbed_photons=1:photon;
+%All emitters are in Z for the photonic row based on the function below.
 [emitter_qubit,other_emitters,Tab,Circuit]=minimize_emitter_length(Tab,Circuit,n,np,ne,not_absorbed_photons,Store_Gates);
 
 for jj=1:length(other_emitters) %disentangle emitters
     
    control = other_emitters(jj);
-   Tab     = CNOT_Gate(Tab,[control,emitter_qubit],n);
+   Tab     = CNOT_Gate(Tab,[control,emitter_qubit],n); 
    Circuit = store_gate_oper([control,emitter_qubit],'CNOT',Circuit,Store_Gates); 
    
    if Store_Graphs
@@ -100,6 +101,7 @@ if Store_Graphs
 end
 
 disp(['Applied TRM on emitter:',int2str(emitter_qubit)])
+
 end
 
 
