@@ -57,7 +57,7 @@ if ~isempty(p)
     %Do rowsum between g_i and all other g_j which have an X on the qubit.
     %Now, g_j commute with \pm Z. Replace g_i with \pm Z.
     
-    q = min(p); %if multiple p exists, choose the smallest one
+    q = min(p); %if multiple p exist, choose the smallest one
 
     j_indx = setdiff(p,q);  %For all other rows where x=1 do rowsum
     
