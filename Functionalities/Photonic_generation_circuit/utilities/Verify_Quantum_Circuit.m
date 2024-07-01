@@ -27,7 +27,7 @@ for ll=L:-1:1 %Loop in reverse
     end
     
     Tab = Clifford_Gate(Tab,Qubits,Oper,n);
-    
+ 
 end
 
  

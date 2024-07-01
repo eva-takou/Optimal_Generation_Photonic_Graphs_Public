@@ -11,11 +11,10 @@ function Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
 %       ne: # of emitter qubits
 %       CircuitOrder: The order of the input circuit
 
+Gates  = Circ.Gate.name;
+Qubits = Circ.Gate.qubit;
 
 if strcmpi(CircuitOrder,'backward')
-   
-    Gates  = Circ.Gate.name;
-    Qubits = flip(Circ.Gate.qubit);
     
     for k=1:length(Gates)
         
@@ -27,12 +26,43 @@ if strcmpi(CircuitOrder,'backward')
         
     end
     
-    Gates = flip(Gates);
+    %Need to also add an H gate on the control emitter after the 'Measure'
     
-else
+    Gates  = flip(Gates);
+    Qubits = flip(Qubits);
     
-    Gates  = Circ.Gate.name;
-    Qubits = Circ.Gate.qubit;
+    loc_TRM = [];
+    
+    for k=1:length(Gates)
+        
+       if strcmpi(Gates{k},'Measure')
+          
+           loc_TRM = [loc_TRM,k];
+           
+       end
+        
+    end
+    
+    for l = 1:length(loc_TRM)
+       
+        Gates   = [Gates(1:loc_TRM(l)),'H',Gates(loc_TRM(l)+1:end)];
+        Qubits  = [Qubits(1:loc_TRM(l)),Qubits{loc_TRM(l)}(1),Qubits(loc_TRM(l)+1:end)];
+        loc_TRM = loc_TRM+1;
+        
+    end
+    
+    Gates  = flip(Gates);
+    Qubits = flip(Qubits);
+    
+    Lstart = length(Gates);
+    Lstep  = -1;
+    Lend   = 1;
+    
+else    
+    
+    Lstart = 1;
+    Lstep  = 1;
+    Lend   = length(Gates);
     
 end
 
@@ -43,30 +73,34 @@ temp0 = Tableau_Class(zeros(np,np),'Adjacency'); %Sx=1, Sz=0
 
 for k=1:np
    
-    temp0=temp0.Apply_Clifford(k,'H',np);  %Sz=1. Sx=0.
+    temp0=temp0.Apply_Clifford(k,'H',np);  %Sz=1, Sx=0.
     
 end
 
-temp0.Tableau=AugmentTableau(temp0.Tableau,ne);
+temp0.Tableau = AugmentTableau(temp0.Tableau,ne); %Sz=1, Sx=0. (Augmented with emitters)
 
-for k=1:length(Gates)
+for k=Lstart:Lstep:Lend
    
     G = Gates{k};
     Q = Qubits{k};
     
     if strcmpi(G,'Measure')
        
-        temp0 = temp0.Apply_SingleQ_Meausurement(Q(1),'Z');
+        [temp0,outcome] = temp0.Apply_SingleQ_Meausurement(Q(1),'Z'); %qubit,basis
+        
+        if outcome == 1
+           
+            temp0 = temp0.Apply_Clifford(Q(2),'X',n);
+            
+        end
         
     else
         
-        temp0 = temp0.Apply_Clifford(Q,G,n);
+        temp0 = temp0.Apply_Clifford(Q,G,n); %qubit,Oper,n
         
     end
     
-    
 end
-
 
 Adj_T     = Get_Adjacency(temp0.Tableau);
 to_remove = [];
@@ -83,17 +117,10 @@ end
 Adj_T(to_remove,:) = [];
 Adj_T(:,to_remove) = [];
 
-figure(1)
-subplot(1,2,1)
-plot(graph(Adj_T))
-subplot(1,2,2)
-plot(graph(double(Adj0)))
-
 if ~all(all(Adj_T==Adj0))
    
     error('The circuit does not produce the target graph.')
     
 end
-
 
 end
