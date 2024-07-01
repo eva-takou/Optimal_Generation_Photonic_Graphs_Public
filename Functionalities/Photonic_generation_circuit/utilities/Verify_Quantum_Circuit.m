@@ -1,12 +1,15 @@
 function Verify_Quantum_Circuit(Circuit,n,ne,Target_Tableau)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: July 1, 2024
+%
 %Script to verify that the quantum circuit gives rise to the Target
 %tableau.
-%The input: Circuit to generate the Target tableau
-%           n: number of qubits
-%           ne: # of emitters
-%           Target_Tableau: the target tableau in canonical form.
+%Inputs: Circuit: Generation Circuit
+%        n: number of total qubits
+%        ne: # of emitters qubits
+%        Target_Tableau: the target tableau in canonical form.
 
-%Define a new tableau that corresponds to all qubits in |0>.
 
 Init_Tab = Initialize_Tab(n);
 Tab      = Init_Tab;
@@ -17,7 +20,7 @@ for ll=L:-1:1 %Loop in reverse
     Oper   = Circuit.Gate.name{ll};
     Qubits = Circuit.Gate.qubit{ll};
     
-    if strcmpi(Oper,'Measure') || strcmpi(Oper,'emCNOT') || strcmpi(Oper,'Meas')
+    if strcmpi(Oper,'Measure') 
         
         Oper = 'CNOT';
         
