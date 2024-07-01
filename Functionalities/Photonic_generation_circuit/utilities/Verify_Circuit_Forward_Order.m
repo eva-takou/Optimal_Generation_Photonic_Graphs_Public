@@ -8,6 +8,7 @@ function Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
 %
 %Input: Circ: A struct with fields .Gate.name and .Gate.qubit
 %       Adj0: The target adjacency matrix
+%       ne: # of emitter qubits
 %       CircuitOrder: The order of the input circuit
 
 
