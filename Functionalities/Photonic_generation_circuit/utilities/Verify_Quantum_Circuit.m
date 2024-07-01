@@ -5,7 +5,7 @@ function Verify_Quantum_Circuit(Circuit,n,ne,Target_Tableau)
 %
 %Script to verify that the quantum circuit gives rise to the Target
 %tableau.
-%Inputs: Circuit: Generation Circuit
+%Inputs: Circuit: Generation Circuit (in reverse order)
 %        n: number of total qubits
 %        ne: # of emitters qubits
 %        Target_Tableau: the target tableau in canonical form.
