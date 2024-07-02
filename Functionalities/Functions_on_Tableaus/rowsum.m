@@ -1,4 +1,4 @@
-function Tab=rowsum(Tab,n,H_replace,I,varargin)
+function Tab=rowsum(Tab,n,H_replace,I)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
 %Last modified: May 25, 2024
