@@ -67,7 +67,7 @@ for l=1:L
 end
 
 cnt_m = L-cnt_p;    
-temp  = (+1i)^cnt_p * (-1i)^cnt_m;
+temp  = (+1i)^cnt_p * (-1i)^cnt_m; %Can this fail?
 rH    = mod(rH+rI-1/2*(temp-1),2);
 
 Tab(rowH,:)     = bitxor(TabrowH, TabrowI);
