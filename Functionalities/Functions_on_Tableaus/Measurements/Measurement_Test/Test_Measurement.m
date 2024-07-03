@@ -5,11 +5,13 @@ warning('on')
 
 repeat_test    = 100;
 Gates_Iter_Max = 100;
-n              = 8;
-ketP           = [1;1]/sqrt(2);
+
+ketP   = [1;1]/sqrt(2);
+n      = 9;
+Gates  = {'H','P','CNOT'};
+Qubits = 1:n;
 
 for K=1:repeat_test
-
 
     Adj = create_random_graph(n);
 
@@ -38,9 +40,6 @@ for K=1:repeat_test
 
     %-------------- Act with random Clifford Gates -----------------------
     
-    
-    Gates  = {'H','P','CNOT'};
-    Qubits = 1:n;
 
     temp = Tableau_Class(Adj,'Adjacency');
 
@@ -148,10 +147,10 @@ for K=1:repeat_test
 
             if abs(prob_P-1)<1e-9
 
-                disp(['------ Outcome from state vec:',num2str(0)])
+                disp(['------ Outcome from state vec: ',num2str(0)])
 
             else
-                disp(['------ Outcome from state vec:',num2str(1)])
+                disp(['------ Outcome from state vec: ',num2str(1)])
             end
 
             if (isnan(prob_P) && abs(prob_M-1)<1e-9) || (isnan(prob_M) && abs(prob_P-1)<1e-9)
