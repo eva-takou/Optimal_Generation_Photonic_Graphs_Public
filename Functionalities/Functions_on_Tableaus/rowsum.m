@@ -1,7 +1,7 @@
 function Tab=rowsum(Tab,n,H_replace,I)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: May 25, 2024
+%Last modified: July 3, 2024
 %--------------------------------------------------------------------------
 %
 %Function to add 2 rows together in the Tableau. Rowsum operates as:
