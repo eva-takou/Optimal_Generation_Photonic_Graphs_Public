@@ -82,7 +82,7 @@ else
     
     for l=1:length(loc)
        
-        if nnz(Tab_test(loc(l),1:2*n))
+        if nnz(Tab_test(loc(l),1:2*n))==1
             
             outcome = Tab_test(loc(l),end);
             
