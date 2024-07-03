@@ -96,4 +96,61 @@ for lower_row=nn:-1:2
     
 end
 
+
+for lower_row=nn:-1:2
+
+    %find where nnz entries of Z part are contained in rows above
+    
+    entries_this_row = find(M(lower_row,1:2*nn));
+    
+    for upper_row=lower_row-1:-1:1
+        
+        entries_other_row = find(M(upper_row,1:2*nn));
+        
+        if all(ismember(entries_this_row,entries_other_row))
+        
+            M = rowsum(M,nn,upper_row,lower_row);
+            
+        end
+        
+    end
+    
+end
+
+
+
+%For rows that have only Z strings:
+%The first Z that appears in some row, should exist only in that row.
+%Due to the procedure above, the first Z exists in some row, but does not
+%exist in the rows below it. Now, we want to eliminate the Z above it.
+
+for l=nn:-1:1
+    
+   temp = M(l,1:2*nn);
+   
+   if all(temp(1:nn)==0) %Z string detected
+      
+       Z_loc = find(temp,1); %first nnz entry
+       
+       for k=l-1:-1:1
+          
+           temp2 = M(k,1:2*nn);
+           
+           if all(temp2(1:nn)==0) %Another Z string detected
+               
+               if temp2(Z_loc)==1
+                   
+                   M = rowsum(M,nn,k,l);
+                   
+               end
+               
+           end
+           
+       end
+       
+   end
+    
+    
+end
+
 end
