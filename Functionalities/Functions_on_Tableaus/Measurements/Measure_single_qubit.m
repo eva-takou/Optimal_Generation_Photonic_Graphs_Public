@@ -79,15 +79,19 @@ else
     
     Tab_test = Gauss_elim_GF2_with_rowsum(Tab,n);
     loc      = find(Tab_test(:,qubit+n));
-    
+    outcome  = nan;
     for l=1:length(loc)
        
         if nnz(Tab_test(loc(l),1:2*n))==1
             
             outcome = Tab_test(loc(l),end);
-            
+            break
         end
         
+    end
+    
+    if isnan(outcome)
+       error('Something is wrong with the Gaussian elimination.') 
     end
     
     if strcmpi(basis,'Z')
