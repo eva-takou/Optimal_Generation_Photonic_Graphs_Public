@@ -3,13 +3,10 @@ close all;
 clc;
 warning('on')
 
-
 repeat_test    = 100;
 Gates_Iter_Max = 100;
 n              = 8;
 ketP           = [1;1]/sqrt(2);
-
-
 
 for K=1:repeat_test
 
