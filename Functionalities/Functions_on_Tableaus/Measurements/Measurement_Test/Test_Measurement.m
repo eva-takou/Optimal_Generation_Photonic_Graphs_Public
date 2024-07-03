@@ -3,11 +3,11 @@ close all;
 clc;
 warning('on')
 
-repeat_test    = 100;
+repeat_test    = 1e3;
 Gates_Iter_Max = 100;
 
 ketP   = [1;1]/sqrt(2);
-n      = 9;
+n      = 7;
 Gates  = {'H','P','CNOT'};
 Qubits = 1:n;
 
