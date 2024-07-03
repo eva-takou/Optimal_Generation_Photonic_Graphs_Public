@@ -1,7 +1,13 @@
-function Get_Graph_Plot(Gamma,layoutOpt,nodenames,nodes_other_color,node_incident_edges)
-%Function to plot the graph. 
-%Inputs: Adj: Tableau,
-%        Layout option: 'auto', 'force', 'circle' etc, see: plot(graph) matlab
+function Get_Graph_Plot(Gamma,layoutOpt,nodenames,nodes_other_color,...
+                        node_incident_edges)
+%--------------------------------------------------------------------------
+%Created by Eva Takou
+%Last modified: July 3, 2024
+%--------------------------------------------------------------------------
+%
+%Function to plot a single graph. 
+%Inputs: Gamma: Adjacency matrix
+%        layoutOpt: 'auto', 'force', 'circle' etc, see: plot(graph) matlab        
 %        nodenames: a cell array of characters or an array of doubles that
 %        contains the names of the nodes.
 %        nodes_other_color: a cell of struct. Each stuct that has .name and .color. Used to
@@ -9,7 +15,6 @@ function Get_Graph_Plot(Gamma,layoutOpt,nodenames,nodes_other_color,node_inciden
 %        node_incident_edges: to color differently some subset of edges,
 %        incident to a node. Cell array of structs.
 
-%Gamma = Get_Adjacency(Tab);
 G     = graph(Gamma);
 h     = plot(G,'layout',layoutOpt);
 
@@ -85,17 +90,6 @@ if ~isempty(node_incident_edges)
     end
     
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 end
