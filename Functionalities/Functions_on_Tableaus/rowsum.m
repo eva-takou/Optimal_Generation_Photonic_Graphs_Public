@@ -23,12 +23,33 @@ end
 function Tab=g(rowH,rowI,rH,rI,Tab,n)
 %My version of phase update (Rh->Rh*Ri)
 
-cnt_p   = 0;
+cnt_p   = 0;             %positions where we end up with i^(+1) phase
 TabrowH = (Tab(rowH,:));
 TabrowI = (Tab(rowI,:));
 
-anti_comm = xor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),bitand(TabrowI(1:n),TabrowH(n+1:2*n))); %Anticommuting relations
+anti_comm = xor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),...
+                bitand(TabrowI(1:n),TabrowH(n+1:2*n))); %Anticommuting relations
+%anti_comm -> 1st line xh or zi nnz, 2nd line xi or zh nnz
+%               bitand                  bitand
+%1) xh=1 zi=0 ->  0     | 1) zh=1 xi=0 -> 0
+%2) xh=0 zi=1 ->  0     | 2) zh=0 xi=1 -> 0
+%3) xh=1 zi=1 ->  1     | 3) zh=1 xi=1 -> 1
+%4) xh=0 zi=0 ->  0     | 4) zh=0 xi=0 -> 0
 
+%-------- combs: ----------------------------------------------------------
+% 11 : Y_h * I_i  -> xor(0,0) = 0 | 21 : Z_h * Z_i  -> xor(0,0) = 0
+% 12 : X_h * X_i  -> xor(0,0) = 0 | 22 : I_h * Y_i  -> xor(0,0) = 0
+% 13 : Y_h * X_i  -> xor(0,1) = 1 | 23 : Z_h * Y_i  -> xor(0,1) = 1
+% 14 : X_h * I_i  -> xor(0,0) = 0 | 24 : I_h * Z_i  -> xor(0,0) = 0
+%
+% 31 : Y_h * Z_i  -> xor(1,0) = 1 | 41 : Z_h * I_i  -> xor(0,0) = 0
+% 32 : X_h * Y_i  -> xor(1,0) = 1 | 42 : I_h * X_i  -> xor(0,0) = 0
+% 33 : Y_h * Y_i  -> xor(1,1) = 0 | 43 : Z_h * X_i  -> xor(0,1) = 1
+% 34 : X_h * Z_i  -> xor(1,0) = 1 | 44 : I_h * I_i  -> xor(0,0) = 0 
+%
+%Anticommuting: YX, XY, ZY, YZ, XZ, ZX
+%-------- All the above look correct --------------------------------------
+            
 indices = find(anti_comm);
 L       = length(indices);
 
@@ -36,25 +57,25 @@ for l=1:L
     
     k=indices(l);
     
-    if TabrowH(k)==1 && TabrowH(k+n)==0 %X
+    if TabrowH(k)==1 && TabrowH(k+n)==0 %X_h
 
-        if TabrowI(k)==1 %&& z2(k)==1 %Y
-
-            cnt_p=cnt_p+1;
-
-        end
-
-    elseif bitand(TabrowH(k),TabrowH(k+n))==1 %TabrowH(k)==1 && TabrowH(k+n)==1 %Y
-
-        if TabrowI(k)==0 %&& z2(k)==1  %Z
+        if TabrowI(k)==1 %Y_i (cannot be X or I because it would commute, cannot be Z because it has xi=1)
 
             cnt_p=cnt_p+1;
 
         end
 
-    else  %has to be Z   %if x1(k)==0 && z1(k)==1 %Z  
+    elseif bitand(TabrowH(k),TabrowH(k+n))==1 %Y_h 
 
-        if TabrowI(k+n)==0 %&& x2(k)==1  %X
+        if TabrowI(k)==0  %Z (cannot be Y or I or X because it has xi==0)
+
+            cnt_p=cnt_p+1;
+
+        end
+
+    else  %Z_h (cannot be I because it would commute)
+
+        if TabrowI(k+n)==0 %X (cannot be Z or Y because it has zi=0, cannot be I because it would commute)
 
             cnt_p=cnt_p+1;
 
@@ -62,13 +83,38 @@ for l=1:L
 
     end
 
+end
+
+
+%--- We covered: ZX, YZ, XY -> +i phase -----------------------------------
+%--- Remaining : XZ, ZY, YX -> -i phase -----------------------------------
+
+%cnt_p : how many times the +1 power of i appears 
+%cnt_m : how many times the -1 power of i appears
+%cnt_0 : how many times the  0 power of i appears
+
+cnt_0 = n-L;      %all the commuting positions
+cnt_m = L-cnt_p;  %positions where we end up with i^(-1) phase
+
+temp = 2*rH + 2*rI + ( 0*cnt_0 + 1*cnt_p + (-1)*cnt_m );
+temp = mod(temp,4);
+
+if temp==0
     
+    rH=0;
+    
+else
+    
+    rH=1;
     
 end
 
-cnt_m = L-cnt_p;    
-temp  = (+1i)^cnt_p * (-1i)^cnt_m; %Can this fail?
-rH    = mod(rH+rI-1/2*(temp-1),2);
+% This is a test:
+% if rH~=oldg(rowH,rowI,rH,rI,Tab,n)
+%     
+%    error('The two methods do not agree.') 
+%    
+% end
 
 Tab(rowH,:)     = bitxor(TabrowH, TabrowI);
 Tab(rowH,end)   = rH;
