@@ -1,7 +1,7 @@
-function Tab=Back_Subs_On_RREF_Tab(Tab,n,Insert_Rows)
+function [Tab]=Back_Subs_On_RREF_Tab(Tab,n,Insert_Rows)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: May 25, 2024
+%Last modified: July 2, 2024
 %--------------------------------------------------------------------------
 %
 %Function to apply back-substitution on a matrix that is in RREF.
@@ -13,7 +13,7 @@ function Tab=Back_Subs_On_RREF_Tab(Tab,n,Insert_Rows)
 %       row.
 %                     
 %Output: The updated Tableau.
-
+%
 %Do back-substitution
 %Check the weigth of Row_j and Row_k with j<k.
 %If multiplication with Row_k reduces the length of Row_j then perform the
