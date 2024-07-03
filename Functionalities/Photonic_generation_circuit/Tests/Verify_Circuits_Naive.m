@@ -1,10 +1,8 @@
 %Test to verify the quantum circuits obtained by the Naive method.
 
-
 clearvars;
 close all
 clc;
-
 
 Store_Graphs   = false;
 Store_Gates    = true;
@@ -38,5 +36,5 @@ for iter = 1:iterMax
     
     Verify_Quantum_Circuit(Circ,n,ne,Target_Tableau)
     Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward')
-%     
+    
 end
