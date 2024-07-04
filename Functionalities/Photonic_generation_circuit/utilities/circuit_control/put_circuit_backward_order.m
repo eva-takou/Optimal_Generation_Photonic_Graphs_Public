@@ -1,4 +1,4 @@
-function put_circuit_backward_order(Circ)
+function Circ=put_circuit_backward_order(Circ)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
 %Last modified: July 4, 2024
