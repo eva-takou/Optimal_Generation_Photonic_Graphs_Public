@@ -25,6 +25,11 @@ function [Tab,Circuit,graphs]=time_reversed_measurement(Tab,np,ne,photon,Circuit
 %
 %The TRM measurement, will connect an emitter with the neighborhood of the
 %photon to be absorbed. 
+%Comment: we actually might bring the emitter in the |-> state. To make
+%sure that the emitter is in |+> in step '2' we need to also perform a
+%measurement to learn about the sign. This would result in a bottleneck in
+%the algorithm, so we just correct the phases in the post-processing of the
+%circuit.
 
 n = np+ne;
 
@@ -36,7 +41,7 @@ for emitter_qubit=np+1:n
         
        switch state_flag
            
-           case 'Y'
+           case 'Y' 
                
                Tab     = Phase_Gate(Tab,emitter_qubit,n);  %Convert to eigenstate of X (up to phase)
                Circuit = store_gate_oper(emitter_qubit,'P',Circuit,Store_Gates); 
