@@ -1,4 +1,4 @@
-function encountered_warning=Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
+function [encountered_warning,Tab_new]=Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
 %Last modified: July 4, 2024
