@@ -10,7 +10,7 @@ BackSubsOption = false;
 Verify_Circuit = true;
 return_cond    = true;
 
-np      = 20;
+np      = 30;
 iterMax = 500;
 
 for iter = 1:iterMax
