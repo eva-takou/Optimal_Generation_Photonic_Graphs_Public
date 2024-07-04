@@ -62,7 +62,7 @@ for k=Lstart:Lstep:Lend
                 if strcmpi(Gates{next_step},'CNOT') && Qubits{next_step}(1)==Q(1)
                    
                     draw_circuit(length(Adj0),ne,Circ,'forward',1,'0')
-                    error('Encountered CNOT_{em,sth} whereas the control emitter is in |0>.')
+                    error('Encountered CNOT_{em,sth} whereas the control emitter is in |0/1>.')
                     
                 else
                     
