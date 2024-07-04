@@ -8,21 +8,21 @@ function [Circuit]=pass_X_gates(Circuit,np,CircuitOrder)
 %on stabilizers in the end of the backwards generation.
 %
 %Input: Circuit: The Circuit as a struct Circuit.Gate with fields qubit and
-%                name
+%                name.
 %       np: # of photons involved in the circuit
+%       CircuitOrder: 'forward' or 'backward'
 %
-%Output: The updated circuit.
+%Output: Circuit: The updated circuit. If input was forward we return to forwards.
+%        If input was backward we return as backward.        
 
 if strcmpi(CircuitOrder,'backward') %Put to forward order (& P->Pdag)
     
-    Gates  = flip(Circuit.Gate.name);
-    qubits = flip(Circuit.Gate.qubit);
-    
-else
-    Gates  = Circuit.Gate.name;
-    qubits = Circuit.Gate.qubit;
+    Circuit = put_circuit_backward_order(Circuit);
     
 end
+
+Gates  = Circuit.Gate.name;
+qubits = Circuit.Gate.qubit;
 
 for photon=1:np
     
@@ -65,13 +65,14 @@ for photon=1:np
     
 end
 
-[Gates,qubits] = remove_empty_slots(Gates,qubits);
+[Gates,qubits]     = remove_empty_slots(Gates,qubits);
+Circuit.Gate.name  = Gates;
+Circuit.Gate.qubit = qubits;    
 
 %Return backwards circuit if it was backward, otherwise return forward
 if strcmpi(CircuitOrder,'backward')
     
-    Circuit.Gate.name  = flip(Gates);  %(& Pdag->P)
-    Circuit.Gate.qubit = flip(qubits);
+    Circuit = put_circuit_forward_order(Circuit);
     
 end
 
