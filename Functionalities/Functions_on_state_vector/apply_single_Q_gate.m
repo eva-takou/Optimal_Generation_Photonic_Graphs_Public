@@ -14,7 +14,8 @@ function psi_Out = apply_single_Q_gate(l,n,gate,psi)
 %
 %Output: psi_Out: the output state
 
-P  = diag([1,1i]);
+P    = diag([1,1i]);
+Pdag = diag([1,-1i]);
 X  = [0 1; 1 0];
 Y  = [0 -1i; 1i 0];
 Z  = diag([1,1i]);
@@ -24,6 +25,8 @@ I2 = eye(2);
 
 if strcmpi(gate,'P')
     act_Gate = P;
+elseif strcmpi(gate,'Pdag')
+    act_Gate = Pdag;
 elseif strcmpi(gate,'H')
     act_Gate = H;
 elseif strcmpi(gate,'Z')
