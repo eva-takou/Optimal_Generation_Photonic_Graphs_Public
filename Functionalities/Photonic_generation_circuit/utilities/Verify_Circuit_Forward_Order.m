@@ -1,7 +1,7 @@
 function Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: July 1, 2024
+%Last modified: July 4, 2024
 %
 %Function to verify that a circuit produces a target photonic graph. We
 %verify the circuit in forward order.
@@ -102,7 +102,45 @@ for k=Lstart:Lstep:Lend
     
 end
 
-Adj_T     = Get_Adjacency(temp0.Tableau);
+
+Tab = temp0.Tableau;
+
+%------- Check that emitters are decoupled, whereas photons are not -------
+
+for photon=1:np
+   
+    cond_prod = qubit_in_product(Tab,n,photon);
+    
+    if cond_prod
+        error('Photon was found decoupled at the end of the forward generation.')
+    end
+    
+    
+end
+
+for emitter = np+1:n
+   
+    [cond_prod,state_flag] = qubit_in_product(Tab,n,emitter);
+    
+    if ~cond_prod
+       error('Emitter was found still coupled to photons at the end of the forward generation.') 
+    end
+    
+    if ~strcmpi(state_flag,'Z')
+       error('The emitter was not found in |0> state at the end of the forward generation.') 
+    end
+    
+    
+    
+end
+
+
+
+
+
+%------- Check the adjacency matrix ---------------------------------------
+
+Adj_T     = Get_Adjacency(Tab);
 to_remove = [];
 
 for k=1:length(Adj_T)
