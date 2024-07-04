@@ -72,7 +72,7 @@ Circuit.Gate.qubit = qubits;
 %Return backwards circuit if it was backward, otherwise return forward
 if strcmpi(CircuitOrder,'backward')
     
-    Circuit = put_circuit_forward_order(Circuit);
+    Circuit = put_circuit_backward_order(Circuit);
     
 end
 
