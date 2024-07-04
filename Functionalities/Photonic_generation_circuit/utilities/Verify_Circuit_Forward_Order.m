@@ -125,6 +125,10 @@ for l=1:np
 %         draw_circuit(length(Adj0),ne,Circ,'forward',1,'0')
         encountered_warning = true;
         warning('Negative phase detected. To fix the phase call fix_potential_phases_forward_circuit.')
+        break
+    else
+        
+        encountered_warning = false;
         
     end
     
@@ -153,5 +157,5 @@ if ~all(all(Adj_T==Adj0))
     
 end
 
-encountered_warning = false;
+
 end
