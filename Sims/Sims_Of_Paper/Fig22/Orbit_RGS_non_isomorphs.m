@@ -11,7 +11,7 @@ for k=1:length(Adj_LC)
 
     nexttile
     plot(graph(double(Adj_LC{k})),'NodeColor','k',...
-        'linewidth',1.2)
+        'linewidth',1.2,'NodeFontSize',10,'markersize',5)
     hold on
     
     
@@ -29,7 +29,7 @@ for k=1:length(Adj_LC)
 
     nexttile
     plot(graph(double(Adj_LC{k})),'NodeColor','k',...
-        'linewidth',1.2)
+        'linewidth',1.2,'NodeFontSize',10,'markersize',5)
     hold on
     
     set(gcf,'color','w')
