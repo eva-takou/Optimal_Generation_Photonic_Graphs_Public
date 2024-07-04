@@ -18,6 +18,6 @@ if control>n || target>n
     
 end
 
-psi = CZ(l,m,n)*psi;
+psi = CZ(control,target,n)*psi;
 
 end
