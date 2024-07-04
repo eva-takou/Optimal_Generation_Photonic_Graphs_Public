@@ -38,7 +38,7 @@ if encountered_warning
        
         if Tab(photon,end)==1 %Can correct the phase via a Z operation on the photon
             
-            Tab = Pauli_Gate(Tab,photon,n,'Z');
+            Tab     = Pauli_Gate(Tab,photon,n,'Z');
             Circuit = store_gate_oper(photon,'Z',Circuit,true);
             
         end
