@@ -59,4 +59,6 @@ n              = max([Qubits{:}]);
 Circ.Gate.name  = Gates;
 Circ.Gate.qubit = Qubits;
 
+warning('Some phases of stabilizers might be (-). For an accurate circuit, call fix_potential_phases_forward_circuit.')
+
 end
