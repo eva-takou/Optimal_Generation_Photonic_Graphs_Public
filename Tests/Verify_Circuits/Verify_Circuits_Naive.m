@@ -10,7 +10,7 @@ BackSubsOption = false;
 Verify_Circuit = true;
 return_cond    = true;
 
-np      = 30;
+np      = 8;
 iterMax = 500;
 
 for iter = 1:iterMax
@@ -34,6 +34,6 @@ for iter = 1:iterMax
     n  = np+ne;
 
     Verify_Quantum_Circuit(Circ,n,ne,Target_Tableau)
-    Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward')
+    Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
     
 end
