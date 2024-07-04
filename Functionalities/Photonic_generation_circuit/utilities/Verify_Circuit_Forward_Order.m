@@ -11,60 +11,19 @@ function Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
 %       ne: # of emitter qubits
 %       CircuitOrder: The order of the input circuit
 
-Gates  = Circ.Gate.name;
-Qubits = Circ.Gate.qubit;
 
 if strcmpi(CircuitOrder,'backward')
     
-    for k=1:length(Gates)
-        
-        if strcmpi(Gates{k},'P')
-           
-            Gates{k}='Pdag';
-            
-        end
-        
-    end
-    
-    %Need to also add an H gate on the control emitter after the 'Measure'
-    
-    Gates  = flip(Gates);
-    Qubits = flip(Qubits);
-    
-    loc_TRM = [];
-    
-    for k=1:length(Gates)
-        
-       if strcmpi(Gates{k},'Measure')
-          
-           loc_TRM = [loc_TRM,k];
-           
-       end
-        
-    end
-    
-    for l = 1:length(loc_TRM)
-       
-        Gates   = [Gates(1:loc_TRM(l)),'H',Gates(loc_TRM(l)+1:end)];
-        Qubits  = [Qubits(1:loc_TRM(l)),Qubits{loc_TRM(l)}(1),Qubits(loc_TRM(l)+1:end)];
-        loc_TRM = loc_TRM+1;
-        
-    end
-    
-    Gates  = flip(Gates);
-    Qubits = flip(Qubits);
-    
-    Lstart = length(Gates);
-    Lstep  = -1;
-    Lend   = 1;
-    
-else    
-    
-    Lstart = 1;
-    Lstep  = 1;
-    Lend   = length(Gates);
+    Circ = put_circuit_forward_order(Circ);
     
 end
+
+Gates  = Circ.Gate.name;
+Qubits = Circ.Gate.qubit;
+Lstart = 1;
+Lstep  = 1;
+Lend   = length(Gates);
+
 
 np = length(Adj0);
 n  = np+ne;
@@ -91,6 +50,28 @@ for k=Lstart:Lstep:Lend
         if outcome == 1
            
             temp0 = temp0.Apply_Clifford(Q(2),'X',n);
+            
+        end
+        
+        %Check the next gate that the emitter is involved. If it is a CNOT
+        %we might have a problem
+        for next_step=k+1:1:Lend
+           
+            if any(Qubits{next_step}==Q(1)) 
+               
+                if strcmpi(Gates{next_step},'CNOT') && Qubits{next_step}(1)==Q(1)
+                   
+                    draw_circuit(length(Adj0),ne,Circ,'forward',1,'0')
+                    error('Encountered CNOT_{em,sth} whereas the control emitter is in |0>.')
+                    
+                else
+                    
+                    break %safe.
+                    
+                end
+                
+                
+            end
             
         end
         
