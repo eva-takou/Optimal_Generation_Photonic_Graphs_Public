@@ -4,7 +4,7 @@ function [Gate_Sequence2]=Simplify_Circuit(Circuit,np,ne,circuitOrder,ConvertToC
 
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: June 30, 2024
+%Last modified: July 4, 2024
 %
 %Function to simplify/make edits to a quantum circuit.
 %
@@ -45,20 +45,9 @@ end
 
 if strcmpi(circuitOrder,'backward') %Put circuit in forward order & do P->Pdag
     
-    
-    
-    Gates  = flip(Gates);
-    Qubits = flip(Qubits);
-    
-    for k=1:length(Gates)
-
-        if strcmpi(Gates{k},'P')
-
-            Gates{k}='Pdag';
-
-        end
-
-    end   
+    Circuit = put_circuit_forward_order(Circuit);
+    Gates   = Circuit.Gate.name;
+    Qubits  = Circuit.Gate.qubit;
     
 end
 
@@ -351,26 +340,16 @@ if pass_emitter_Paulis
     
 end
 
-if strcmpi(circuitOrder,'backward') %Return backward
+if strcmpi(circuitOrder,'backward') %Return again backward
     
-    for kk=1:length(Gates)
-       
-        if strcmpi(Gates{kk},'Pdag')
-            
-            Gates{kk}='P';
-            
-        end
-        
-    end
-    
-    Gate_Sequence2.Gate.name  = flip(Gates);
-    Gate_Sequence2.Gate.qubit = flip(Qubits);
+    Gate_Sequence2.Gate.name  = Gates;
+    Gate_Sequence2.Gate.qubit = Qubits;
+    Gate_Sequence2            = put_circuit_backward_order(Gate_Sequence2);
     
 else
     
     Gate_Sequence2.Gate.name  = Gates;
     Gate_Sequence2.Gate.qubit = Qubits;
-    
     
 end
 
