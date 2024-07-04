@@ -21,27 +21,34 @@ for k=nmin:nmax
     
 end
 
+
+
+
+
 figure(1)
+subplot(2,1,1)
 plot(nmin:nmax,l_numer,'linewidth',2)
 hold on
 plot(nmin:nmax,l_anal,'--','linewidth',2,'color','k','marker','*')
 legend('Bouchet Alg.','Analytical','color','none',...
     'edgecolor','none','location','best')
 set(gcf,'color','w')
-set(gca,'fontsize',20,'fontname','Microsoft Sans Serif')
+set(gca,'fontsize',22,'fontname','Microsoft Sans Serif')
 xlabel('$n$','interpreter','latex')
 ylabel('$l(K_n^n)$','interpreter','latex')
 set(gca,'yscale','log')
+xlim([nmin,nmax])
 
-figure(2)
+subplot(2,1,2)
 plot(nmin:nmax,e_numer,'linewidth',2)
 hold on
 plot(nmin:nmax,e_anal,'--','linewidth',2,'color','k','marker','*')
 legend('Bouchet Alg.','Analytical','color','none',...
     'edgecolor','none','location','best')
 set(gcf,'color','w')
-set(gca,'fontsize',20,'fontname','Microsoft Sans Serif')
+set(gca,'fontsize',22,'fontname','Microsoft Sans Serif')
 xlabel('$n$','interpreter','latex')
 ylabel('$e(K_n^n)$','interpreter','latex')
 set(gca,'yscale','log')
+xlim([nmin,nmax])
 
