@@ -39,21 +39,11 @@ gate_names  = get_Gate_Names;
 %Get an approximate total length based on the # of gates the circuit has:
 Right_X=length(Gate_Sequence.Gate.name)*(box_width+box_width)+layer_shift;
 
-
 if strcmpi(circuit_order,'backward') %Bring to forward, & set P -> Pdagger
    
-    Gates  = flip(Gate_Sequence.Gate.name);
-    Qubits = flip(Gate_Sequence.Gate.qubit);    
-    
-    for k=1:length(Gates)
-
-        if strcmpi(Gates{k},'P')
-
-            Gates{k}='Pdag';
-
-        end
-
-    end                
+    Gate_Sequence = put_circuit_forward_order(Gate_Sequence);
+    Gates         = Gate_Sequence.Gate.name;
+    Qubits        = Gate_Sequence.Gate.qubit;
     
 else
     
@@ -61,7 +51,6 @@ else
     Qubits = Gate_Sequence.Gate.qubit;    
     
 end
-
 
 n = np+ne; %Total # of qubits
 
@@ -113,11 +102,9 @@ switch Init_State_Option
     
 end
 
-
 l0    = 1;
 lstep = 1;
 lf    = length(Gates);
-
 
 for ll=l0:lstep:lf
 
@@ -235,7 +222,22 @@ for ll=l0:lstep:lf
         line([layer_shift+box_width/2,layer_shift+3*box_width/4],...
              [h(qubits(1)).YData(1)-box_width/8*b,h(qubits(1)).YData(1)+box_height/3],'color','w','linewidth',1.2)
 
+        %Draw also a box to put the measured qubit again in |0>
+        layer_shift=layer_shift+0.5+box_width/2;
+
+        rectangle('Position',[layer_shift (h(qubits(1)).YData(1)-box_height/2) box_width box_height],'linewidth',LnWidths,...
+           'facecolor','b')
        
+        pos=[layer_shift,(h(qubits(1)).YData(1)-box_height/2),box_width,box_height];
+        
+        text(pos(1)+pos(3)/2,pos(2)+pos(4)/2,'$|0\rangle$',...
+            'HorizontalAlignment','center','fontsize',fntGate+1,'interpreter','latex',...
+            'fontweight','bold','color','w')      
+        
+
+        
+         
+         
     end
     
     layer_shift=layer_shift+0.5+box_width/2;
@@ -248,6 +250,5 @@ axis equal
 ax          = gca;
 ax.Clipping = 'off';
 zoom(1)
-
 
 end
