@@ -16,8 +16,10 @@ for n=nmin:nmax %number of core nodes
     G        = graph(s,t);
 
     nexttile
-    plot(G,'layout','circle')
+    plot(G,'layout','circle','nodecolor','k','linewidth',1.5,'NodeFontSize',12,...
+        'markersize',7)
     hold on
+    title(['$n=$',num2str(n)],'interpreter','latex','fontsize',20)
     
 end
 
