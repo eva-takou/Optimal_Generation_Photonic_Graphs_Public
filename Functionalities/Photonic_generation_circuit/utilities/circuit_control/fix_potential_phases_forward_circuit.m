@@ -28,7 +28,7 @@ if strcmpi(CircuitOrder,'backward')
     
 end
 
-[encountered_warning,Tab] = Verify_Circuit_Forward_Order(Circuit,Adj0,ne,CircuitOrder);
+[encountered_warning,Tab] = Verify_Circuit_Forward_Order(Circuit,Adj0,ne,'forward');
 
 np = length(Adj0);
 
