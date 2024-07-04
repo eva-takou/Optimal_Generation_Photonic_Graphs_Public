@@ -107,15 +107,16 @@ for m=1:n
     
 end
 
-Adj1 = Get_Adjacency(Tab1);
-Adj2 = Get_Adjacency(Tab2);
-
-figure(1)
-subplot(2,1,1)
-plot(graph(Adj1))
-subplot(2,1,2)
-plot(graph(Adj2))
-pause(1)
+%---- Uncomment this if you want to visualize the graphs ------------------
+% Adj1 = Get_Adjacency(Tab1);
+% Adj2 = Get_Adjacency(Tab2);
+% 
+% figure(1)
+% subplot(2,1,1)
+% plot(graph(Adj1))
+% subplot(2,1,2)
+% plot(graph(Adj2))
+% pause(1)
 
 
 %----------- Test of the X string -----------------------------------------
