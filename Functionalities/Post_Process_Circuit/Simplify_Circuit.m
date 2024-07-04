@@ -45,6 +45,8 @@ end
 
 if strcmpi(circuitOrder,'backward') %Put circuit in forward order & do P->Pdag
     
+    
+    
     Gates  = flip(Gates);
     Qubits = flip(Qubits);
     
@@ -194,8 +196,9 @@ if pass_emitter_Paulis
     %Repeat till no more Pauli is in main part of circuit (all are pushed
     %right before Z-basis measurement)
     
+    tic;
     while true
-    
+            
         [Gates,Qubits]=move_emitter_Paulis_for_each_rail(np,ne,pause_time,...
                        Gates,Qubits,Init_State_Option,CircuitOrder,...
                        fignum,monitor_update);    
@@ -250,7 +253,6 @@ if pass_emitter_Paulis
             break
         end
             
-
     end
 
     %Bring Pauli before H gates of TRM:
