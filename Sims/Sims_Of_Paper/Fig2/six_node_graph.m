@@ -23,6 +23,10 @@ return_cond    = true;
 figure(1)   
 plot(graph(Adj))   
 
+
+%------------ Generation (Naive)  -----------------------------------------
+
+
 temp=Tableau_Class(Adj,'Adjacency');
 temp=temp.Generation_Circuit(1:n,Store_Graphs,Store_Gates,...
                         BackSubsOption,Verify_Circuit,return_cond);
@@ -37,6 +41,7 @@ fignum         = 2;
 plot_graph_evol(graphs,emitters,fignum,emitters_Color)        
 
 %% Plot the optimal circuit found by Heuristics #1 (Appendix)
+close all;
 
 Verify_Circuit = true;
 Store_Graphs   = false;
@@ -44,18 +49,28 @@ Store_Gates    = true;
 BackSubsOption = true;
 return_cond    = true;
 
+%-------- Options for the simplification ----------------------------------
+
+CircOrder           = 'backward';
+ConvertToCZ         = false;
+pass_X_photons      = true;                             
+pass_emitter_Paulis = false;
+Init_State_Option   = '0';
+monitor_update      = false;
+pause_time          = 0.001;
+fignum              = 100;
+%--------------------------------------------------------------------------
+
 temp = Tableau_Class(Adj,'Adjacency');
 temp = temp.Generation_Circuit_Heu1(1:n,Store_Graphs,Store_Gates,...
                BackSubsOption,Verify_Circuit,return_cond);
 
 ne      = temp.Emitters;           
 Circuit = temp.Photonic_Generation_Gate_Sequence;
-init_State = '0';
-CircuitOrder = 'backward';
+Circuit = fix_potential_phases_forward_circuit(Circuit,Adj,ne,CircOrder);
+Circuit = Simplify_Circuit(Circuit,np,ne,CircOrder,ConvertToCZ,pass_X_photons,...
+                             pass_emitter_Paulis,Init_State_Option,...
+                             monitor_update,pause_time,fignum);
 
-close all;
-draw_circuit(np,ne,Circuit,CircuitOrder,1,init_State)
-Circuit=pass_X_gates(Circuit,np);
-figure(3)
-draw_circuit(np,ne,Circuit,CircuitOrder,1,init_State)
 
+draw_circuit(np,ne,Circuit,CircOrder,1,Init_State_Option)
