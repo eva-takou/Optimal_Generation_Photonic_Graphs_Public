@@ -1,4 +1,4 @@
-function Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
+function encountered_warning=Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
 %Last modified: July 4, 2024
@@ -10,7 +10,6 @@ function Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
 %       Adj0: The target adjacency matrix
 %       ne: # of emitter qubits
 %       CircuitOrder: The order of the input circuit
-
 
 if strcmpi(CircuitOrder,'backward')
     
@@ -50,11 +49,11 @@ for k=Lstart:Lstep:Lend
         if outcome == 1
            
             temp0 = temp0.Apply_Clifford(Q(2),'X',n);
-            
+            %Apply an X on the emitter too
+            temp0 = temp0.Apply_Clifford(Q(1),'X',n);
         end
         
-        %Check the next gate that the emitter is involved. If it is a CNOT
-        %we might have a problem
+        %Check the next gate that the emitter is involved
         for next_step=k+1:1:Lend
            
             if any(Qubits{next_step}==Q(1)) 
@@ -66,7 +65,7 @@ for k=Lstart:Lstep:Lend
                     
                 else
                     
-                    break %safe.
+                    break %OKproceed
                     
                 end
                 
@@ -82,7 +81,6 @@ for k=Lstart:Lstep:Lend
     end
     
 end
-
 
 Tab = temp0.Tableau;
 
@@ -111,13 +109,26 @@ for emitter = np+1:n
        error('The emitter was not found in |0> state at the end of the forward generation.') 
     end
     
-    
-    
 end
 
 
+Tab_new = to_Canonical_Form(Tab);
+Tab_new = Gauss_elim_GF2_with_rowsum(Tab_new,n);
+S       = Tab_To_String(Tab_new);
 
-
+for l=1:np
+   
+    if ~strcmpi(S{l}(1),'+')
+       
+%         figure(1)
+%         clf;
+%         draw_circuit(length(Adj0),ne,Circ,'forward',1,'0')
+        encountered_warning = true;
+        warning('Negative phase detected. To fix the phase call fix_potential_phases_forward_circuit.')
+        
+    end
+    
+end
 
 %------- Check the adjacency matrix ---------------------------------------
 
@@ -142,4 +153,5 @@ if ~all(all(Adj_T==Adj0))
     
 end
 
+encountered_warning = false;
 end
