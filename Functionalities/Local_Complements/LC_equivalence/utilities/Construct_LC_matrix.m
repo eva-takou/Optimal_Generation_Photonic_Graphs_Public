@@ -25,6 +25,9 @@ function [Anew,free_variables]=Construct_LC_matrix(G1,G2)
 %gamma_i^{vw}=1 if i=v and G2(i,w)=1
 %delta_i^{vw}=1 if i=v=w
 %
+%The system we are solving has the form:
+%\sum_i a_i^{vw} X_i + \beta_i^{vw}  Y_i + ...
+%  \gamma_i^{vw} Z_i + \delta_i^{vw} T_i
 %--------------------------------------------------------------------------
 
 n     = size(G1,1); %number of qubits
@@ -35,7 +38,6 @@ if n~=ntest
 end            
 
 %===================== Construct the A matrix =============================
-
 
 A = zeros(n^2,4*n,'int8');
 
