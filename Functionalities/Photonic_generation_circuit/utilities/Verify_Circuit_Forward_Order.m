@@ -49,7 +49,7 @@ for k=Lstart:Lstep:Lend
         if outcome == 1
            
             temp0 = temp0.Apply_Clifford(Q(2),'X',n);
-            %Apply an X on the emitter too
+            %Apply an X on the emitter too (re-initialize to |0>)
             temp0 = temp0.Apply_Clifford(Q(1),'X',n);
         end
         
