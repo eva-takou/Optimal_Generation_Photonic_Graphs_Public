@@ -35,6 +35,8 @@ elseif strcmpi(gate,'X')
     act_Gate = X;
 elseif strcmpi(gate,'Y')
     act_Gate = Y;
+else
+    error('Unknown gate')
 end
 
 
