@@ -50,7 +50,13 @@ for k=1:length(Gates1)
     
     if strcmpi(G,'Measure')
        
-        temp1_Z = temp1_Z.Apply_SingleQ_Meausurement(Q(1),'Z');
+        [temp1_Z,outcome] = temp1_Z.Apply_SingleQ_Meausurement(Q(1),'Z');
+        
+        if outcome==1
+           
+            temp1_Z = temp1_Z.Apply_Clifford(Q(2),'X',n);
+            
+        end        
         
     else
         
@@ -68,7 +74,13 @@ for k=1:length(Gates2)
     
     if strcmpi(G,'Measure')
        
-        temp2_Z = temp2_Z.Apply_SingleQ_Meausurement(Q(1),'Z');
+        [temp2_Z,outcome] = temp2_Z.Apply_SingleQ_Meausurement(Q(1),'Z');
+        
+        if outcome==1
+           
+            temp2_Z = temp2_Z.Apply_Clifford(Q(2),'X',n);
+            
+        end          
         
     else
         
@@ -95,12 +107,27 @@ for m=1:n
     
 end
 
+Adj1 = Get_Adjacency(Tab1);
+Adj2 = Get_Adjacency(Tab2);
+
+figure(1)
+subplot(2,1,1)
+plot(graph(Adj1))
+subplot(2,1,2)
+plot(graph(Adj2))
+pause(1)
+
+
+%----------- Test of the X string -----------------------------------------
+
 
 Stabs_Xs = [eye(n,'int8'),zeros(n,n,'int8')]; %Initial state of |+>^{\otimes n}
 temp0    = Tableau_Class(Stabs_Xs,'Stabs');
 
 temp1_X = temp0;
 temp2_X = temp0;
+
+
 
 
 for k=1:length(Gates1)
@@ -110,7 +137,13 @@ for k=1:length(Gates1)
     
     if strcmpi(G,'Measure')
        
-        temp1_X = temp1_X.Apply_SingleQ_Meausurement(Q(1),'Z');
+        [temp1_X,outcome] = temp1_X.Apply_SingleQ_Meausurement(Q(1),'Z');
+        
+        if outcome==1
+           
+            temp1_X = temp1_X.Apply_Clifford(Q(2),'X',n);
+            
+        end
         
     else
         
@@ -128,7 +161,13 @@ for k=1:length(Gates2)
     
     if strcmpi(G,'Measure')
        
-        temp2_X = temp2_X.Apply_SingleQ_Meausurement(Q(1),'Z');
+        [temp2_X,outcome] = temp2_X.Apply_SingleQ_Meausurement(Q(1),'Z');
+        
+        if outcome==1
+           
+            temp2_X = temp2_X.Apply_Clifford(Q(2),'X',n);
+            
+        end
         
     else
         
