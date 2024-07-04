@@ -39,6 +39,13 @@ for iter = 1:iterMax
 
     
     Verify_Quantum_Circuit(Circ,n,ne,Target_Tableau)
-    Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward')
+    message_1 = Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
     
+    Circ=fix_potential_phases_forward_circuit(Circ,Adj{iter},ne,'backward');
+    
+    message_2 = Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
+    
+    if message_2
+       error('We did not fix phases') 
+    end    
 end
