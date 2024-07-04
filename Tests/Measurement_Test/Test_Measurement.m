@@ -14,32 +14,9 @@ Qubits = 1:n;
 for K=1:repeat_test
 
     Adj = create_random_graph(n);
-
-    %---------- Create corresponding graph state -------------------------
-    psi = ketP;
-    for l=1:n-1
-
-        psi = kron(ketP,psi);
-
-    end
-
-    for m=1:n
-
-        for l=m+1:n
-
-            if Adj(m,l)==1
-
-                psi = apply_CZ(m,l,n,psi);
-                
-            end
-            
-        end
-
-    end
-    %----------------------------------------------------------------------
-
-    %-------------- Act with random Clifford Gates -----------------------
+    psi = construct_state_vec_from_Adj(Adj); %Create state vec
     
+    %-------------- Act with random Clifford Gates -----------------------
 
     temp = Tableau_Class(Adj,'Adjacency');
 
@@ -88,8 +65,6 @@ for K=1:repeat_test
         temp = temp.Apply_Clifford(qubit,Oper,n); 
 
     end
-
-    %----------------------------------------------------------------------
 
     %---------- Measure all qubits sequentially in random bases -----------
     
