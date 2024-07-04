@@ -33,7 +33,6 @@ for iter = 1:iterMax
     ne = temp.Emitters;
     n  = np+ne;
 
-    
     Verify_Quantum_Circuit(Circ,n,ne,Target_Tableau)
     Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward')
     
