@@ -11,7 +11,7 @@ function l=count_l_Bouchet(Adj)
 %Input: Adj: Adjacency matrix
 %Ouput: l: size of LC orbit
 
-[bool,~]=is_circleG(Adj,false);
+[bool,~]=is_circleG(Adj);
 
 if ~bool
     
