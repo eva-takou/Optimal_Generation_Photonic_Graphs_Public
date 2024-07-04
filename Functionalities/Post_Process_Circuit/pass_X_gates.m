@@ -17,7 +17,7 @@ function [Circuit]=pass_X_gates(Circuit,np,CircuitOrder)
 
 if strcmpi(CircuitOrder,'backward') %Put to forward order (& P->Pdag)
     
-    Circuit = put_circuit_backward_order(Circuit);
+    Circuit = put_circuit_forward_order(Circuit);
     
 end
 
