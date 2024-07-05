@@ -22,8 +22,6 @@ but should run without problems in any newer MATLAB version.
 ## Examples
 ### Simulate with the Naive optimizer
 ```
-
-
 % Create input graph and its ordering
 np            = 20; %# of photons
 node_ordering = 1:np;
