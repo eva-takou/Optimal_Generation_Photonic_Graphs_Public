@@ -5,10 +5,10 @@ reducing the emitter-emitter CNOT gate count during the generation of
 photonic graph states from quantum emitters. The generation is simulated 
 via the stabilizer tableau. This library includes extra functionalities such
 as: 
-* Bullet list
-recognizing circle graphs,recognizing local complement (LC) equivalence of 
-graphs, enumerating LC orbits of circle graphs, and generating the LC orbit
-of a graph.
+* recognizing circle graphs,
+* recognizing local complement (LC) equivalence of graphs, 
+* enumerating LC orbits of circle graphs, 
+* generating the LC orbit of a graph.
 
 This code is used 
 to produce the results in the paper "Optimization complexity and resource 
