@@ -1,7 +1,7 @@
 # Optimal_Generation_Photonic_Graphs_Public
 This package is a graph state simulator for preparing photonic graph states
 from quantum emitters, with minimal resources. It contains optimizers for 
-reducing the emitter-emitter CNOT gate count during the generation. 
+reducing the emitter-emitter CNOT gate count of the Clifford circuit. 
 The generation is simulated via the stabilizer tableau. 
 This library includes extra functionalities such as: 
 * recognizing circle graphs,
@@ -80,6 +80,7 @@ layer_shift       = 1; %spacing of gates in visualization
 Init_State_Option = '0'; %qubits start from |0>
 draw_circuit(np,ne,Circuit,circuit_order,layer_shift,Init_State_Option)
 ```
+### Check if graph is circle graph
 
 ## Authors
 Evangelia Takou
