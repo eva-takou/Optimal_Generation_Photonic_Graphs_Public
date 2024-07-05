@@ -22,7 +22,9 @@ but should run without problems in any newer MATLAB version.
 ## Examples
 ### Simulate with the Naive optimizer
 ```
-Adj = create_random_graph(n); %n: # of nodes
+n   = 20;
+Adj = create_random_graph(n); 
+
 ```
 
 ## Authors
