@@ -16,12 +16,8 @@ by E. Takou, E. Barnes, and S. E. Economou.
 
 ## Prerequisites
 This package is self-contained and does not require additional packages
-for performing the simulations. 
-
-#
-It has been
-developed on MATLAB R2021a, but should run without problems in any newer
-version.
+for performing the simulations. It has been developed on MATLAB R2021a, 
+but should run without problems in any newer version.
 
 ## Authors
 Evangelia Takou
