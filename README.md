@@ -20,9 +20,9 @@ for performing the simulations. It has been developed on MATLAB R2021a,
 but should run without problems in any newer MATLAB version.
 
 ## Examples
-### Create a random graph
+### Simulate with the Naive optimizer
 ```
-Test
+Adj = create_random_graph(n); %n: # of nodes
 ```
 
 ## Authors
