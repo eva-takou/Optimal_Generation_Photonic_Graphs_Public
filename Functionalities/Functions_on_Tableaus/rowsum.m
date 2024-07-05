@@ -90,34 +90,33 @@ end
 %--- Remaining : XZ, ZY, YX -> -i phase -----------------------------------
 
 %cnt_p : how many times the +1 power of i appears 
-%cnt_m : how many times the -1 power of i appears
-%cnt_0 : how many times the  0 power of i appears
+%cnt_m : how many times the -1 power of i appears, i.e., L-cnt_p
+%cnt_0 : how many times the  0 power of i appears, i.e., n-L
+%General expression: temp = mod( 2*rH + 2*rI + ( 0*cnt_0 + 1*cnt_p + (-1)*cnt_m ),4 );
+%Simplified:         temp = mod( 2*rH + 2*rI + 2*cnt_p-L,4)   
 
-cnt_0 = n-L;      %all the commuting positions
-cnt_m = L-cnt_p;  %positions where we end up with i^(-1) phase
-
-temp = 2*rH + 2*rI + ( 0*cnt_0 + 1*cnt_p + (-1)*cnt_m );
+temp = 2*rH + 2*rI + 2*cnt_p - L;
 temp = mod(temp,4);
 
 if temp==0
     
-    rH=0;
+    rH_new=0;
     
 else
     
-    rH=1;
+    rH_new=1;
     
 end
 
-% This is a test:
-% if rH~=oldg(rowH,rowI,rH,rI,Tab,n)
+% This is a test (passes every time):
+% if rH_new~=oldg(rowH,rowI,rH,rI,Tab,n)
 %     
 %    error('The two methods do not agree.') 
 %    
 % end
 
 Tab(rowH,:)     = bitxor(TabrowH, TabrowI);
-Tab(rowH,end)   = rH;
+Tab(rowH,end)   = rH_new;
 
 end
 
