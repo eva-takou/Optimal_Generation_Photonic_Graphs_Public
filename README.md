@@ -26,3 +26,6 @@ version.
 # Authors
 Evangelia Takou
 
+# License
+This project is licensed under GPL-3.0 - see the license file for details.
+
