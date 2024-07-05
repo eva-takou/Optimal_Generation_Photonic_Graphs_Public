@@ -15,7 +15,14 @@ minimization of emitter-based photonic graph state generation protocols",
 by E. Takou, E. Barnes, and S. E. Economou.
 
 # Prerequisites
-This package is self-contained, and you only need to download it. It has been
+This package is self-contained and does not require additional packages
+for performing the simulations. 
+
+#
+It has been
 developed on MATLAB R2021a, but should run without problems in any newer
 version.
+
+# Authors
+Evangelia Takou
 
