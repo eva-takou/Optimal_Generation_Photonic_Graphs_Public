@@ -42,11 +42,21 @@ obj = obj.Generation_Circuit(node_ordering,Store_Graphs,...
                              Store_Gates,BackSubsOption,...
                              Verify_Circuit,return_cond)
 obj = obj.Count_emitter_CNOTs;
+```
 
-%Extract information about the graph and the circuit:
+### Extract info about the circuit
+```
 CNOTs   = temp.Emitter_CNOT_count;
 ne      = temp.Emitters;
 Circuit = temp.Photonic_Generation_Gate_Sequence;
+```
+
+### Plot the circuit
+```
+circuit_order = 'backward';
+layer_shift   = 1; %spacing of gates in visualization
+Init_State_Option = '0'; %qubits start from |0>
+draw_circuit(np,ne,Circuit,circuit_order,layer_shift,Init_State_Option)
 ```
 
 ## Authors
