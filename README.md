@@ -53,8 +53,8 @@ Circuit = temp.Photonic_Generation_Gate_Sequence;
 
 ### Plot the circuit
 ```
-circuit_order = 'backward';
-layer_shift   = 1; %spacing of gates in visualization
+circuit_order     = 'backward';
+layer_shift       = 1; %spacing of gates in visualization
 Init_State_Option = '0'; %qubits start from |0>
 draw_circuit(np,ne,Circuit,circuit_order,layer_shift,Init_State_Option)
 ```
