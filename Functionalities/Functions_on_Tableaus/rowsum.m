@@ -24,8 +24,8 @@ function Tab=g(rowH,rowI,rH,rI,Tab,n)
 %My version of phase update (Rh->Rh*Ri)
 
 cnt_p   = 0;             %positions where we end up with i^(+1) phase
-TabrowH = (Tab(rowH,:));
-TabrowI = (Tab(rowI,:));
+TabrowH = Tab(rowH,:);
+TabrowI = Tab(rowI,:);
 
 anti_comm = xor(bitand(TabrowH(1:n),TabrowI(n+1:2*n)),...
                 bitand(TabrowI(1:n),TabrowH(n+1:2*n))); %Anticommuting relations
