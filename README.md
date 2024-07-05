@@ -85,6 +85,7 @@ draw_circuit(np,ne,Circuit,circuit_order,layer_shift,Init_State_Option)
 % The following options can be changed to true or false
 BackSubsOption = true;
 return_cond    = false;
+
 % Apply the Heuristics #1 generation protocol
 obj = obj.Generation_Circuit_Heu1(node_ordering,Store_Graphs,Store_Gates,...
                                   BackSubsOption,Verify_Circuit,return_cond);
