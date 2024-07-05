@@ -1,7 +1,7 @@
 %Test to verify the quantum circuits obtained by the Naive method.
 
 clearvars;
-close all
+close all;
 clc;
 
 Store_Graphs   = false;
@@ -19,10 +19,7 @@ for iter = 1:iterMax
     
 end
 
-
-
 for iter = 1:iterMax
-    
     
     temp = Tableau_Class(Adj{iter},'Adjacency');
     Target_Tableau = temp.Tableau;
@@ -34,9 +31,14 @@ for iter = 1:iterMax
     n  = np+ne;
 
     Verify_Quantum_Circuit(Circ,n,ne,Target_Tableau)
-    message_1 = Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
     
-    Circ=fix_potential_phases_forward_circuit(Circ,Adj{iter},ne,'backward');
+    encountered_warning = Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
+    
+    if encountered_warning
+    
+        Circ      = fix_potential_phases_forward_circuit(Circ,Adj{iter},ne,'backward');
+        
+    end
     
     message_2 = Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
     
