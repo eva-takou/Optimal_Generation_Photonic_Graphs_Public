@@ -67,11 +67,11 @@ Circuit      = Simplify_Circuit(Circuit,np,ne,circuitOrder,...
                                 Init_State_Option,monitor_update,pause_time,fignum)
 ```
 ### Put the circuit to forward order
-
+```
 Circuit = put_circuit_forward_order(Circuit);
 % In some cases, some stabilizers have (-) phase so correct with function below
 Circuit = fix_potential_phases_forward_circuit(Circuit,Adj,ne,CircuitOrder);
-
+```
 
 ### Plot the circuit
 ```
