@@ -48,7 +48,23 @@ obj = obj.Count_emitter_CNOTs;
 ```
 CNOTs   = temp.Emitter_CNOT_count;
 ne      = temp.Emitters;
-Circuit = temp.Photonic_Generation_Gate_Sequence;
+Circuit = temp.Photonic_Generation_Gate_Sequence; 
+```
+### Simplify the circuit
+```
+% Set options for simplification
+ConvertToCZ         = false;
+pass_X_photons      = true;
+pass_emitter_Paulis = true;
+Init_State_Option   = '0';
+monitor_update      = true; %to see the update in real time
+pause_time          = 0.1;  %in seconds (delay to plot next update)
+fignum              = 1;    %# of figure to plot
+
+circuitOrder = 'backward'; %generation scheme returns it as backward
+Circuit      = Simplify_Circuit(Circuit,np,ne,circuitOrder,...
+                                ConvertToCZ,pass_X_photons,pass_emitter_Paulis,...
+                                Init_State_Option,monitor_update,pause_time,fignum)
 ```
 
 ### Plot the circuit
