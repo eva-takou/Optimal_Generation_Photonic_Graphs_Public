@@ -23,8 +23,6 @@ but should run without problems in any newer MATLAB version.
 ### Simulate with the Naive optimizer
 ```
 
-BackSubsOption = false; %Default option for Naive scheme
-return_cond    = true;  %Default option for Naive scheme
 
 % Create input graph and its ordering
 np            = 20; %# of photons
@@ -35,6 +33,10 @@ Adj           = create_random_graph(np);
 Store_Graphs   = false;
 Store_Gates    = true;
 Verify_Circuit = true;
+
+% Default options for the Naive optimizer
+BackSubsOption = false; 
+return_cond    = true;  
 
 % Give the graph as an input to the Tableau Class simulator
 obj = Tableau_Class(Adj,'Adjacency'); 
