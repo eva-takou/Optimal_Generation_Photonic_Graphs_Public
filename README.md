@@ -27,5 +27,5 @@ version.
 Evangelia Takou
 
 # License
-This project is licensed under GPL-3.0 - see the license file for details.
+This project is licensed under GPL-3.0 - see the [LICENSE.md](LICENSE.md) file for details.
 
