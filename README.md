@@ -39,7 +39,8 @@ return_cond    = true;
 % Give the graph as an input to the Tableau Class simulator
 obj = Tableau_Class(Adj,'Adjacency'); 
 obj = obj.Generation_Circuit(node_ordering,Store_Graphs,...
-                             Store_Gates,BackSubsOption,Verify_Circuit,return_cond)
+                             Store_Gates,BackSubsOption,...
+                             Verify_Circuit,return_cond)
 obj = obj.Count_emitter_CNOTs;
 
 %Extract information about the graph and the circuit:
