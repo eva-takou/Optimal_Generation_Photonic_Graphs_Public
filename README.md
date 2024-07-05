@@ -80,7 +80,15 @@ layer_shift       = 1; %spacing of gates in visualization
 Init_State_Option = '0'; %qubits start from |0>
 draw_circuit(np,ne,Circuit,circuit_order,layer_shift,Init_State_Option)
 ```
-### Check if graph is circle graph
+### Simulate with Heuristics #1 optimizer
+```
+% The following options can be changed to true or false
+BackSubsOption = true;
+return_cond    = false;
+% Apply the Heuristics #1 generation protocol
+obj = obj.Generation_Circuit_Heu1(node_ordering,Store_Graphs,Store_Gates,...
+                                  BackSubsOption,Verify_Circuit,return_cond);
+```
 
 ## Authors
 Evangelia Takou
