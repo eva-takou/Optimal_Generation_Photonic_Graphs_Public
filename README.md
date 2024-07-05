@@ -22,6 +22,7 @@ but should run without problems in any newer MATLAB version.
 ## Examples
 ```
 Test
+```
 
 ## Authors
 Evangelia Takou
