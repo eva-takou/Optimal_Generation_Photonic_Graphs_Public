@@ -46,9 +46,9 @@ obj = obj.Count_emitter_CNOTs;
 
 ### Extract info about the circuit
 ```
-CNOTs   = temp.Emitter_CNOT_count;
-ne      = temp.Emitters;
-Circuit = temp.Photonic_Generation_Gate_Sequence; 
+CNOTs   = obj.Emitter_CNOT_count;
+ne      = obj.Emitters;
+Circuit = obj.Photonic_Generation_Gate_Sequence; 
 ```
 ### Simplify the circuit
 ```
