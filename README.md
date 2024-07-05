@@ -22,9 +22,28 @@ but should run without problems in any newer MATLAB version.
 ## Examples
 ### Simulate with the Naive optimizer
 ```
-n   = 20;
-Adj = create_random_graph(n); 
+%
+Store_Graphs   = false;
+Store_Gates    = true;
+Verify_Circuit = true;
 
+BackSubsOption = false; %Default option for Naive scheme
+return_cond    = true;  %Default option for Naive scheme
+
+% Create input graph and its ordering
+np            = 20; %# of photons
+node_ordering = 1:np;
+Adj           = create_random_graph(np); 
+
+% Give the graph as an input to the Tableau Class simulator
+obj = Tableau_Class(Adj,'Adjacency'); %construct Tableau Class object
+obj = obj.Generation_Circuit(node_ordering,Store_Graphs,Store_Gates,BackSubsOption,Verify_Circuit,return_cond)
+obj = obj.Count_emitter_CNOTs;
+
+%Extract information about the graph and the circuit:
+CNOTs   = temp.Emitter_CNOT_count;
+ne      = temp.Emitters;
+Circuit = temp.Photonic_Generation_Gate_Sequence;
 ```
 
 ## Authors
