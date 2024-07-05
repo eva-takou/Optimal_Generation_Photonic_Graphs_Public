@@ -13,4 +13,9 @@ This code is used
 to produce the results in the paper "Optimization complexity and resource 
 minimization of emitter-based photonic graph state generation protocols", 
 by E. Takou, E. Barnes, and S. E. Economou.
-#*ab
+
+# Prerequisites
+This package is self-contained, and you only need to download it. It has been
+developed on MATLAB R2021a, but should run without problems in any newer
+version.
+
