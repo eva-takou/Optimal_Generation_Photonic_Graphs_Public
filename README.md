@@ -3,7 +3,9 @@ This package is a graph state simulator for preparing photonic graph states
 from quantum emitters, with minimal resources. It contains optimizers for 
 reducing the emitter-emitter CNOT gate count during the generation of 
 photonic graph states from quantum emitters. The generation is simulated 
-via the stabilizer tableau. This library includes extra functionalities for
+via the stabilizer tableau. This library includes extra functionalities such
+as: 
+* Bullet list
 recognizing circle graphs,recognizing local complement (LC) equivalence of 
 graphs, enumerating LC orbits of circle graphs, and generating the LC orbit
 of a graph.
