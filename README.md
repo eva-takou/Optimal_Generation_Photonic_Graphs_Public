@@ -9,8 +9,6 @@ This library includes extra functionalities such as:
 * enumerating LC orbits of circle graphs, 
 * generating the LC orbit of a graph.
 
-![Image Alt text](/images/Encoded_RGS_V2.png)
-
 <img src="/images/Encoded_RGS_V2.png" width="250"/>
 
 This code is used 
