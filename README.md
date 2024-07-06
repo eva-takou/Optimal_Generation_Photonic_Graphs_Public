@@ -1,4 +1,7 @@
 # Optimal_Generation_Photonic_Graphs_Public
+
+<img src="/images/Encoded_RGS_V2.png" width="250"/>
+
 This package is a graph state simulator for preparing photonic graph states
 from quantum emitters, with minimal resources. It contains optimizers for 
 reducing the emitter-emitter CNOT gate count of the Clifford circuit. 
@@ -9,7 +12,6 @@ This library includes extra functionalities such as:
 * enumerating LC orbits of circle graphs, 
 * generating the LC orbit of a graph.
 
-<img src="/images/Encoded_RGS_V2.png" width="250"/>
 
 This code is used 
 to produce the results of the paper "Optimization complexity and resource 
