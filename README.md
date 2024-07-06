@@ -102,6 +102,10 @@ obj = obj.Generation_Circuit_Heu1(node_ordering,Store_Graphs,Store_Gates,...
                                   BackSubsOption,Verify_Circuit,return_cond);
 ```
 
+## References
+1. For circle graph theory:
+2. For stabilizer Tableau theory: <https://arxiv.org/abs/quant-ph/0406196>
+
 ## Authors
 Evangelia Takou
 
