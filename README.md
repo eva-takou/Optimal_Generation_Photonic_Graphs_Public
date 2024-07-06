@@ -11,7 +11,7 @@ This library includes extra functionalities such as:
 
 ![Image Alt text](/images/Encoded_RGS_V2.png)
 
-<img src="https://github.com/eva-takou/Optimal_Generation_Photonic_Graphs_Public/tree/main/images/Encoded_RGS_V2.png"width="250"/>
+<img src="/images/Encoded_RGS_V2.png" width="250"/>
 
 This code is used 
 to produce the results of the paper "Optimization complexity and resource 
