@@ -9,7 +9,7 @@ This library includes extra functionalities such as:
 * enumerating LC orbits of circle graphs, 
 * generating the LC orbit of a graph.
 
-![Image Alt text](/images/Encoded_RGS.png
+![Image Alt text](/images/Encoded_RGS.png)
 
 This code is used 
 to produce the results of the paper "Optimization complexity and resource 
