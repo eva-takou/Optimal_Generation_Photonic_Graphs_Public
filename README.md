@@ -19,6 +19,12 @@ This package is self-contained and does not require additional packages
 for performing the simulations. It has been developed on MATLAB R2021a, 
 but should run without problems in any newer MATLAB version.
 
+## Installation
+
+1. Download the package to a local folder.
+2. Run MATLAB and add the package to the path.
+3. Run some demos.
+
 ## Examples
 ### Simulate with the Naive optimizer
 ```
