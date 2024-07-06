@@ -14,7 +14,7 @@ n             = length(Adj);
 AdjB          = complement_graph(Adj);
 
 
-if all(all(AdjB==sparse(n,n))) 
+if all(all(AdjB==zeros(n,n))) 
    
     MEB = zeros(1,n);
     store_nu_xy = [];

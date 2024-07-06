@@ -11,8 +11,8 @@ function [CB,newcycles,store_nu_C]=cycle_basis(Adj)
 %        store_nu_C: The symmetric difference of all nodes in each cycle.
 
 
-n              = length(Adj);
-cycles         = cyclebasis(graph(Adj)); 
+n       = length(Adj);
+cycles  = cyclebasis(graph(single(Adj))); 
 
 
 if isempty(cycles)

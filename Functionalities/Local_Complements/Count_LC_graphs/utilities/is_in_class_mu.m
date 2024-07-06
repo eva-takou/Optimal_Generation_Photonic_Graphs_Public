@@ -12,7 +12,7 @@ function [bool,identifier]=is_in_class_mu(Adj)
 
 
 n    = length(Adj);
-G    = graph(Adj);
+G    = graph(single(Adj));
 degs = degree(G);
 
 
