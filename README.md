@@ -28,7 +28,7 @@ but should run without problems in any newer MATLAB version.
 ## Examples
 ### Simulate with the Naive optimizer
 ```
-% Create input graph and its ordering
+% Create photonic graph and its emission ordering
 np            = 20; %# of photons
 node_ordering = 1:np;
 Adj           = create_random_graph(np); 
