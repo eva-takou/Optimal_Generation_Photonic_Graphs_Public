@@ -101,5 +101,5 @@ obj = obj.Generation_Circuit_Heu1(node_ordering,Store_Graphs,Store_Gates,...
 Evangelia Takou
 
 ## License
-This project is licensed under GPL-3.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under GNU GPL-3.0 - see the [LICENSE](LICENSE) file for details.
 
