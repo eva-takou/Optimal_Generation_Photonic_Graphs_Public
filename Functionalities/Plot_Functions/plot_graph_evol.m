@@ -1,21 +1,23 @@
 function plot_graph_evol(graphs,emitters,fignum,emitter_Color)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: May 19, 2024
+%Last modified: July 6, 2024
 %--------------------------------------------------------------------------
+%
+%Plot the graph evolution during the photonic generation (shows the update
+%only after the application of 2 qubit gates).
 %
 %Input: graphs: a struct with fields 'Adjacency' and 'identifier'. The
 %               identifier describes the process that happened in the
 %               generation [e.g., time-reversed measurement (TRM), 
-%               disentanglement (DE), photon absorption (PA)].
-%       emitters: a vector (double) of node labels of emitters
+%               disentanglement (DE), photon absorption (PA)]. It is the
+%               output property of the tableau class object
+%               'Photonic_Generation_Graph_Evol'.
+%       emitters: a vector of node labels of emitters
+%       fignum: the index of figure to plot
 %       emitter_Color: the node color of emitters        
 %
 %By default, the node color of photons is black.
-%
-%This script plots the graph evolution during the photonic generation.
-%It omits showing the graph after single qubit gates (it only plots the
-%graph after two-qubit gates).
 
 figure(fignum) 
 
