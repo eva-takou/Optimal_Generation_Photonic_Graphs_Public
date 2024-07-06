@@ -4,8 +4,9 @@
 
 This package is a graph state simulator for preparing photonic graph states
 from quantum emitters, with minimal resources. It contains optimizers for 
-reducing the emitter-emitter CNOT gate count of the Clifford circuit. 
-The generation is simulated via the stabilizer tableau. 
+reducing the number of emitter-emitter CNOT gates of the Clifford circuit. 
+The generation is simulated in a backwards manner (from target graph to product state)
+via the stabilizer tableau. 
 This library includes extra functionalities such as: 
 * recognizing circle graphs,
 * recognizing local complement (LC) equivalence of graphs, 
