@@ -15,8 +15,7 @@ if ~iscell(S)
 
 end
 
-n=length(S);
-
+n     = length(S);
 Stabs = zeros(n,2*n,'int8');
 
 for ii=1:n %loop through stabs
@@ -38,11 +37,8 @@ for ii=1:n %loop through stabs
 
        end
 
-
    end
 
 end
-
-
 
 end
