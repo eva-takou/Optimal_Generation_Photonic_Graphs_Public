@@ -81,6 +81,8 @@ h    = errorbar(nrange,mean(T_Naive_w_extra_test_and_Back_Subs,1),yneg,ypos,'lin
 h.Color=[0.4940 0.1840 0.5560];
 hold on
 
+line([min(nrange),max(nrange)],[1,1],'color','k','linestyle','--')
+
 set(gca,'yscale','log','fontsize',20,'fontname','Microsoft Sans Serif')
 set(gcf,'color','w')
 legend('Naive','Naive w/ extra test PA',...
