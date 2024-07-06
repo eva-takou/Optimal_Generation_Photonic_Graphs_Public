@@ -10,7 +10,7 @@ This library includes extra functionalities such as:
 * generating the LC orbit of a graph.
 
 This code is used 
-to produce the results in the paper "Optimization complexity and resource 
+to produce the results of the paper "Optimization complexity and resource 
 minimization of emitter-based photonic graph state generation protocols", 
 by E. Takou, E. Barnes, and S. E. Economou.
 
