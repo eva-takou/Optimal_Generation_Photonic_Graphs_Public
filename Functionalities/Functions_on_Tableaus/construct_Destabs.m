@@ -15,7 +15,6 @@ Sx = S(:,1:n); Sz = S(:,n+1:2*n);  D = zeros(n,2*n,'int8');
 
 for ii=1:n
 
-
     if Sx(ii,:)==1 %X_i
 
         TEMP          = zeros(n,2*n,'int8');
