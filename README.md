@@ -104,8 +104,9 @@ obj = obj.Generation_Circuit_Heu1(node_ordering,Store_Graphs,Store_Gates,...
 
 ## References
 1. For circle graph theory: <https://link.springer.com/article/10.1007/BF02579301>
-3. For LC equivalence: <https://www.sciencedirect.com/science/article/pii/0012365X9390357Y>
-2. For stabilizer Tableau theory: <https://arxiv.org/abs/quant-ph/0406196>
+2. For LC equivalence: <https://www.sciencedirect.com/science/article/pii/0012365X9390357Y>
+3. For stabilizer Tableau theory: <https://arxiv.org/abs/quant-ph/0406196>
+4. Original non-optimized photonic generation algorithm: <https://www.nature.com/articles/s41534-022-00522-6>
 
 ## Authors
 Evangelia Takou
