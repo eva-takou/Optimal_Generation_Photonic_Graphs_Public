@@ -86,7 +86,7 @@ Circuit = fix_potential_phases_forward_circuit(Circuit,Adj,ne,CircuitOrder);
 
 ### Plot the circuit
 ```
-circuit_order     = 'backward';
+circuit_order     = 'forward';
 layer_shift       = 1; %spacing of gates in visualization
 Init_State_Option = '0'; %qubits start from |0>
 draw_circuit(np,ne,Circuit,circuit_order,layer_shift,Init_State_Option)
