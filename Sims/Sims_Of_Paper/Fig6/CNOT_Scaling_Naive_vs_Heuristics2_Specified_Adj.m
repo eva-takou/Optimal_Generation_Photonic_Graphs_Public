@@ -22,9 +22,10 @@ function [CNOT_Best,MeanReduction,MaxReduction]=CNOT_Scaling_Naive_vs_Heuristics
 %The optimization of the paper has emitter_cutoff=5 and future_cutoff=2.
 
 close all;
-load('500_graphs_per_np.mat','Adj')        %Fixed sampling of graphs
-load('500_graphs_per_np.mat','CNOT_Naive') %Obtained from Naive Optimizer
-load('500_graphs_per_np.mat','CNOT_Best')  %Obtained from Heuristics #1 Optimizer
+
+load('optimized_data_heu1.mat','Adj')        %Fixed sampling of graphs
+load('optimized_data_heu1.mat','CNOT_Naive') %Obtained from Naive Optimizer
+load('optimized_data_heu1.mat','CNOT_Best')  %Obtained from Heuristics #1 Optimizer
 
 
 CNOT_Best1=CNOT_Best;
@@ -34,8 +35,8 @@ Store_Graphs    = false;
 Store_Gates     = false;
 Verify_Circuit  = false;
 EXTRA_OPT_LEVEL = true;
-emitter_cutoff0 = 5;    
-future_step     = 2;    
+emitter_cutoff0 = 5; %5    
+future_step     = 2; %2   
 recurse_further = true;
 nrange          = [6,8,10,12,18,26,30,40];
 
@@ -87,7 +88,7 @@ parfor iter=1:iterMax
         CNOT_Heu2_Alt_2_V2(iter,k) = temp.Emitter_CNOT_count;
         
         %------------------------------------------------------------------
-        BackSubs    = false;
+        BackSubs    = false; %In most cases, this does not give better improvement than the other 2 methods
         return_cond = true;
         
         if k<=5
@@ -125,6 +126,8 @@ CNOT_Heu2_Alt_2_V1                        = CNOT_Heu2_Alt_2_temp;
 CNOT_Naive_Trunc=CNOT_Naive(1:iterMax,1:max(nrange(minK:maxK)));
 CNOT_Best1_Trunc=CNOT_Best1(1:iterMax,1:max(nrange(minK:maxK)));
 
+%CNOT_Heu2_Alt_2_V3>=CNOT_Heu2_Alt_2_V2 | CNOT_Heu2_Alt_2_V3>=CNOT_Heu2_Alt_2_V1
+
 for iter=1:iterMax
     
     for k=minK:maxK   
@@ -132,6 +135,8 @@ for iter=1:iterMax
         
         CNOT_Best(iter,n) = min([CNOT_Heu2_Alt_2_V1(iter,n),CNOT_Heu2_Alt_2_V2(iter,n),...
             CNOT_Heu2_Alt_2_V3(iter,n),CNOT_Naive(iter,n)]);
+
+        
         
     end
     
@@ -163,7 +168,7 @@ hold on
 hold on
 plot(np,y,'color','k','linestyle','-.','linewidth',1.5)
 
-set(gca,'fontsize',20,'fontname','Microsoft Sans Serif')
+set(gca,'fontsize',25,'fontname','Microsoft Sans Serif')
 set(gcf,'color','w')
 xlabel('$n_p$','interpreter','latex')
 ylabel('Averages')
@@ -189,7 +194,7 @@ hold on
 plot(np,MaxReduction1(np),'marker','s','linewidth',2,'color','k',...
     'MarkerSize',10,'MarkerFaceColor','blue','linestyle','--')
 set(gcf,'color','w')
-set(gca,'fontsize',20,'fontname','Microsoft Sans Serif')
+set(gca,'fontsize',25,'fontname','Microsoft Sans Serif')
 
 legend('Mean','Max','location','best','interpreter','latex',...
     'color','none','location','best','edgecolor','none')
