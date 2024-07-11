@@ -7,8 +7,6 @@ Store_Graphs    = false;
 Store_Gates     = true;
 Verify_Circuit  = true;
 
-
-
 parfor iter=1:iterMax
     
     
@@ -55,53 +53,12 @@ end
 nrange=nmin:nstep:nmax;
 
 
-if any(any(CNOT_Best(1:iterMax,nrange)<CNOT_Best_Verify(1:iterMax,nrange)))
-    
-    CNT_worst  = sum(CNOT_Best(1:iterMax,nrange)<CNOT_Best_Verify(1:iterMax,nrange),'all');
-    CNT_better = sum(CNOT_Best(1:iterMax,nrange)>CNOT_Best_Verify(1:iterMax,nrange),'all');
-    CNT_tie    = sum(CNOT_Best(1:iterMax,nrange)==CNOT_Best_Verify(1:iterMax,nrange),'all');
-    
-    indx=10;
-    
-    minX = 1;
-    maxX = 10;
-    
-    close all
-    bar(CNOT_Best(minX:maxX,nrange(indx)),'k')
-    hold on
-    bar(CNOT_Best_Verify(minX:maxX,nrange(indx)),0.4,'y')
-    legend('old','new')
-    
-    
-    error('New results gave a case of worst performance.')
-    
-    
-    
+if ~all(all(CNOT_Best(1:iterMax,nrange)==CNOT_Best_Verify(1:iterMax,nrange)))
+   error('Results do not agree') 
 end
 
-
-
-
-% if ~all(all(CNOT_Best_Verify(1:iterMax,nrange)==CNOT_Best(1:iterMax,nrange)))
-% 
-%     close all
-%     indx=4;
-%     bar(CNOT_Best(1:iterMax,nrange(indx)))
-%     hold on
-%     bar(CNOT_Best_Verify(1:iterMax,nrange(indx)),0.3)
-%     legend('old data','new data')
-%     
-%     %[]
-%     %error('Results do not agree') 
-% end
-
-if ~all(all(CNOT_Naive_Verify(1:iterMax,nrange)==CNOT_Naive(1:iterMax,nrange)))
-    [];
-    error('Results do not agree') 
+if ~all(all(CNOT_Naive(1:iterMax,nrange)==CNOT_Naive_Verify(1:iterMax,nrange)))
+   error('Results do not agree') 
 end
-
-
-
-
 
 end

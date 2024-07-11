@@ -1,8 +1,8 @@
 clear;
 clc;
-load('500_graphs_per_np.mat')
+load('optimized_data_heu1.mat')
 
-iterMax=50; %Verify the data for a subset of the graphs
+iterMax=10; %Verify the data for a subset of the graphs
 
 nmax  = 20;
 nmin  = 6;
