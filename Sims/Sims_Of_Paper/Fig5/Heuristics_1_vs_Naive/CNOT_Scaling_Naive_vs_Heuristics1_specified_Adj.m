@@ -1,13 +1,13 @@
 function [Adj,CNOT_Naive,CNOT_Best,MeanReduction,MaxReduction]=CNOT_Scaling_Naive_vs_Heuristics1_specified_Adj
 close all
-load('500_graphs_per_np.mat','Adj')
+
+load('optimized_data_heu1.mat','Adj')
 
 nstep   = 2;
 iterMax = 500;
 nmin    = 6;
 nmax    = 50;
 clearvars -except Adj nmax nmin nstep iterMax
-
 
 BackSubsOption  = false;
 return_cond     = true;
@@ -16,7 +16,6 @@ Store_Gates     = false;
 Verify_Circuit  = false;
 
 parfor iter=1:iterMax
-    
     
     for n=nmin:nstep:nmax
         
@@ -43,32 +42,34 @@ parfor iter=1:iterMax
 end
 
 
+CNOT_Best = zeros(iterMax,nmax);
+
 for iter=1:iterMax
-    
     
     for n=nmin:nstep:nmax
         
         CNOT_Best(iter,n) = min([CNOT_Heu1(iter,n),CNOT_Heu1_Alt(iter,n),...
-            CNOT_Heu1_Alt_2(iter,n),CNOT_Naive(iter,n)]);
-
-        
+                                 CNOT_Heu1_Alt_2(iter,n),CNOT_Naive(iter,n)]);
+    
     end
     
 end
 
+MeanReduction = zeros(1,nmax);
+MaxReduction  = zeros(1,nmax);
+
 for n=nmin:nstep:nmax
    
     MeanReduction(n) = mean( (CNOT_Naive(:,n)-CNOT_Best(:,n))./CNOT_Naive(:,n)*100,"omitnan" );
-    MaxReduction(n) = max( (CNOT_Naive(:,n)-CNOT_Best(:,n))./CNOT_Naive(:,n)*100 );
+    MaxReduction(n)  = max( (CNOT_Naive(:,n)-CNOT_Best(:,n))./CNOT_Naive(:,n)*100 );
     
 end
 
 
-
 %------------------------ Get the best count -----------------------------
 
-np=nmin:nstep:nmax;
-y=np.^2./log2(np);
+np = nmin:nstep:nmax;
+y  = np.^2./log2(np);
 
 plot(np,mean(CNOT_Naive(:,np)),'marker','o','linewidth',2,'color','k')
 hold on
@@ -89,15 +90,13 @@ ylabel('Averages')
 legend('Emitter CNOTs (Naive)','Emitter CNOTs (Heuristics $\#1$)','$\bar{n}_e$','$n_p^2$','$n_p^2/\log2(n_p)$','location','best','interpreter','latex',...
     'color','none','location','best','edgecolor','none')
 
-
-
 xlim([nmin,nmax])
 
 figure(2)
-plot(nmin:nstep:nmax,MeanReduction(nmin:nstep:nmax),'marker','o','linewidth',2,'color','k',...
+plot(np,MeanReduction(np),'marker','o','linewidth',2,'color','k',...
     'MarkerSize',10,'MarkerFaceColor','red')
 hold on
-plot(nmin:nstep:nmax,MaxReduction(nmin:nstep:nmax),'marker','s','linewidth',2,'color','k',...
+plot(np,MaxReduction(np),'marker','s','linewidth',2,'color','k',...
     'MarkerSize',10,'MarkerFaceColor','blue')
 
 set(gcf,'color','w')
