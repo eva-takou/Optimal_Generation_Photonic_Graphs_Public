@@ -30,15 +30,26 @@ Verify_Circuit = false;
 BackSubsOption = false;
 return_cond    = true;
 
+parfor n=nmin:nmax
+   
+    for num_leaves=num_leaves_min:num_leaves_max
+        
+     Adj{n,num_leaves} = create_opt_ordering_RGS_many_leaves(n,num_leaves);
+        
+    end
+    
+end
+
+
 tic
 parfor n=nmin:nmax
     
     for num_leaves=num_leaves_min:num_leaves_max
         
-        Adj           = create_opt_ordering_RGS_many_leaves(n,num_leaves);
-        node_ordering = 1:length(Adj);
 
-        temp  = Tableau_Class((Adj),'Adjacency');
+        node_ordering = 1:length(Adj{n,num_leaves});
+
+        temp  = Tableau_Class(Adj{n,num_leaves},'Adjacency');
         temp  = temp.Generation_Circuit_Heu1(node_ordering,Store_Graphs,...
                                              Store_Gates,BackSubsOption,...
                                              Verify_Circuit,return_cond,false)
