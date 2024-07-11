@@ -83,7 +83,7 @@ plot(np,np.^2,'color','k','linewidth',1.5)
 hold on
 plot(np,y,'color','k','linestyle','-.','linewidth',1.5)
 
-set(gca,'fontsize',20,'fontname','Microsoft Sans Serif')
+set(gca,'fontsize',25,'fontname','Microsoft Sans Serif')
 set(gcf,'color','w')
 xlabel('$n_p$','interpreter','latex')
 ylabel('Averages')
@@ -100,7 +100,7 @@ plot(np,MaxReduction(np),'marker','s','linewidth',2,'color','k',...
     'MarkerSize',10,'MarkerFaceColor','blue')
 
 set(gcf,'color','w')
-set(gca,'fontsize',20,'fontname','Microsoft Sans Serif')
+set(gca,'fontsize',25,'fontname','Microsoft Sans Serif')
 
 legend('Mean','Max','location','best','interpreter','latex',...
     'color','none','location','best','edgecolor','none')
