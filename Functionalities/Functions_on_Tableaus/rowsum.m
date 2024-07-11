@@ -20,6 +20,8 @@ Tab = g(H_replace,I,rH,rI,Tab,n);
 end
 
 
+
+
 function Tab=g(rowH,rowI,rH,rI,Tab,n)
 %My version of phase update (Rh->Rh*Ri)
 
@@ -57,8 +59,8 @@ for l=1:L
     
     k=indices(l);
     
-    if TabrowH(k)==1 && TabrowH(k+n)==0 %X_h
-
+    if TabrowH(k+n)==0  %X_h (not Z, not Y, cannot be I because it would commute)
+        
         if TabrowI(k)==1 %Y_i (cannot be X or I because it would commute, cannot be Z because it has xi=1)
 
             cnt_p=cnt_p+1;
@@ -74,7 +76,7 @@ for l=1:L
         end
 
     else  %Z_h (cannot be I because it would commute)
-
+        
         if TabrowI(k+n)==0 %X (cannot be Z or Y because it has zi=0, cannot be I because it would commute)
 
             cnt_p=cnt_p+1;
