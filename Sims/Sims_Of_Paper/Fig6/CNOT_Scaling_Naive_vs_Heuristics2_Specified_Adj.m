@@ -172,10 +172,10 @@ set(gca,'fontsize',25,'fontname','Microsoft Sans Serif')
 set(gcf,'color','w')
 xlabel('$n_p$','interpreter','latex')
 ylabel('Averages')
-legend('Emitter CNOTs (Naive)','Heu1','Emitter CNOTs (Heuristics $\#2$)',...
+legend('Emitter CNOTs (Naive)','Emitter CNOTs (Heuuristics $\#1$ ','Emitter CNOTs (Heuristics $\#2$)',...
     '$n_p^2/\log2(n_p)$','location','best','interpreter','latex',...
     'color','none','location','best','edgecolor','none')
-
+xlim([min(np),max(np)])
 
 
 %xlim([min(np),max(np)])
@@ -196,10 +196,11 @@ plot(np,MaxReduction1(np),'marker','s','linewidth',2,'color','k',...
 set(gcf,'color','w')
 set(gca,'fontsize',25,'fontname','Microsoft Sans Serif')
 
-legend('Mean','Max','location','best','interpreter','latex',...
+legend('Mean (Heuristics $\#2$)','Max (Heuristics $\#2$)',...
+       'Mean (Heuristics $\#1$)','Max (Heuristics $\#1$)','location','best','interpreter','latex',...
     'color','none','location','best','edgecolor','none')
 xlabel('$n_p$','interpreter','latex')
 ylabel('Reduction $\%$','interpreter','latex')
-%xlim([min(np),max(np)])
+xlim([min(np),max(np)])
 
 end
