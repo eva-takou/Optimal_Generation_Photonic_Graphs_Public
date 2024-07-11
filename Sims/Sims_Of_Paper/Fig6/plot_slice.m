@@ -5,7 +5,8 @@
 
 close all
 
-load('500_graphs_per_np.mat')
+load('optimized_data_heu1.mat')
+
 
 clearvars -except CNOT_Best CNOT_Naive
 
@@ -21,7 +22,8 @@ bar(CNOT_Best(order,INDX))
 
 clearvars -except order INDX CNOT_Naive
 
-load('500_graphs.mat')
+
+load('opt_data_heu_2.mat')
 hold on
 bar(CNOT_Best(order,INDX),'c')
 
