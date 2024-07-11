@@ -12,11 +12,11 @@ function verify_Data_Heu2(iterMax,minK,maxK)
 %       maxK: index from 1-8 to pick the final range of np
 
 
-load('500_graphs_per_np.mat','Adj')
-load('500_graphs_per_np.mat','CNOT_Naive')
+load('optimized_data_heu1.mat','Adj')
+load('optimized_data_heu1.mat','CNOT_Naive')
 clearvars -except Adj CNOT_Naive iterMax minK maxK
 
-load('500_graphs.mat','CNOT_Best')
+load('opt_data_heu_2.mat','CNOT_Best')
 clearvars -except CNOT_Naive minK maxK iterMax Adj CNOT_Best
 
 Store_Graphs    = false;
