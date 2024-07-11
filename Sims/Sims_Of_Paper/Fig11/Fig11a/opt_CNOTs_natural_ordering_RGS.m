@@ -19,12 +19,17 @@ Store_Gates     = false;
 BackSubsOption  = false;
 return_cond     = true;
 
+for n=nmin:nmax
+   
+    Adj{n}=(create_RGS_natural_ordering(n));
+    
+end
+
+
 tic
 parfor n=nmin:nmax
 
-    Adj=(create_RGS_natural_ordering(n)); %Natural emission ordering
-    
-    temp=Tableau_Class(Adj,'Adjacency');
+    temp=Tableau_Class(Adj{n},'Adjacency');
     
     temp       = temp.Generation_Circuit_Heu1(1:2*n,Store_Graphs,Store_Gates,...
                                               BackSubsOption,Verify_Circuit,...

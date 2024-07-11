@@ -19,16 +19,24 @@ Store_Gates     = false;
 BackSubsOption  = false;
 return_cond     = true;
 
+
+parfor n=nmin:nmax
+    
+    Adj{n}=(create_RGS_opt_ordering(n)); %Optimal ordering of RGS (K_n^n)
+    
+end
+
 tic
 parfor n=nmin:nmax
 
-    Adj=(create_RGS_opt_ordering(n)); %Optimal ordering of RGS (K_n^n)
     
-    temp=Tableau_Class(Adj,'Adjacency');
+    temp=Tableau_Class(Adj{n},'Adjacency');
+    
     
     temp       = temp.Generation_Circuit_Heu1(1:2*n,Store_Graphs,Store_Gates,...
                                               BackSubsOption,Verify_Circuit,...
                                               return_cond,false);
+                                      
     temp       = temp.Count_emitter_CNOTs;
     CNOT_H1(n) = temp.Emitter_CNOT_count;
     
