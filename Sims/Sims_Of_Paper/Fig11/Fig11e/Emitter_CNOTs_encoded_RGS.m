@@ -16,6 +16,7 @@ function [CNOT_H2,T]=Emitter_CNOTs_encoded_RGS(nmin,nmax,leaves)
 %Output: CNOT_H2: CNOT counts obtained by Heuristics #2
 %        T: Total computational time
 
+%the paper has nmin:4, nmax=50, leaves=4
 
 close all;
 
@@ -34,14 +35,19 @@ recurse_further = false;
 emitter_cutoff0 = 2;
 future_step     = 3;
 
+parfor L=1:length(nrange)
+    
+    k      = nrange(L);
+    Adj{L} = create_encoded_RGS_Opt_Ordering(k,leaves);
+    
+end
+
+
 tic
 parfor L=1:length(nrange)
     
-    k=nrange(L);
-    
-    Adj     = full(create_encoded_RGS_Opt_Ordering(k,leaves));
-    n       = length(Adj);
-    temp    = Tableau_Class(Adj,'Adjacency');
+    n       = length(Adj{L});
+    temp    = Tableau_Class(Adj{L},'Adjacency');
     temp    = temp.Generation_Circuit_Heu2(1:n,Store_Graphs,Store_Gates,...
                                            BackSubsOption,Verify_Circuit,...
                                            EXTRA_OPT_LEVEL,return_cond,...
