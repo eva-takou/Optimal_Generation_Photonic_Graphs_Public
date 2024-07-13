@@ -35,25 +35,25 @@ switch Option
         
         if n==9
             
-            load('1e5samples_np_9_cutoffs_5_and_5.mat','Adj')
+            load('np_9.mat','Adj')
             clearvars -except Adj n Nsamples
             Nsamples = length(Adj);
         
         elseif n==15
 
-            load('1e3_samples_np_15_cutoffs_4_and_4.mat','Adj')
+            load('np_15.mat','Adj')
             clearvars -except Adj n 
             Nsamples = length(Adj);
             
         elseif n==20
             
-            load('1e3_samples_np_20_cutoffs_4_and_4.mat','Adj')
+            load('np_20.mat','Adj')
             clearvars -except Adj n 
             Nsamples = length(Adj);
             
         elseif n==30
             
-            load('1e3_samples_np_30_cutoffs_4_and_2.mat','Adj')
+            load('np_30.mat','Adj')
             clearvars -except Adj n
             Nsamples = length(Adj);
             
