@@ -42,6 +42,9 @@ function [Tab,Circuit,graphs,success_flag]=new_PA_w_CNOT_Heu2...
      np,ne,photon,EXTRA_OPT_LEVEL,return_cond,...
      emitter_cutoff0,future_step,recurse_further,BackSubs,varargin{1});
 
+
+
+ 
  
 if success_flag
     
@@ -127,6 +130,7 @@ if EXTRA_OPT_LEVEL
         GG     = graphs0;
 
         future_cutoff = photon-future_step; %Future photon absorptions
+        
 
         if future_cutoff<=1
 
@@ -146,6 +150,12 @@ if EXTRA_OPT_LEVEL
             h           = height_function(workingTab,n,true,jj);
             dh          = h(jj)-h(jj-1); 
 
+            if BackSubs
+
+                workingTab = Back_Subs_On_RREF_Tab(workingTab,n,[]);
+
+            end            
+            
             if dh<0 %Need TRM--cannot absorb photon yet.
 
                 [workingTab,Circ,GG]=time_reversed_measurement(workingTab,np,ne,next_photon,Circ,GG,Store_Graphs,Store_Gates);
@@ -193,6 +203,7 @@ if EXTRA_OPT_LEVEL
              
         end
 
+        [];
     end
 
     %-------- Make emitter choice -----------------------------------------
