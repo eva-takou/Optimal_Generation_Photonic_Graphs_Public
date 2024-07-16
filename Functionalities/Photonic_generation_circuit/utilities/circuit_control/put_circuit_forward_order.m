@@ -13,7 +13,6 @@ function [Circ]=put_circuit_forward_order(Circ)
 %             gates act. Circ is in backward order
 %Output: Circ: Circuit in forward order
 
-
 Gates  = Circ.Gate.name;
 Qubits = Circ.Gate.qubit;
     
@@ -28,7 +27,6 @@ for k=1:length(Gates)
 end
     
 %Need to also add an H gate on the control emitter after the 'Measure'
-
 Gates  = flip(Gates);
 Qubits = flip(Qubits);
 
@@ -52,13 +50,10 @@ for l = 1:length(loc_TRM)
 
 end
 
-
 n              = max([Qubits{:}]);
 [Gates,Qubits] = cancel_out_gates(Gates,Qubits,n);
 
 Circ.Gate.name  = Gates;
 Circ.Gate.qubit = Qubits;
-
-warning('Some phases of stabilizers might be (-). For an accurate circuit, call fix_potential_phases_forward_circuit.')
 
 end
