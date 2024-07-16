@@ -10,6 +10,7 @@ function  Tab=CNOT_Gate_no_phase_upd(Tab,qubit,n)
 %        n: the # of qubits represented by the Tableau
 %Output: The updated Tableau.
 
+
 XC     = Tab(:,qubit(1));
 ZC     = Tab(:,qubit(1)+n);
 
