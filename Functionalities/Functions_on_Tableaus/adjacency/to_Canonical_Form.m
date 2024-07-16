@@ -38,7 +38,7 @@ for qubit=1:n
     
     for jj=1:length(locs) %Remove Xs appearing below the diagonal entry
        
-        Tab = update_Tab_rowsum(Tab,n,locs(jj),qubit);
+        Tab = rowsum(Tab,n,locs(jj),qubit);
         
     end
     
@@ -54,7 +54,7 @@ for qubit=1:n %Back-substitution
        
        if locs(kk)~=qubit
        
-            Tab = update_Tab_rowsum(Tab,n,locs(kk),qubit);
+            Tab = rowsum(Tab,n,locs(kk),qubit);
             
        end
        
