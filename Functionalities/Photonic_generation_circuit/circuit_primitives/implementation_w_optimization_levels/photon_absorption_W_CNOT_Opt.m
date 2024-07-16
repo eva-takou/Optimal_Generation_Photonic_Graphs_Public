@@ -99,6 +99,7 @@ if try_LC
     
 end
 
+
 %--------------------------------------------------------------------------
 %           Allow row multiplications and repeat the same.
 %--------------------------------------------------------------------------
@@ -119,7 +120,7 @@ for j1=1:length(all_rows)
             
             row2        = all_rows(j2);
             graphs      = fixedGraphs;
-            newfixedTab = update_Tab_rowsum(fixedTab,n,row1,row2);
+            newfixedTab = rowsum(fixedTab,n,row1,row2);
             
             %Now, find again the photon state, the emitters state, and loop over all choices.
             [row_ids_photon,photon_flag_Gate] = detect_Stabs_start_from_photon(newfixedTab,photon,n);
