@@ -60,19 +60,6 @@ while true
 
 end
 
-%------ Check if we can now do PA w/o CNOT --------------------------------
-[Tab0,Circuit0,graphs0,discovered_emitter,~]=photon_absorption_WO_CNOT(Tab0,np,ne,photon,Circuit0,graphs0,Store_Graphs,Store_Gates,return_cond);
-
-if discovered_emitter
-    
-    Tab=Tab0;
-    Circuit=Circuit0;
-    graphs=graphs0;
-    success_flag=true;
-    return
-    
-end
-
 
 %------ Check if we can now do PA w/o CNOT --------------------------------
 [Tab0,Circuit0,graphs0,discovered_emitter,~]=photon_absorption_WO_CNOT(Tab0,np,ne,photon,Circuit0,graphs0,Store_Graphs,Store_Gates,return_cond);
