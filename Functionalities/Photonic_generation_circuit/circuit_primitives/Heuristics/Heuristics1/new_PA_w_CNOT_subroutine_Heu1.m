@@ -38,7 +38,7 @@ function [Tab,Circuit,graphs,flag,number_conn_comp_after]=...
 flag      = false;
 n         = np+ne;
 BackTab   = Back_Subs_On_RREF_Tab(Tab0,n,np); %Next calls probably should not back-substitute till row-np
-
+%Tab0      = BackTab;
 %----------------- Check for weigth 2 emitter pair: -----------------------
 
 row_indx_Stabs = Stabs_with_support_on_emitters(BackTab,np,ne);
@@ -56,11 +56,18 @@ for l=1:length(row_indx_Stabs)
        number_conn_comp_after =  number_conn_comp_before+1;
 
        if isempty([emitters_in_X,emitters_in_Z]) %YY
+                                                 %to YX
+                                                 %CNOT(YX)CNOT=YI
 
            Tab     = Phase_Gate(Tab0,em2,n);
            Circuit = store_gate_oper(em2,'P',Circuit0,Store_Gates);
+           
            Tab     = CNOT_Gate(Tab,[em1,em2],n);
 
+           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+              error('Check again') 
+           end
+           
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
@@ -87,6 +94,10 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+              error('Check again') 
+           end
+           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -111,6 +122,10 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+              error('Check again') 
+           end
+           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -136,6 +151,10 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+              error('Check again') 
+           end
+           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -159,6 +178,10 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+              error('Check again') 
+           end
+           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -181,6 +204,10 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+              error('Check again') 
+           end
+           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -202,6 +229,8 @@ for l=1:length(row_indx_Stabs)
     end
 
 end
+
+
 
 %---- Once above pattern is false enter the pattern below: ----------------
 
@@ -276,10 +305,10 @@ if isempty(varargin{1}) %Then do the search
                 end
 
                 %Reverse also control target
-                if gate1==gate2
+                if gate1==gate2 
 
-                    [testTab] = subroutine_gate_application_no_phase_upd(Tab0,em1,em2,gate1,gate2,n);
-                    testTab   = CNOT_Gate_no_phase_upd(testTab,[em2,em1],n);
+                    testTab = subroutine_gate_application_no_phase_upd(Tab0,em1,em2,gate1,gate2,n);
+                    testTab = CNOT_Gate_no_phase_upd(testTab,[em2,em1],n);
 
                     number_conn_comp_after = number_of_sub_G(Get_Adjacency(testTab));
 
@@ -396,7 +425,6 @@ end
 
 
 function [testTab,testCirc]=subroutine_gate_application_phase_upd(testTab,testCirc,em1,em2,gate1,gate2,n,Store_Gates)
-
 
 if gate1==1     %H,P,HP,PH,HPH
 
