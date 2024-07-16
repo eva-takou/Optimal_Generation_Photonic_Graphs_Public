@@ -197,6 +197,7 @@ while true %Keep looping till we have used up all trmTabs and all newTabs
     if ~discovered_emitter 
 
         [workingTab,Circuit,graphs]=photon_absorption_W_CNOT_Opt(workingTab,np,ne,photon,Circuit,graphs,Store_Graphs,Store_Gates,tryLC,LC_Rounds); %Output Tab, circuit and graphs are cells 
+        
     else
         workingTab={workingTab};
         Circuit={Circuit};
