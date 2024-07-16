@@ -1,7 +1,7 @@
 function [Tab,Circuit,graphs]=time_reversed_measurement(Tab,np,ne,photon,Circuit,graphs,Store_Graphs,Store_Gates)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: June 15, 2024
+%Last modified: July 16, 2024
 %--------------------------------------------------------------------------
 %
 %Function to perform time reversed measurement of the emitter, when photon
@@ -52,10 +52,15 @@ for emitter_qubit=np+1:n
                Circuit = store_gate_oper(emitter_qubit,'H',Circuit,Store_Gates); 
        end
        
+       if Store_Gates
+
+           [Tab,Circuit]=fix_phase_of_emitter(Tab,Circuit,Store_Gates,emitter_qubit,n);
+
+       end
+        
        Tab     = CNOT_Gate(Tab,[emitter_qubit,photon],n); %This TRM will connect the emitter with N(photon).
        Circuit = store_gate_oper([emitter_qubit,photon],'Measure',Circuit,Store_Gates); 
        
-            
        if Store_Graphs
             graphs  = store_graph_transform(Get_Adjacency(Tab),...
                 strcat('After CNOT_{',int2str(emitter_qubit),',',int2str(photon),'} [TRM]'),graphs);
@@ -94,11 +99,17 @@ end
 Circuit.EmCNOTs = Circuit.EmCNOTs+length(other_emitters);
 
 %Put the emitter in |+>
-Tab           = Had_Gate(Tab,emitter_qubit,n);
-%Now do the TRM
-Tab           = CNOT_Gate(Tab,[emitter_qubit,photon],n);
-
+Tab     = Had_Gate(Tab,emitter_qubit,n);
 Circuit = store_gate_oper(emitter_qubit,'H',Circuit,Store_Gates); 
+
+if Store_Gates
+   
+    [Tab,Circuit]=fix_phase_of_emitter(Tab,Circuit,Store_Gates,emitter_qubit,n);
+    
+end
+
+%Now do the TRM
+Tab     = CNOT_Gate(Tab,[emitter_qubit,photon],n);
 Circuit = store_gate_oper([emitter_qubit,photon],'Measure',Circuit,Store_Gates); 
 
 if Store_Graphs
@@ -109,4 +120,42 @@ disp(['Applied TRM on emitter:',int2str(emitter_qubit)])
 
 end
 
+
+function [Tab,Circuit]=fix_phase_of_emitter(Tab,Circuit,Store_Gates,emitter_qubit,n)
+
+
+flag_found = false;
+
+for l=1:n
+
+    if nnz(Tab(l,1:2*n))==1
+
+        if Tab(l,emitter_qubit)==1 %|+> or |->
+
+            phase      = Tab(l,end);
+            flag_found = true;
+            break
+
+        end
+
+    end
+
+end
+
+
+if ~flag_found
+
+    error('Need to do Gaussian elimination to reveal stab I...X_{em}...I.')
+
+end    
+
+if phase==1
+
+   Tab     = Pauli_Gate(Tab,emitter_qubit,n,'Z'); 
+   Circuit = store_gate_oper(emitter_qubit,'Z',Circuit,Store_Gates);
+
+end
+
+
+end
 
