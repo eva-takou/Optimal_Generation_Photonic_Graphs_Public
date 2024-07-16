@@ -56,7 +56,6 @@ for qubit = 1:n
    
 end
 
-
 Tab=do_gauss(Tab,n);  
 
 end
