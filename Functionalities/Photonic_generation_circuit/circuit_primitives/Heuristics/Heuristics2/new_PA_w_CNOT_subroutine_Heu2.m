@@ -62,6 +62,10 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end
+           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -85,6 +89,10 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end           
+           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -108,6 +116,9 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -133,6 +144,10 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+           
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -159,6 +174,9 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -185,6 +203,9 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
