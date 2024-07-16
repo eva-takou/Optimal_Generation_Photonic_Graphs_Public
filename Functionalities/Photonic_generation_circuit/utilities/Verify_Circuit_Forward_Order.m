@@ -1,10 +1,11 @@
 function [encountered_warning,Tab_new]=Verify_Circuit_Forward_Order(Circ,Adj0,ne,CircuitOrder)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: July 4, 2024
+%Last modified: July 16, 2024
 %
 %Function to verify that a circuit produces a target photonic graph. We
-%verify the circuit in forward order.
+%verify the circuit in forward order. The Measurement is simulated as an
+%actual measurement.
 %
 %Input: Circ: A struct with fields .Gate.name and .Gate.qubit
 %       Adj0: The target adjacency matrix
@@ -22,7 +23,6 @@ Qubits = Circ.Gate.qubit;
 Lstart = 1;
 Lstep  = 1;
 Lend   = length(Gates);
-
 
 np = length(Adj0);
 n  = np+ne;
@@ -43,34 +43,13 @@ for k=Lstart:Lstep:Lend
     Q = Qubits{k};
     
     if strcmpi(G,'Measure')
-       
-        [temp0,outcome] = temp0.Apply_SingleQ_Meausurement(Q(1),'Z'); %qubit,basis
-        
-        if outcome == 1
+
+        [temp0,outcome] = temp0.Apply_SingleQ_Meausurement(Q(1),'Z');
+         
+        if outcome==1
            
-            temp0 = temp0.Apply_Clifford(Q(2),'X',n);
-            %Apply an X on the emitter too (re-initialize to |0>)
-            temp0 = temp0.Apply_Clifford(Q(1),'X',n);
-        end
-        
-        %Check the next gate that the emitter is involved
-        for next_step=k+1:1:Lend
-           
-            if any(Qubits{next_step}==Q(1)) 
-               
-                if strcmpi(Gates{next_step},'CNOT') && Qubits{next_step}(1)==Q(1)
-                   
-                    draw_circuit(length(Adj0),ne,Circ,'forward',1,'0')
-                    error('Encountered CNOT_{em,sth} whereas the control emitter is in |0/1>.')
-                    
-                else
-                    
-                    break %OKproceed
-                    
-                end
-                
-                
-            end
+            temp0 = temp0.Apply_Clifford(Q(1),'X',n); %Put emitter in |0> again
+            temp0 = temp0.Apply_Clifford(Q(2),'X',n); %Feed-forward correction on photon
             
         end
         
@@ -111,7 +90,6 @@ for emitter = np+1:n
     
 end
 
-
 Tab_new = to_Canonical_Form(Tab);
 Tab_new = Gauss_elim_GF2_with_rowsum(Tab_new,n);
 S       = Tab_To_String(Tab_new);
@@ -120,12 +98,10 @@ for l=1:np
    
     if ~strcmpi(S{l}(1),'+')
        
-%         figure(1)
-%         clf;
-%         draw_circuit(length(Adj0),ne,Circ,'forward',1,'0')
         encountered_warning = true;
         warning('Negative phase detected. To fix the phase call fix_potential_phases_forward_circuit.')
         break
+
     else
         
         encountered_warning = false;
@@ -156,6 +132,5 @@ if ~all(all(Adj_T==Adj0))
     error('The circuit does not produce the target graph.')
     
 end
-
 
 end
