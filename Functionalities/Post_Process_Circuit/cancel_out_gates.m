@@ -34,9 +34,9 @@ for jj = 1:n
         gate1 = Gates{locs_Q(p)};  
         gate2 = Gates{locs_Q(p+1)};
         
-        if length(Qubits{locs_Q(p)})==1 && length(Qubits{locs_Q(p+1)})==1 %Single qubit gate: (X,Y,Z,P,H)
+        if length(Qubits{locs_Q(p)})==1 && length(Qubits{locs_Q(p+1)})==1 %Single qubit gate: (X,Y,Z,P,Pdag,H)
             
-            if strcmpi(gate1,gate2) && ~strcmpi(gate2,'P') %Identity
+            if strcmpi(gate1,gate2) && ~strcmpi(gate2,'P') && ~strcmpi(gate2,'Pdag') %Identity
 
                 Gates{locs_Q(p)}    = [];
                 Gates{locs_Q(p+1)}  = [];
@@ -117,9 +117,9 @@ for jj = 1:n
     %                    3) (ZI)*CZ*(ZI)=CZ
     %                    4) (IZ)*CZ*(IZ)=CZ
     %                    5) (ZI)*CNOT*(ZI)=CNOT
-    %                    6) (PI)*CNOT*(PI)=CNOT
+    %                    6) (PI)*CNOT*(PdagI)=CNOT
     %                    7) (IX)*CNOT*(IX)=CNOT
-    
+
     %----------- Check three subsequent gates -----------------------------
     for p = 1:length(locs_Q)-2
 
@@ -149,9 +149,9 @@ for jj = 1:n
             
         elseif (strcmpi(gate1,'Z') && strcmpi(gate2,'CNOT') && strcmpi(gate3,'Z')) ...
                                             || ...
-               (strcmpi(gate1,'P') && strcmpi(gate2,'CNOT') && strcmpi(gate3,'P')) ... %covers 5 and 6
+               (strcmpi(gate1,'P') && strcmpi(gate2,'CNOT') && strcmpi(gate3,'Pdag')) ... %covers 5 and 6
                                             || ...
-               (strcmpi(gate1,'Pdag') && strcmpi(gate2,'CNOT') && strcmpi(gate3,'Pdag'))                                        
+               (strcmpi(gate1,'Pdag') && strcmpi(gate2,'CNOT') && strcmpi(gate3,'P'))                                        
            
             if Qubits{locs_Q(p+1)}(1)==jj %qubit (jj) has to be the control
                
