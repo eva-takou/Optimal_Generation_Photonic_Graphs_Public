@@ -42,13 +42,7 @@ parfor iter = 1:iterMax
     if encountered_warning
     
         error('All phases should be (+).')
-        %Circ      = fix_potential_phases_forward_circuit(Circ,Adj{iter},ne,'backward');
         
     end
-    
-%     message_2 = Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
-%     
-%     if message_2
-%        error('We did not fix phases') 
-%     end    
+   
 end
