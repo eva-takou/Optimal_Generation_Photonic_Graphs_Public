@@ -186,7 +186,6 @@ if CNTZ==2
     Tab     = CNOT_Gate(Tab,emm_in_Z(1:2),n);
     Circuit = store_gate_oper(emm_in_Z(1:2),'CNOT',Circuit,Store_Gates);
 
-
     Circuit.EmCNOTs = Circuit.EmCNOTs+1;
     
     if Store_Graphs
