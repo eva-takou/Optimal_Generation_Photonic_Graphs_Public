@@ -25,16 +25,38 @@ for ll=L:-1:1 %Loop in reverse
     if strcmpi(Oper,'Measure') 
         
         Oper = 'CNOT';
-
+        Tab = Clifford_Gate(Tab,Qubits,Oper,n);
+        
+%         testTab = Clifford_Gate(Tab,Qubits(1),'H',n);
+%         [~,outcome,type_of_outcome]=Measure_single_qubit(testTab,Qubits(1),'Z');
+%         
+%         if outcome~=0 %This is always false.
+%            error('The measurement outcome should be 0.') 
+%         end
+%         [];
+        
     elseif strcmpi(Oper,'P') 
 
         Oper = 'Pdag';
-    
+        Tab = Clifford_Gate(Tab,Qubits,Oper,n);
+    else
+        
+        Tab = Clifford_Gate(Tab,Qubits,Oper,n);
     end
     
-    Tab = Clifford_Gate(Tab,Qubits,Oper,n);
- 
 end
+
+%Check that phases of the stabilizers are correct: (This always passes the
+%test)
+% s=Tab_To_String(to_Canonical_Form(Tab));
+% 
+% for l=1:n
+%    
+%     if ~strcmpi(s{l}(1),'+')
+%        error('The phase should be (+).')
+%     end
+%     
+% end
 
 G0 = Get_Adjacency(Target_Tableau);
 G1 = Get_Adjacency(Tab);
