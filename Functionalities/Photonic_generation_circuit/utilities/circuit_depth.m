@@ -12,11 +12,9 @@ function [depth,Gates_per_depth]=circuit_depth(Circuit,ne,np)
 %Output: depth: the circuit depth
 %        Gates_per_depth: the gates arranged per depth
 
-%Time-ordered
-Circuit.Gate.qubit = flip(Circuit.Gate.qubit); 
-Circuit.Gate.name  = flip(Circuit.Gate.name);
-L                  = length(Circuit.Gate.name);
-n                  = np+ne;
+Circuit = put_circuit_forward_order(Circuit);
+L       = length(Circuit.Gate.name);
+n       = np+ne;
 
 %Encode operations into sparse matrix
 
