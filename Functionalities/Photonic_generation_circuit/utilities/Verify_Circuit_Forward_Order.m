@@ -99,7 +99,7 @@ for l=1:np
     if ~strcmpi(S{l}(1),'+')
        
         encountered_warning = true;
-        warning('Negative phase detected. To fix the phase call fix_potential_phases_forward_circuit.')
+        warning('Negative phase detected.')
         break
 
     else
