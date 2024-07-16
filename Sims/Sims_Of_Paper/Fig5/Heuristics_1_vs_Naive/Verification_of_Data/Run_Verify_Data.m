@@ -2,9 +2,10 @@ clear;
 clc;
 load('optimized_data_heu1.mat')
 
+
 iterMax=10; %Verify the data for a subset of the graphs
 
-nmax  = 20;
+nmax  = 30;
 nmin  = 6;
 nstep = 2;
 
