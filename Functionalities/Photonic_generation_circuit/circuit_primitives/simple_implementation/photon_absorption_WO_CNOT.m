@@ -67,7 +67,10 @@ if length(potential_rows)>1
     
     if ~isempty(emitter)
         
-        testTab = update_Tab_rowsum(Tab,n,potential_rows(1),potential_rows(2));
+        disp(['Single Emitter #',int2str(emitter), ' was found to absorb photon #',int2str(photon),' w/o emitter gates.']) 
+        
+        discovered_emitter = true;
+        Tab                = rowsum(Tab,n,potential_rows(1),potential_rows(2));
         
         if strcmpi([photon_flag_Gate{:}],'ZX') || strcmpi([photon_flag_Gate{:}],'XZ')
 
@@ -83,13 +86,9 @@ if length(potential_rows)>1
 
         end
         
-        Tab                = testTab;
-        discovered_emitter = true;
-            
-        disp(['Single Emitter #',int2str(emitter), ' was found to absorb photon #',int2str(photon),' w/o emitter gates.']) 
-        [Tab,Circuit,graphs]=PA_subroutine(n,Tab,Circuit,graphs,photon,emitter,emitter_flag_Gate,photon_flag_Gate,Store_Graphs,Store_Gates);
-        
-        
+        [Tab,Circuit,graphs]=PA_subroutine(n,Tab,Circuit,graphs,photon,emitter,...
+                                           emitter_flag_Gate,photon_flag_Gate,...
+                                           Store_Graphs,Store_Gates);
         
         warning('Rowsum of 2 photonic rows gives PA for free.') %OK: Can happen because we do not do back-substitution in RREF.
         
@@ -100,7 +99,7 @@ if length(potential_rows)>1
 end
 
 %=== Search for emitter not entangled with others to absorb the photon ====
-row_ids_emitters     = Stabs_with_support_on_emitters(Tab,np,ne); %These rows can include emitters in product state.
+row_ids_emitters = Stabs_with_support_on_emitters(Tab,np,ne); %These rows can include emitters in product state.
 
 if isempty(row_ids_emitters)
     
@@ -115,15 +114,14 @@ else
         
         for kk=1:length(row_ids_emitters)
             
-            row2=row_ids_emitters(kk);
-            
-            trashTab                    = Tab;
-            trashTab(row1,:)            = bitxor(Tab(row1,:),Tab(row2,:));
-            [emitter,emitter_flag_Gate] = check_for_single_emitter(trashTab,n,np,row1);
+            row2             = row_ids_emitters(kk);
+            trashTab         = Tab;
+            trashTab(row1,:) = bitxor(Tab(row1,:),Tab(row2,:));
+            [emitter,~]      = check_for_single_emitter(trashTab,n,np,row1);
             
             if ~isempty(emitter) 
                 
-                testTab = update_Tab_rowsum(Tab,n,row1,row2);
+                testTab = rowsum(Tab,n,row1,row2);
                 [new_rows,photon_flag_Gate,testTab] = detect_Stabs_start_from_photon(testTab,photon,n);
 
                 for jj=1:length(new_rows) %Check again if we can find an emitter here:
@@ -140,7 +138,9 @@ else
                         disp(['Single Emitter #',int2str(emitter), ' was found to absorb photon #',int2str(photon),' w/o emitter gates.']) 
 
                         Tab=testTab;
-                        [Tab,Circuit,graphs]=PA_subroutine(n,Tab,Circuit,graphs,photon,emitter,emitter_flag_Gate,photon_flag_Gate,Store_Graphs,Store_Gates);
+                        [Tab,Circuit,graphs]=PA_subroutine(n,Tab,Circuit,graphs,photon,emitter,...
+                                                           emitter_flag_Gate,photon_flag_Gate,...
+                                                           Store_Graphs,Store_Gates);
 
                         return
 
@@ -165,7 +165,7 @@ end
 %-------------- Extra conditions ------------------------------------------
 
 %Multiply the two photonic rows and then the row with the emitter row
-if length(potential_rows)>1
+if length(potential_rows)>1 && ~isempty(row_ids_emitters)
     
     testTab = rowsum(Tab,n,potential_rows(1),potential_rows(2));
     
