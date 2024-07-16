@@ -38,7 +38,7 @@ function [Tab,Circuit,graphs,flag,number_conn_comp_after]=...
 flag      = false;
 n         = np+ne;
 BackTab   = Back_Subs_On_RREF_Tab(Tab0,n,np); %Next calls probably should not back-substitute till row-np
-%Tab0      = BackTab;
+
 %----------------- Check for weigth 2 emitter pair: -----------------------
 
 row_indx_Stabs = Stabs_with_support_on_emitters(BackTab,np,ne);
@@ -64,9 +64,9 @@ for l=1:length(row_indx_Stabs)
            
            Tab     = CNOT_Gate(Tab,[em1,em2],n);
 
-           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-              error('Check again') 
-           end
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end
            
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
@@ -94,9 +94,9 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
-           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-              error('Check again') 
-           end
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end
            
             if Store_Graphs
 
@@ -122,9 +122,9 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
-           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-              error('Check again') 
-           end
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end
            
             if Store_Graphs
 
@@ -151,9 +151,9 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
-           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-              error('Check again') 
-           end
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end
            
             if Store_Graphs
 
@@ -178,9 +178,9 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
-           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-              error('Check again') 
-           end
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end
            
             if Store_Graphs
 
@@ -204,9 +204,9 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
-           if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-              error('Check again') 
-           end
+%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
+%               error('Check again') 
+%            end
            
             if Store_Graphs
 
