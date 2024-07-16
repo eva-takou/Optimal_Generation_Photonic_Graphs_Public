@@ -12,7 +12,7 @@ emitter_cutoff0 = 3;
 future_step     = 3;
 recurse_further = true;
 
-np      = 10;
+np      = 8;
 iterMax = 200;
 
 for iter = 1:iterMax
