@@ -105,21 +105,17 @@ for k=1:length(LC_sequence)
         Circuit = store_gate_oper(v,'P',Circuit,Store_Gates);  
         Circuit = store_gate_oper(v,'H',Circuit,Store_Gates);  
 
-        for l=1:length(Nv)
+        for AA=1:length(Nv)
 
-            Tab     = Phase_Gate(Tab,Nv(l),n); 
-            Circuit = store_gate_oper(Nv(l),'P',Circuit,Store_Gates);
+            Tab     = Phase_Gate(Tab,Nv(AA),n); 
+            Circuit = store_gate_oper(Nv(AA),'P',Circuit,Store_Gates);
 
         end
-
-    else
-
-       continue %To next iter, we do not need to apply any operation 
+        
+        AdjTemp = Local_Complement(AdjTemp,v);
 
     end
     
-    %Update the Adjacency matrix:
-    AdjTemp = Local_Complement(AdjTemp,v);
     
 end
 
@@ -142,20 +138,20 @@ cnt = 0;
 
 for p=1:length(potential_rows)
 
-    Tab     = fixedTab;
-    Circuit = fixedCirc;
-    graphs  = fixedGraphs;
+    %Tab     = fixedTab;
+    %Circuit = fixedCirc;
+    %graphs  = fixedGraphs;
 
-    [emitters_in_X,emitters_in_Y,emitters_in_Z] = emitters_Pauli_in_row(Tab,potential_rows(p),np,ne);
+    [emitters_in_X,emitters_in_Y,emitters_in_Z] = emitters_Pauli_in_row(fixedTab,potential_rows(p),np,ne);
     possible_emitters                           = [emitters_in_X,emitters_in_Y,emitters_in_Z];
     %-------- Bring all emitters in Z for the particular row: -------------
-    [Tab,Circuit]=put_emitters_in_Z(n,Tab,Circuit,emitters_in_X,emitters_in_Y,Store_Gates);
+    [newTab,newCircuit]=put_emitters_in_Z(n,fixedTab,fixedCirc,emitters_in_X,emitters_in_Y,Store_Gates);
 
     for mm=1:length(possible_emitters)
 
-        thisTab     = Tab;
-        thisCirc    = Circuit;
-        thesegraphs = graphs;
+        thisTab     = newTab;
+        thisCirc    = newCircuit;
+        thesegraphs = fixedGraphs;
 
         emitter            = possible_emitters(mm);
         other_emitters     = possible_emitters;
