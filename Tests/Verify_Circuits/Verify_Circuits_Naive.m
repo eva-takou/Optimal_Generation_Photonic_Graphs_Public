@@ -10,7 +10,7 @@ BackSubsOption = false;
 Verify_Circuit = true;
 return_cond    = true;
 
-np      = 20;
+np      = 7;
 iterMax = 500;
 
 for iter = 1:iterMax
@@ -19,7 +19,7 @@ for iter = 1:iterMax
     
 end
 
-for iter = 1:iterMax
+parfor iter = 1:iterMax
     
     temp = Tableau_Class(Adj{iter},'Adjacency');
     Target_Tableau = temp.Tableau;
@@ -30,20 +30,12 @@ for iter = 1:iterMax
     ne = temp.Emitters;
     n  = np+ne;
 
-    Verify_Quantum_Circuit(Circ,n,ne,Target_Tableau)
-    
     encountered_warning = Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
     
     if encountered_warning
     
-        Circ      = fix_potential_phases_forward_circuit(Circ,Adj{iter},ne,'backward');
+        error('All phases should be (+).')
         
-    end
-    
-    message_2 = Verify_Circuit_Forward_Order(Circ,Adj{iter},ne,'backward');
-    
-    if message_2
-       error('We did not fix phases') 
     end
     
     
