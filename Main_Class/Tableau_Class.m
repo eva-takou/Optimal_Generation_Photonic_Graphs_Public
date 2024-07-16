@@ -604,12 +604,11 @@ classdef Tableau_Class
             graphs     = OUT_graphs{kk};
 
             [workingTab,Circuit,graphs]=disentangle_all_emitters(workingTab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,BackSubsOption);
-            
 
             if  Store_Gates
                 
                 [workingTab,Circuit] = remove_redundant_Zs(workingTab,np,ne,Circuit,Store_Gates);
-                [~,Circuit] = fix_phases(workingTab,np,ne,Circuit,Store_Gates);
+                [~,Circuit]          = fix_phases(workingTab,np,ne,Circuit,Store_Gates);
                 
                 if Verify_Circuit
                     Verify_Quantum_Circuit(Circuit,n,ne,Target_Tableau)
@@ -619,7 +618,7 @@ classdef Tableau_Class
             
             OUT_Circ{kk}   = Circuit;
             OUT_graphs{kk} = graphs;
-            CNOT_cnt(kk)   = emitter_CNOTs(Circuit);
+            CNOT_cnt(kk)   = Circuit.EmCNOTs;
             
         end
         
