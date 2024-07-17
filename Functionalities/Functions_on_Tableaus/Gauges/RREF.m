@@ -20,7 +20,7 @@ while true
 
     if NL>N || KU>K
 
-        break
+        return
 
     end                
 
