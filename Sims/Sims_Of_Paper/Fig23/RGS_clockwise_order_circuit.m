@@ -36,8 +36,6 @@ ne   = temp.Emitters;
 layer_shift=1;
 Init_State_Option = '0';
 
-Circ = fix_potential_phases_forward_circuit(Circ,Adj,ne,CircOrder);
-
 
 draw_circuit(np,ne,Circ,CircOrder,layer_shift,Init_State_Option)
 
