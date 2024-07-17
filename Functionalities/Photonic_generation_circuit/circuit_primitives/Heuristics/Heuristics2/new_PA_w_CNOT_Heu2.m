@@ -85,7 +85,7 @@ end
 
 if discovered_emitter
     
-    warning('SUCCESS ID:1 AFTER HEURISTICS---Brute_Force_All_Local_Gates')
+    %warning('SUCCESS ID:1 AFTER HEURISTICS---Brute_Force_All_Local_Gates')
     
     Tab=Tab0;
     Circuit=Circuit0;
