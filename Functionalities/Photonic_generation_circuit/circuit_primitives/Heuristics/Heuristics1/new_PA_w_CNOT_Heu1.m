@@ -64,7 +64,7 @@ end
 
 if discovered_emitter
     
-    warning('SUCCESS ID:1 AFTER HEURISTICS---Brute_Force_All_Local_Gates')
+    %warning('SUCCESS ID:1 AFTER HEURISTICS---Brute_Force_All_Local_Gates')
     
     Tab          = Tab0;
     Circuit      = Circuit0;
@@ -80,7 +80,7 @@ end
 
 if discovered_emitter
     
-    warning('SUCCESS ID:1 AFTER HEURISTICS---Brute_Force_All_Local_Gates')
+    %warning('SUCCESS ID:1 AFTER HEURISTICS---Brute_Force_All_Local_Gates')
     
     %This can still succeed because we have an update based on Back-subs
     %inside the photon_absorption_WO_CNOT (although we call the same thing
