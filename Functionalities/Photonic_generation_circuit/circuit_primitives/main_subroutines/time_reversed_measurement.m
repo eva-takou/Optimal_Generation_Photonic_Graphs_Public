@@ -67,7 +67,7 @@ for emitter_qubit=np+1:n
        end
        
        
-       disp(['Applied TRM on emitter:',int2str(emitter_qubit)])
+       disp(['TRM on:',int2str(emitter_qubit)])
        
        return
        
@@ -116,7 +116,7 @@ if Store_Graphs
     graphs  = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(emitter_qubit),',',int2str(photon),'} [TRM]'),graphs);
 end
 
-disp(['Applied TRM on emitter:',int2str(emitter_qubit)])
+disp(['TRM on:',int2str(emitter_qubit)])
 
 end
 
