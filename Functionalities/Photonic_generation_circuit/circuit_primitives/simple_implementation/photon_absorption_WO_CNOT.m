@@ -46,7 +46,7 @@ for jj=1:length(potential_rows) %Check for emitter not entangled with others to 
         discovered_emitter = true;
         photon_flag_Gate   = photon_flag_Gate{jj};
         
-        disp(['Single Emitter #',int2str(emitter), ' was found to absorb photon #',int2str(photon),' w/o emitter gates.']) 
+        disp(['Emitter #',int2str(emitter), ' can absorb photon #',int2str(photon),' w/o emitter gates.']) 
 
         [Tab,Circuit,graphs]=PA_subroutine(n,Tab,Circuit,graphs,photon,emitter,emitter_flag_Gate,photon_flag_Gate,Store_Graphs,Store_Gates);
 
@@ -133,9 +133,9 @@ else
                         discovered_emitter = true;
                         photon_flag_Gate   = photon_flag_Gate{jj};
 
-                        warning('In photon absorption w/o CNOT, multiplication of emitter with photonic stab gives PA for free.')
+                        %warning('In photon absorption w/o CNOT, multiplication of emitter with photonic stab gives PA for free.')
 
-                        disp(['Single Emitter #',int2str(emitter), ' was found to absorb photon #',int2str(photon),' w/o emitter gates.']) 
+                        disp(['Emitter #',int2str(emitter), ' can absorb photon #',int2str(photon),' w/o emitter gates.']) 
 
                         Tab=testTab;
                         [Tab,Circuit,graphs]=PA_subroutine(n,Tab,Circuit,graphs,photon,emitter,...
@@ -214,10 +214,10 @@ if ~discovered_emitter
             discovered_emitter = true;
             photon_flag_Gate   = photon_flag_Gate{jj};
 
-            disp(['Single Emitter #',int2str(emitter), ' was found to absorb photon #',int2str(photon),' w/o emitter gates.']) 
+            disp(['Emitter #',int2str(emitter), ' can absorb photon #',int2str(photon),' w/o emitter gates.']) 
 
             [Tab,Circuit,graphs]=PA_subroutine(n,Tab,Circuit,graphs,photon,emitter,emitter_flag_Gate,photon_flag_Gate,Store_Graphs,Store_Gates);
-            warning('Entered Back Subs')
+            %warning('Entered Back Subs')
             return
 
         end
