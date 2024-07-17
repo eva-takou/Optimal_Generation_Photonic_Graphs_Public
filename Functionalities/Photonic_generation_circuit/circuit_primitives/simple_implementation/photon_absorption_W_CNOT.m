@@ -23,13 +23,14 @@ function [Tab,Circuit,graphs]=photon_absorption_W_CNOT(Tab,np,ne,photon,Circuit,
 
 
 n=np+ne;
-disp(['Need emitter gates before absorption of photon #',int2str(photon)])
+%disp(['Need emitter gates before absorbing photon #',int2str(photon)])
+disp(['Need emitter gates before absorption.'])
 
 %Get stabs whose left index starts from a Pauli on the photon to be absorbed
 [potential_rows,photon_flag_Gate] = detect_Stabs_start_from_photon(Tab,photon,n);
 
-[row_id,indx] = detect_Stab_rows_of_minimal_weight(Tab,potential_rows,np,n);
-[emitters_in_X,emitters_in_Y,emitters_in_Z]=emitters_Pauli_in_row(Tab,row_id,np,ne);
+[~,indx,emitters_in_X,emitters_in_Y,emitters_in_Z] = detect_Stab_rows_of_minimal_weight(Tab,potential_rows,np,n);
+%[emitters_in_X,emitters_in_Y,emitters_in_Z]=emitters_Pauli_in_row(Tab,row_id,np,ne);
 
 %-------- Bring all emitters in Z for the particular row: -----------------
 [Tab,Circuit]=put_emitters_in_Z(n,Tab,Circuit,emitters_in_X,emitters_in_Y,Store_Gates);
@@ -51,20 +52,26 @@ emitter_flag_Gate='Z';
 end
 
 
-function [Stab_row_indx,indx] = detect_Stab_rows_of_minimal_weight(Tab,potential_rows,np,n)
+function [Stab_row_indx,indx,em_X,em_Y,em_Z] = detect_Stab_rows_of_minimal_weight(Tab,potential_rows,np,n)
 
 ne               = n-np;
 Lp               = length(potential_rows);
 weight           = zeros(1,Lp);
-emitters_per_row = cell(1,Lp);
+%emitters_per_row = cell(1,Lp);
+em_X             = cell(1,Lp);
+em_Y             = cell(1,Lp);
+em_Z             = cell(1,Lp);
 
 for ll=1:Lp
 
     row = potential_rows(ll);
     
     [emitters_in_X,emitters_in_Y,emitters_in_Z] = emitters_Pauli_in_row(Tab,row,np,ne);
-    weight(ll)           = length([emitters_in_X,emitters_in_Y,emitters_in_Z]);
-    emitters_per_row{ll} = [emitters_in_X,emitters_in_Y,emitters_in_Z];
+    weight(ll)                                  = length([emitters_in_X,emitters_in_Y,emitters_in_Z]);
+    em_X{ll}                                    = emitters_in_X;
+    em_Y{ll}                                    = emitters_in_Y;
+    em_Z{ll}                                    = emitters_in_Z;
+    %emitters_per_row{ll} = [emitters_in_X,emitters_in_Y,emitters_in_Z];
     
 end
 
@@ -73,6 +80,9 @@ if min(weight)==0
 end
 
 [~,indx]      = min(weight);
+em_X          = em_X{indx};
+em_Y          = em_Y{indx};
+em_Z          = em_Z{indx};
 Stab_row_indx = potential_rows(indx);
 
 end
