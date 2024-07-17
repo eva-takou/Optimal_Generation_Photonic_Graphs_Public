@@ -40,11 +40,11 @@ for jj=1:np
     
 end
 
-disentangled_em=[];
-
+disentangled_em         = [];
+disentangled_em_state   = [];
 while true
     
-   [Tab,flag,Circuit,graphs,disentangled_em]=disentangle_two_emitters(Tab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,disentangled_em,BackSubs);
+   [Tab,flag,Circuit,graphs,disentangled_em,disentangled_em_state]=disentangle_two_emitters(Tab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,disentangled_em,disentangled_em_state,BackSubs);
    
    if flag %flag is true when all the emitters are disentangled.
        
@@ -53,7 +53,8 @@ while true
        for k=1:length(disentangled_em)
            
            emitter        = disentangled_em(k);
-           [~,state_flag] = qubit_in_product(Tab,n,emitter);
+           state_flag     = disentangled_em_state(k);
+           %[~,state_flag] = qubit_in_product(Tab,n,emitter);
            
            if state_flag=='Y'
                
@@ -81,7 +82,7 @@ end
 end
 
 
-function [Tab,flag,Circuit,graphs,disentangled_em]=disentangle_two_emitters(Tab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,disentangled_em,BackSubs)
+function [Tab,flag,Circuit,graphs,disentangled_em,emitter_State]=disentangle_two_emitters(Tab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,disentangled_em,emitter_State,BackSubs)
 
 n             = np+ne;
 cnt           = 0;
@@ -97,7 +98,7 @@ rest_emitters=rest_emitters(~isnan(rest_emitters));
 
 for ll=1:length(rest_emitters) 
    
-    [cond_emitter, ~] = qubit_in_product(Tab,n,rest_emitters(ll));
+    [cond_emitter, state_flag] = qubit_in_product(Tab,n,rest_emitters(ll));
     
     if ~cond_emitter
        
@@ -106,7 +107,8 @@ for ll=1:length(rest_emitters)
         
     else
         
-        disentangled_em=[disentangled_em,rest_emitters(ll)];
+        disentangled_em    = [disentangled_em,rest_emitters(ll)];
+        emitter_State      = [emitter_State,state_flag];
         
     end
     
