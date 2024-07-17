@@ -65,7 +65,11 @@ if photon>1
         xi_target_photon = Tab(ii,photon);
         zi_target_photon = Tab(ii,photon+n);
 
-        if xi_target_photon==0 && zi_target_photon==1 %Conditions for non-trivial Paulis on target photon.
+        if xi_target_photon==0 && zi_target_photon==0
+            
+            continue
+        
+        elseif xi_target_photon==0 %&& zi_target_photon==1 %Conditions for non-trivial Paulis on target photon.
 
             cnt = cnt+1;
             photon_flag_Gate{cnt} = 'Z';
@@ -77,7 +81,7 @@ if photon>1
             photon_flag_Gate{cnt} = 'Y';
             potential_rows(cnt)   = ii;
 
-        elseif xi_target_photon==1 && zi_target_photon==0    
+        else %if xi_target_photon==1 && zi_target_photon==0    
 
             cnt = cnt+1;
             photon_flag_Gate{cnt} = 'X';
