@@ -21,38 +21,29 @@ function [Tab,Circuit]=remove_redundant_Zs(Tab,np,ne,Circuit,Store_Gates)
 
 n = np+ne;
 
-%Make sure that all qubits are in product:
+%Check emitter state and put in 'Z' if not already
 
-for qubit = 1:n
+for qubit = np+1:n %1:n
     
-   [cond_product, state_flag]= qubit_in_product(Tab,n,qubit); 
-    
-   if ~cond_product
+   [~, state_flag]= qubit_in_product(Tab,n,qubit); 
        
-      ME=exception('MyComponent:falseCond','Some qubit was not in product state');
-      throw(ME)
-       
-   else
-       
-       %Bring all the qubits into Zs:
-       
-       switch state_flag
-           
-           case 'X'
-               
-               Tab     = Had_Gate(Tab,qubit,n);
-               Circuit = store_gate_oper(qubit,'H',Circuit,Store_Gates); 
-               
-           case 'Y'
-               
-               Tab = Phase_Gate(Tab,qubit,n);
-               Tab = Had_Gate(Tab,qubit,n);
-           
-               Circuit = store_gate_oper(qubit,'P',Circuit,Store_Gates); 
-               Circuit = store_gate_oper(qubit,'H',Circuit,Store_Gates); 
-       end
-       
+   switch state_flag
+
+       case 'X'
+
+           Tab     = Had_Gate(Tab,qubit,n);
+           Circuit = store_gate_oper(qubit,'H',Circuit,Store_Gates); 
+
+       case 'Y'
+
+           Tab = Phase_Gate(Tab,qubit,n);
+           Tab = Had_Gate(Tab,qubit,n);
+
+           Circuit = store_gate_oper(qubit,'P',Circuit,Store_Gates); 
+           Circuit = store_gate_oper(qubit,'H',Circuit,Store_Gates); 
    end
+
+
    
 end
 
