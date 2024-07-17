@@ -24,7 +24,7 @@ function [Tab,Circuit,graphs]=photon_absorption_W_CNOT(Tab,np,ne,photon,Circuit,
 
 n=np+ne;
 %disp(['Need emitter gates before absorbing photon #',int2str(photon)])
-disp(['Need emitter gates before absorption.'])
+disp('Need emitter gates before absorption.')
 
 %Get stabs whose left index starts from a Pauli on the photon to be absorbed
 [potential_rows,photon_flag_Gate] = detect_Stabs_start_from_photon(Tab,photon,n);
