@@ -12,40 +12,36 @@ function [Gamma]=Get_Adjacency(Tab)
 
 Tab(:,end)=[]; %Drop the phase info.
 n  = size(Tab,1);
-Sx = Tab(:,1:n);
-
-
-if all(diag(Sx)>0) %faster than all(all(Sx==eye(n,'int8'))) 
-   
-    Gamma = Tab(:,n+1:end);
-    Gamma = Gamma - diag(diag(Gamma));
-    
-    %mustBeValidAdjacency(Gamma)
-    return
-    
-end
-
+% Sx = Tab(:,1:n);
+% 
+% if all(diag(Sx)>0) %faster than all(all(Sx==eye(n,'int8'))) 
+%    
+%     Gamma = Tab(:,n+1:end);
+%     Gamma = Gamma - diag(diag(Gamma));
+%     
+%     %mustBeValidAdjacency(Gamma)
+%     return
+%     
+% end
 
 for qubit=1:n
 
     Tq    = Tab(:,qubit);     %Check the columns to see if we have X
-    locs  = Tq>0;
-    %locs  = Tq(qubit:end)>0;   %Alternatively
-
-    if ~any(locs) %isempty(locs)  || isempty(locs(locs>=qubit)) %If there is no X, do a Had
+    
+    if ~any(Tq) %No X, so apply a Hadamard
 
        %Apply Hadamard:
-       temp           = Tab(:,qubit+n); 
+       Tq             = Tab(:,qubit+n);  
        Tab(:,qubit+n) = Tab(:,qubit);
-       Tab(:,qubit)   = temp;    
-
-    else %If the X is on or after the diagonal qubit position, do not apply H gate
+       Tab(:,qubit)   = Tq;    
+       
+    else %If the X is on or after the qubit position, do not apply H gate
 
         apply_Had=true;
-
+        
         for l=qubit:n
 
-            if Tq(l)>0
+            if Tq(l)==1 
 
                 apply_Had=false;                 
 
@@ -57,45 +53,48 @@ for qubit=1:n
 
         if apply_Had
 
-           temp           = Tab(:,qubit+n); 
+           Tq             = Tab(:,qubit+n);  
            Tab(:,qubit+n) = Tab(:,qubit);
-           Tab(:,qubit)   = temp;  
-
+           Tab(:,qubit)   = Tq;              
+           
         end
 
     end
-
-
-    if Tab(qubit,qubit)~=1
-
-        SliceTab = Tab(:,qubit);
-
+    
+    if Tq(qubit)~=1 %SWAP rows
+        
         for jj=qubit+1:n
 
-            if SliceTab(jj)==1  %SWAP rows
+            if Tq(jj)==1 
 
                 temp         = Tab(jj,:);
                 Tab(jj,:)    = Tab(qubit,:);
                 Tab(qubit,:) = temp;
-
+                Tq(jj)       = 0;
+                
                 break
 
             end
 
         end
-
-    end
-
-    SliceTab    = Tab(:,qubit);
-    rowToBitXor = Tab(qubit,:); 
-    indx        = find(SliceTab(qubit+1:end))+qubit; 
     
-    for k=1:length(indx) %Remove Xs appearing below the diagonal entry
-
-        Tab(indx(k),:)=bitxor(Tab(indx(k),:),rowToBitXor);
-
     end
-
+    
+    locs = Tq(qubit+1:n)>0;
+    
+    if sum(locs)==0 %~any(locs)
+        continue
+    end
+    
+    indx        = find(locs)+qubit;
+    rowToBitXor = Tab(qubit,:);
+    
+    for p=1:length(indx)
+       
+        Tab(indx(p),:)=bitxor(Tab(indx(p),:),rowToBitXor);
+        
+    end
+        
 end
 
 
@@ -105,10 +104,15 @@ Tab=Tab'; %Transpose to access column-wise (maybe slightly faster)
 
 for qubit=n:-1:2
    
-    SliceTab = Tab(qubit,:);
-    rowToBitXor = Tab(:,qubit);
+    SliceTab    = Tab(qubit,:)>0;
+     
+    if sum(SliceTab)==1 %Do this to avoid unessecary calls of find
+        continue
+    end
     
-    indx = find(SliceTab(1:qubit-1));
+    
+    indx        = find(SliceTab(1:qubit-1));
+    rowToBitXor = Tab(:,qubit);
     
    for k=length(indx):-1:1
       
@@ -118,28 +122,15 @@ for qubit=n:-1:2
     
 end
 
-Tab=Tab'; %Revert back
-
 %-------- (Alternative Back-substitution w/o transposition) ---------------
-
-
 % for qubit=n:-1:2
 %     
-%    SliceTab    = Tab(:,qubit); 
-%    locs        = SliceTab>0;
+%    SliceTab    = Tab(:,qubit)>0; 
 %    rowToBitXor = Tab(qubit,:);
-%    
-%    indx = find(SliceTab(1:qubit-1));
-%    
-%    for k=length(indx):-1:1
-%       
-%        Tab(indx(k),:)=bitxor(Tab(indx(k),:),rowToBitXor);
-%        
-%    end
 %    
 %    for k=qubit-1:-1:1
 %        
-%        if locs(k) %SliceTab(k)>0 %Tab(k,qubit)==1 
+%        if SliceTab(k)
 %            
 %            Tab(k,:)=bitxor(Tab(k,:),rowToBitXor);
 %            
@@ -152,8 +143,11 @@ Tab=Tab'; %Revert back
 
 %------------------ Remove self-loops -------------------------------------
 
-Gamma = Tab(:,n+1:2*n);
+%Gamma = Tab(:,n+1:end); %w/o transposition do this
+Gamma = Tab(n+1:end,:);
 Gamma = Gamma - diag(diag(Gamma));
+Gamma = single(Gamma);
+
 
 %---------- Uncomment for error-check: ------------------------------------
 % Sx    = Tab(:,1:n);
@@ -164,7 +158,5 @@ Gamma = Gamma - diag(diag(Gamma));
 %
 %
 %mustBeValidAdjacency(Gamma)
-%--------------------------------------------------------------------------
-Gamma=single(Gamma);
 
 end
