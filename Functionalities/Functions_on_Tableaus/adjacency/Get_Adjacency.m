@@ -82,7 +82,7 @@ for qubit=1:n
     
     locs = Tq(qubit+1:n)>0;
     
-    if sum(locs)==0 %~any(locs)
+    if sum(locs)==0 %~any(locs) %Do this to avoid unessecary calls of find
         continue
     end
     
