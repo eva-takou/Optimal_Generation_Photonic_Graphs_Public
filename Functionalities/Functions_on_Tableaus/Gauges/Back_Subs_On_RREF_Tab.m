@@ -36,18 +36,20 @@ while true
     for jj=Rowk-1:-1:1   
 
         StabRow  = Tab(jj,:);         
-        SX       = StabRow(1:n);
-        SZ       = StabRow(n+1:2*n);
         
-        weight_before = sum(SX+SZ)-sum(bitand(SX,SZ));
+        SX       = StabRow(1:n);
+        SZ       = StabRow(n+1:end-1);
+        
+        weight_before = sum(SX)+sum(SZ)-sum(bitand(SX,SZ));
         
         if weight_before>1
 
             newRow = bitxor(StabRow,Tab(Rowk,:));
             SX     = newRow(1:n);
-            SZ     = newRow(n+1:2*n);
+            SZ     = newRow(n+1:end-1);
 
-            weight_after = sum(SX+SZ)-sum(bitand(SX,SZ));
+            
+            weight_after = sum(SX)+sum(SZ)-sum(bitand(SX,SZ));
             
             if weight_after<=weight_before %weight_after<weight_before
 
