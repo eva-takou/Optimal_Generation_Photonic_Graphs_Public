@@ -10,8 +10,9 @@ function [Gamma]=Get_Adjacency(Tab)
 %        the Tableau in canonical form.
 %Output: Gamma: Adjacency matrix
 
-Tab(:,end)=[]; %Drop the phase info.
-n  = size(Tab,1);
+Tab = Tab(:,1:end-1);  %Drop the phase info.
+n   = size(Tab,1);
+
 % Sx = Tab(:,1:n);
 % 
 % if all(diag(Sx)>0) %faster than all(all(Sx==eye(n,'int8'))) 
@@ -28,7 +29,7 @@ for qubit=1:n
 
     Tq    = Tab(:,qubit);     %Check the columns to see if we have X
     
-    if ~any(Tq) %No X, so apply a Hadamard
+    if ~any(Tq) %No X, so apply a Hadamard 
 
        %Apply Hadamard:
        Tq             = Tab(:,qubit+n);  
@@ -63,38 +64,59 @@ for qubit=1:n
     
     if Tq(qubit)~=1 %SWAP rows
         
-        for jj=qubit+1:n
+        indx         = find(Tq);
+        jj           = indx(end);
+        L            = length(indx)-1;
+        rowToBitXor  = Tab(jj,:);
+        Tab(jj,:)    = Tab(qubit,:);
+        Tab(qubit,:) = rowToBitXor;
 
-            if Tq(jj)==1 
+%         for jj=qubit+1:n
+% 
+%             if Tq(jj)==1 
+% 
+%                 temp         = Tab(jj,:);
+%                 Tab(jj,:)    = Tab(qubit,:);
+%                 Tab(qubit,:) = temp;
+%                 Tq(jj)       = 0;
+%                 
+%                 break
+% 
+%             end
+% 
+%         end
 
-                temp         = Tab(jj,:);
-                Tab(jj,:)    = Tab(qubit,:);
-                Tab(qubit,:) = temp;
-                Tq(jj)       = 0;
-                
-                break
-
-            end
-
+    else
+        
+        if sum(Tq)==1
+           continue 
         end
-    
+        
+        indx = find(Tq);
+        L    = length(indx);
+        rowToBitXor = Tab(qubit,:);
     end
     
-    locs = Tq(qubit+1:n)>0;
+%     locs = Tq(qubit+1:n);
+%     
+%     if ~any(locs) %Do this to avoid unessecary calls of find
+%         
+%         continue
+% 
+%     end
     
-    if sum(locs)==0 %~any(locs) %Do this to avoid unessecary calls of find
-        continue
-    end
+    %indx = find(locs)+qubit;
     
-    indx        = find(locs)+qubit;
-    rowToBitXor = Tab(qubit,:);
     
-    for p=1:length(indx)
+    for p=1:L
        
-        Tab(indx(p),:)=bitxor(Tab(indx(p),:),rowToBitXor);
-        
+        if indx(p)>qubit
+            Tab(indx(p),:)=bitxor(Tab(indx(p),:),rowToBitXor);
+        end
+
     end
         
+    
 end
 
 
@@ -104,22 +126,26 @@ Tab=Tab'; %Transpose to access column-wise (maybe slightly faster)
 
 for qubit=n:-1:2
    
-    SliceTab    = Tab(qubit,:)>0;
+    SliceTab    = Tab(qubit,:);
      
     if sum(SliceTab)==1 %Do this to avoid unessecary calls of find
         continue
     end
     
-    
-    indx        = find(SliceTab(1:qubit-1));
+    %indx        = find(SliceTab(1:qubit-1));
+    indx        = find(SliceTab); 
     rowToBitXor = Tab(:,qubit);
     
    for k=length(indx):-1:1
       
-       Tab(:,indx(k))=bitxor(Tab(:,indx(k)),rowToBitXor);
+       if indx(k)~=qubit 
+           
+           Tab(:,indx(k))=bitxor(Tab(:,indx(k)),rowToBitXor);
+           
+       end
        
    end    
-    
+   
 end
 
 %-------- (Alternative Back-substitution w/o transposition) ---------------
@@ -147,8 +173,6 @@ end
 Gamma = Tab(n+1:end,:);
 Gamma = Gamma - diag(diag(Gamma));
 Gamma = single(Gamma);
-
-
 %---------- Uncomment for error-check: ------------------------------------
 % Sx    = Tab(:,1:n);
 % 
