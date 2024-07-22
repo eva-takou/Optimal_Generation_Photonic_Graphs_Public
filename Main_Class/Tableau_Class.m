@@ -232,7 +232,7 @@ classdef Tableau_Class
         for jj = np+1:-1:2
 
             disp('=================================================================')    
-            disp(['Beginning iteration: ',int2str(jj-1)])            
+            disp(['Iteration: ',int2str(jj-1)])            
             
             photon = jj-1;
             
@@ -287,10 +287,6 @@ classdef Tableau_Class
             [workingTab,Circuit] = remove_redundant_Zs(workingTab,np,ne,Circuit,Store_Gates); %Convert the tableau to Zs
             [~,Circuit]          = fix_phases(workingTab,np,ne,Circuit,Store_Gates); %Fix phases
 
-        end
-        
-        if Verify_Circuit && ~Store_Gates
-           error('Requested to verify circuit, but gates were not stored.') 
         end
         
         if Verify_Circuit
