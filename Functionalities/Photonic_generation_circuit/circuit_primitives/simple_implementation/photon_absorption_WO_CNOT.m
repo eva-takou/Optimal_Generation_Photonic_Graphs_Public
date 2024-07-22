@@ -90,7 +90,7 @@ if length(potential_rows)>1
                                            emitter_flag_Gate,photon_flag_Gate,...
                                            Store_Graphs,Store_Gates);
         
-        warning('Rowsum of 2 photonic rows gives PA for free.') %OK: Can happen because we do not do back-substitution in RREF.
+        %warning('Rowsum of 2 photonic rows gives PA for free.') %OK: Can happen because we do not do back-substitution in RREF.
         
         return
         
