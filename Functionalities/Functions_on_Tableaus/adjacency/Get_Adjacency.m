@@ -6,8 +6,6 @@ function [Gamma]=Get_Adjacency(Tab)
 %
 %Function to obtain the adjacency matrix from a Stabilizer Tableau.
 %Input:  Tab: Input stabilizer tableau (n x 2n+1 array)
-%        option: true or false, to store or not the operations that transform
-%        the Tableau in canonical form.
 %Output: Gamma: Adjacency matrix
 
 Tab = Tab(:,1:end-1);  %Drop the phase info.
