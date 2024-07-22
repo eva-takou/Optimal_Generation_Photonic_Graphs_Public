@@ -13,7 +13,7 @@ future_step     = 3;
 recurse_further = true;
 
 np      = 9;
-iterMax = 1e3;
+iterMax = 100;
 
 for iter = 1:iterMax
    
