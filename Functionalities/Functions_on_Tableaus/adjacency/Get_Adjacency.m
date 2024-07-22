@@ -65,6 +65,7 @@ for qubit=1:n
         indx         = find(Tq);
         jj           = indx(end);
         L            = length(indx)-1;
+
         rowToBitXor  = Tab(jj,:);
         Tab(jj,:)    = Tab(qubit,:);
         Tab(qubit,:) = rowToBitXor;
