@@ -64,53 +64,36 @@ for qubit=1:n
         
         indx         = find(Tq);
         jj           = indx(end);
-        L            = length(indx)-1;
-
+        
         rowToBitXor  = Tab(jj,:);
         Tab(jj,:)    = Tab(qubit,:);
         Tab(qubit,:) = rowToBitXor;
 
-%         for jj=qubit+1:n
-% 
-%             if Tq(jj)==1 
-% 
-%                 temp         = Tab(jj,:);
-%                 Tab(jj,:)    = Tab(qubit,:);
-%                 Tab(qubit,:) = temp;
-%                 Tq(jj)       = 0;
-%                 
-%                 break
-% 
-%             end
-% 
-%         end
-
+        if length(indx)==1
+            continue
+        end
+        
+        L  = length(indx)-1;
+        
     else
         
         if sum(Tq)==1
            continue 
         end
         
-        indx = find(Tq);
-        L    = length(indx);
+        indx        = find(Tq);
         rowToBitXor = Tab(qubit,:);
+        L           = length(indx);
+        
     end
     
-%     locs = Tq(qubit+1:n);
-%     
-%     if ~any(locs) %Do this to avoid unessecary calls of find
-%         
-%         continue
-% 
-%     end
-    
-    %indx = find(locs)+qubit;
-    
-    
-    for p=1:L
+
+    for p=L:-1:1 %start with largest indices
        
         if indx(p)>qubit
             Tab(indx(p),:)=bitxor(Tab(indx(p),:),rowToBitXor);
+        else
+            break %indices are sorted so we can stop searching
         end
 
     end
@@ -131,17 +114,13 @@ for qubit=n:-1:2
         continue
     end
     
-    %indx        = find(SliceTab(1:qubit-1));
-    indx        = find(SliceTab); 
+    indx        = find(SliceTab);  %last index is indx==qubit
+    L           = length(indx)-1;
     rowToBitXor = Tab(:,qubit);
     
-   for k=length(indx):-1:1
-      
-       if indx(k)~=qubit 
-           
-           Tab(:,indx(k))=bitxor(Tab(:,indx(k)),rowToBitXor);
-           
-       end
+   for k=L:-1:1
+          
+       Tab(:,indx(k))=bitxor(Tab(:,indx(k)),rowToBitXor);
        
    end    
    
@@ -150,16 +129,22 @@ end
 %-------- (Alternative Back-substitution w/o transposition) ---------------
 % for qubit=n:-1:2
 %     
-%    SliceTab    = Tab(:,qubit)>0; 
+%    SliceTab    = Tab(:,qubit);
+%    
+%    if sum(SliceTab)==1
+%       
+%        continue
+%        
+%    end
+%    
+%    indx        = find(SliceTab);
+%    L           = length(indx)-1;
+%    
 %    rowToBitXor = Tab(qubit,:);
 %    
-%    for k=qubit-1:-1:1
-%        
-%        if SliceTab(k)
-%            
-%            Tab(k,:)=bitxor(Tab(k,:),rowToBitXor);
-%            
-%        end
+%    for k=L:-1:1
+% 
+%        Tab(indx(k),:)=bitxor(Tab(indx(k),:),rowToBitXor);
 %        
 %    end
 %    
@@ -172,6 +157,11 @@ end
 Gamma = Tab(n+1:end,:);
 Gamma = Gamma - diag(diag(Gamma));
 Gamma = single(Gamma);
+
+
+
+
+
 %---------- Uncomment for error-check: ------------------------------------
 % Sx    = Tab(:,1:n);
 % 
