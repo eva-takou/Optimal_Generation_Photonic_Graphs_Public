@@ -40,10 +40,12 @@ emitter_cutoff0 = 3;
 future_step     = 2;
 recurse_further = true;
 
-parfor l=1:length(nrange)
+for l=1:length(nrange)
     
     n             = nrange(l);
     node_ordering = 1:n;
+    
+
     
     for iter=1:iterMax
 
