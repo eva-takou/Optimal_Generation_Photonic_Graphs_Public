@@ -61,10 +61,6 @@ for l=1:length(row_indx_Stabs)
 
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
-
-%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-%               error('Check again') 
-%            end
            
             if Store_Graphs
 
@@ -88,10 +84,6 @@ for l=1:length(row_indx_Stabs)
 
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
-
-%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-%               error('Check again') 
-%            end           
            
             if Store_Graphs
 
@@ -116,9 +108,6 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em1,em2],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
-%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-%               error('Check again') 
-%            end           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -173,10 +162,7 @@ for l=1:length(row_indx_Stabs)
 
            Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
-
-%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-%               error('Check again') 
-%            end           
+           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -203,9 +189,6 @@ for l=1:length(row_indx_Stabs)
            Circuit         = store_gate_oper([em2,em1],'CNOT',Circuit0,Store_Gates);
            Circuit.EmCNOTs = Circuit.EmCNOTs+1;
 
-%            if ~qubit_in_product(Tab,n,em1) && ~qubit_in_product(Tab,n,em2)
-%               error('Check again') 
-%            end           
             if Store_Graphs
 
                 graphs = store_graph_transform(Get_Adjacency(Tab),strcat('After CNOT_{',int2str(em1),',',int2str(em2),'} [DE]'),graphs0);                    
@@ -255,18 +238,17 @@ Gates=combs([0,1,2,4],2); %Rest choices (3,5) seem to not be selected. Also 6 is
 if isempty(varargin{1})
    
     [potential_rows,~] = detect_Stabs_start_from_photon(Tab0,photon,n);
-    [Stabrow,~] = detect_Stab_rows_of_minimal_weight(Tab0,potential_rows,np,n);
+    [~,~,emitters_in_X,emitters_in_Y,emitters_in_Z] = detect_Stab_rows_of_minimal_weight(Tab0,potential_rows,np,n);
 
-
-    [emitters_in_X,emitters_in_Y,emitters_in_Z]=emitters_Pauli_in_row(Tab0,Stabrow(1),np,ne); %Ignores emitters in product state
+    %[emitters_in_X,emitters_in_Y,emitters_in_Z]=emitters_Pauli_in_row(Tab0,Stabrow(1),np,ne); %Ignores emitters in product state
     all_emitters=[emitters_in_X,emitters_in_Y,emitters_in_Z];
 
 
     %----------- Can make various choices here --------------------------------
 
     emitter_cutoff = min([length(all_emitters),emitter_cutoff0]);
-
-
+    
+    
     for l1=1:emitter_cutoff 
 
         for l2=l1+1:emitter_cutoff 
@@ -279,18 +261,20 @@ if isempty(varargin{1})
                 gate1 = Gates(M,1);
                 gate2 = Gates(M,2);
 
-
+                
                 [testTab]=subroutine_gate_application_no_phase_upd(Tab0,em1,em2,gate1,gate2,n);
 
                 testTab = CNOT_Gate_no_phase_upd(testTab,[em1,em2],n);
 
                 number_conn_comp_after = number_of_sub_G(Get_Adjacency(testTab));
 
+                
+                
                 if number_conn_comp_after>number_conn_comp_before
 
-                    disp('!!!!!!!!!!!!!')
-                    disp(['Gate comb:',int2str(Gates(M,:))])
-                    disp('!!!!!!!!!!!!!')
+                    
+                    disp(['!!! Gate comb:',int2str(Gates(M,:))])
+                    
                     flag    = true;
 
                     [testTab,testCirc]=subroutine_gate_application_phase_upd(Tab0,Circuit0,em1,em2,gate1,gate2,n,Store_Gates);
@@ -531,12 +515,15 @@ end
 
 end
 
-function [Stab_row_indx,indx] = detect_Stab_rows_of_minimal_weight(Tab,potential_rows,np,n)
+function [Stab_row_indx,indx,em_X,em_Y,em_Z] = detect_Stab_rows_of_minimal_weight(Tab,potential_rows,np,n)
 
 ne               = n-np;
 Lp               = length(potential_rows);
 weight           = zeros(1,Lp);
-emitters_per_row = cell(1,Lp);
+%emitters_per_row = cell(1,Lp);
+em_X             = cell(1,Lp);
+em_Y             = cell(1,Lp);
+em_Z             = cell(1,Lp);
 
 for ll=1:Lp
 
@@ -544,7 +531,11 @@ for ll=1:Lp
     
     [emitters_in_X,emitters_in_Y,emitters_in_Z] = emitters_Pauli_in_row(Tab,row,np,ne);
     weight(ll)           = length([emitters_in_X,emitters_in_Y,emitters_in_Z]);
-    emitters_per_row{ll} = [emitters_in_X,emitters_in_Y,emitters_in_Z];
+    %emitters_per_row{ll} = [emitters_in_X,emitters_in_Y,emitters_in_Z];
+    em_X{ll} = emitters_in_X;
+    em_Y{ll} = emitters_in_Y;
+    em_Z{ll} = emitters_in_Z;
+    
     
 end
 
@@ -553,6 +544,9 @@ if min(weight)==0
 end
 
 [~,indx]      = min(weight);
+em_X          = em_X{indx};
+em_Y          = em_Y{indx};
+em_Z          = em_Z{indx};
 Stab_row_indx = potential_rows(indx);
 
 end
