@@ -44,7 +44,7 @@ parfor k=1:length(AdjLC)
     temp  = Tableau_Class((AdjLC{k}),'Adjacency');
     temp  = temp.Generation_Circuit_Heu1(1:2*n,Store_Graphs,Store_Gates,...
                                          BackSubsOption,Verify_Circuit,...
-                                         return_cond,false);
+                                         return_cond,false,[]);
     
     temp     = temp.Count_emitter_CNOTs;
     CNOTs(k) = temp.Emitter_CNOT_count;            
