@@ -3,8 +3,8 @@ clc;
 close all;
 
 
-nmin    = 6;
-nmax    = 25;
+nmin    = 6; 
+nmax    = 25; 
 nstep   = 2;
 iterMax = 200;
 
