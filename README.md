@@ -102,7 +102,7 @@ obj = obj.Generation_Circuit_Heu1(node_ordering,Store_Graphs,Store_Gates,...
 
 ## References
 1. Circle graph theory: <https://link.springer.com/article/10.1007/BF02579301>
-2. LC equivalence: <https://www.sciencedirect.com/science/article/pii/0012365X9390357Y>
+2. LC equivalence: <https://www.sciencedirect.com/science/article/pii/0012365X9390357Y>, <https://journals.aps.org/pra/abstract/10.1103/PhysRevA.70.034302>
 3. Enumeration of LC orbit: <https://www.sciencedirect.com/science/article/pii/0012365X9390357Y>, 
 <https://arxiv.org/abs/1907.08024>
 3. Stabilizer Tableau theory: <https://arxiv.org/abs/quant-ph/0406196>
