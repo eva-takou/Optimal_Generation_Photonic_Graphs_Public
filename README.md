@@ -107,7 +107,7 @@ obj = obj.Generation_Circuit_Heu1(node_ordering,Store_Graphs,Store_Gates,...
 <https://arxiv.org/abs/1907.08024>
 3. Stabilizer Tableau theory: <https://arxiv.org/abs/quant-ph/0406196>
 4. Original non-optimized photonic generation algorithm: <https://www.nature.com/articles/s41534-022-00522-6>
-5. Optimized photonic generation algorithms developed here: *To be inserted*
+5. Optimized photonic generation algorithms developed here: <https://arxiv.org/pdf/2407.15777>
 
 ## Authors
 Evangelia Takou
