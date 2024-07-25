@@ -144,9 +144,21 @@ end
 
 
 if ~flag_found
-
-    error('Need to do Gaussian elimination to reveal stab I...X_{em}...I.')
-
+    
+    newTab = to_Canonical_Form(Tab);
+    indx   = find(newTab(:,emitter_qubit));
+    
+    if nnz(newTab(indx,1:2*n))==1
+       flag_found=true;
+    end
+    
+    if ~flag_found
+    
+        error('Gaussian elimination did not reveal stab I...X_{em}...I.')
+    end
+    
+    phase = newTab(indx,end);
+    
 end    
 
 if phase==1
@@ -155,6 +167,7 @@ if phase==1
    Circuit = store_gate_oper(emitter_qubit,'Z',Circuit,Store_Gates);
 
 end
+
 
 
 end
