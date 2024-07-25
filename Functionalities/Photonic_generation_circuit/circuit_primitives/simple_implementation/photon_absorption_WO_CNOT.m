@@ -35,7 +35,12 @@ discovered_emitter = false;
 emitter            = [];
 
 %Get stabs whose left index starts from a Pauli on the photon to be absorbed
-[potential_rows,photon_flag_Gate,Tab] = detect_Stabs_start_from_photon(Tab,photon,n);
+%[potential_rows,photon_flag_Gate,Tab] = detect_Stabs_start_from_photon(Tab,photon,n);
+[potential_rows,photon_flag_Gate,TabO] = detect_Stabs_start_from_photon(Tab,photon,n);
+
+if ~all(all(TabO==Tab))
+   error('Did we update this?') 
+end
 
 for jj=1:length(potential_rows) %Check for emitter not entangled with others to absorb the photon:
     
@@ -56,7 +61,7 @@ for jj=1:length(potential_rows) %Check for emitter not entangled with others to 
     
 end
 
-if length(potential_rows)>1
+if length(potential_rows)>1 && photon_flag_Gate{1}~=photon_flag_Gate{2}
 
     %To avoid unnecessary phase update, spend some time to bitxor only the
     %Paulis, and see if now we have weight==1 on a single emitter.
@@ -83,6 +88,7 @@ if length(potential_rows)>1
         elseif strcmpi([photon_flag_Gate{:}],'XY') || strcmpi([photon_flag_Gate{:}],'YX')
 
             photon_flag_Gate='Z';
+       
 
         end
         
