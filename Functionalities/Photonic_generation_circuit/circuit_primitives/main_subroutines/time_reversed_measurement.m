@@ -153,9 +153,20 @@ if ~flag_found
     end
     
     if ~flag_found
-    
-        error('Gaussian elimination did not reveal stab I...X_{em}...I.')
+        
+        newTab = Gauss_elim_GF2_with_rowsum(newTab,n);
+        indx   = find(newTab(:,emitter_qubit));
+        
+        if nnz(newTab(indx,1:2*n))==1
+           flag_found=true;
+        end    
+        
+
     end
+    
+    if ~flag_found
+        error('Gaussian elimination did not reveal stab I...X_{em}...I.')
+    end    
     
     phase = newTab(indx,end);
     
