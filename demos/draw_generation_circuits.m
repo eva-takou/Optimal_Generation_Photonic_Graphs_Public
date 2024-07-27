@@ -24,8 +24,8 @@ ne  = obj.Emitters;
                          
 Circ_Naive   = obj.Photonic_Generation_Gate_Sequence;                         
 Circ_Naive   = put_circuit_forward_order(Circ_Naive);
-CircuitOrder = 'forward';
-Circ_Naive   = fix_potential_phases_forward_circuit(Circ_Naive,Adj,ne,CircuitOrder);
+
+
 
 
 %----- Heur 1 ---------------------------------------------------
@@ -43,7 +43,7 @@ CNOTs_Heu1 = obj.Emitter_CNOT_count;
 Circ_Heu1    = obj.Photonic_Generation_Gate_Sequence;
 Circ_Heu1    = put_circuit_forward_order(Circ_Heu1);
 CircuitOrder = 'forward';
-Circ_Heu1    = fix_potential_phases_forward_circuit(Circ_Heu1,Adj,ne,CircuitOrder);
+
 
 
 %------ Options for the simplification rules ----------------------------
