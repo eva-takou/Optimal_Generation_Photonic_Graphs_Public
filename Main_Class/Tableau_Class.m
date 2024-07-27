@@ -382,10 +382,6 @@ classdef Tableau_Class
            
             error('Requested to verify the circuit, but gates were not stored.') 
         
-        elseif ~Verify_Circuit && Store_Gates
-            
-            warning('Turn Verify_Circuit to true, to store potential final gates.') 
-            
         end
             
         [workingTab,Circuit,graphs]=disentangle_all_emitters(workingTab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,BackSubsOption);
@@ -511,10 +507,6 @@ classdef Tableau_Class
            
             error('Requested to verify the circuit, but gates were not stored.') 
         
-        elseif ~Verify_Circuit && Store_Gates
-            
-            warning('Turn Verify_Circuit to true, to store potential final gates.') 
-            
         end
             
         [workingTab,Circuit,graphs]=disentangle_all_emitters(workingTab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,BackSubsOption);
