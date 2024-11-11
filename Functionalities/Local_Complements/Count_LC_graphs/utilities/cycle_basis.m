@@ -129,8 +129,11 @@ if cnt==0
     
 end
 
+if ~all(MCycles==0)
+    MCycles = Gauss_elim_GF2(MCycles);
+end
 %==== Do Gauss elimination: =========================================
-MCycles = Gauss_elim_GF2(MCycles);
+
 
 MCycles(~any(MCycles,2),:) = []; %Keep only nnz rows
 CB                         = MCycles;
