@@ -1,7 +1,7 @@
 function [Tab,Circuit,graphs]=photon_absorption_W_CNOT(Tab,np,ne,photon,Circuit,graphs,Store_Graphs,Store_Gates)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: June 15, 2024
+%Last modified: Feb 1, 2025
 %--------------------------------------------------------------------------
 %
 %Function to perform photon absorption in the case where we need emitter
