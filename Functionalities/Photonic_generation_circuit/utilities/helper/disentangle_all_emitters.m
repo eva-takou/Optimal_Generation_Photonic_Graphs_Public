@@ -1,7 +1,7 @@
 function [Tab,Circuit,graphs]=disentangle_all_emitters(Tab,np,ne,Circuit,graphs,Store_Graphs,Store_Gates,BackSubs)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: June 14, 2024
+%Last modified: Feb 1, 2025
 %--------------------------------------------------------------------------
 %
 %Function to disentangle the emitters after having absorbed all the
@@ -28,17 +28,17 @@ function [Tab,Circuit,graphs]=disentangle_all_emitters(Tab,np,ne,Circuit,graphs,
 n = np+ne;
 
 %Check that all photons have been absorbed already:
-for jj=1:np
-   
-    [cond_prod,~]=qubit_in_product(Tab,np+ne,jj);
-    
-    if ~cond_prod
-        
-       error(['Photon ',num2str(jj),' has not been absorbed.']) 
-       
-    end
-    
-end
+% for jj=1:np
+%    
+%     [cond_prod,~]=qubit_in_product(Tab,np+ne,jj);
+%     
+%     if ~cond_prod
+%         
+%        error(['Photon ',num2str(jj),' has not been absorbed.']) 
+%        
+%     end
+%     
+% end
 
 disentangled_em         = [];
 disentangled_em_state   = [];
@@ -239,7 +239,9 @@ n        = np+ne;
 StabsXE  = Tab(:,entangled_emitters);
 StabsZE  = Tab(:,entangled_emitters+n);
 
-weight   = sum([StabsXE,StabsZE]'~=0);
+% weight   = sum([StabsXE,StabsZE]'~=0); 
+weight   = sum(StabsXE,2)'+sum(StabsZE,2)';
+
 emm_in_Y = sum(StabsXE' &   StabsZE');
 weight   = weight-emm_in_Y;
 
