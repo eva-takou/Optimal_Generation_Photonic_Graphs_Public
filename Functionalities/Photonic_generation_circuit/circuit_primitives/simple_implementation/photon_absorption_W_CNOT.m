@@ -57,7 +57,6 @@ function [Stab_row_indx,indx,em_X,em_Y,em_Z] = detect_Stab_rows_of_minimal_weigh
 ne               = n-np;
 Lp               = length(potential_rows);
 weight           = zeros(1,Lp);
-%emitters_per_row = cell(1,Lp);
 em_X             = cell(1,Lp);
 em_Y             = cell(1,Lp);
 em_Z             = cell(1,Lp);
@@ -66,12 +65,9 @@ for ll=1:Lp
 
     row = potential_rows(ll);
     
-    [emitters_in_X,emitters_in_Y,emitters_in_Z] = emitters_Pauli_in_row(Tab,row,np,ne);
-    weight(ll)                                  = length([emitters_in_X,emitters_in_Y,emitters_in_Z]);
-    em_X{ll}                                    = emitters_in_X;
-    em_Y{ll}                                    = emitters_in_Y;
-    em_Z{ll}                                    = emitters_in_Z;
-    %emitters_per_row{ll} = [emitters_in_X,emitters_in_Y,emitters_in_Z];
+    [em_X{ll},em_Y{ll},em_Z{ll}] = emitters_Pauli_in_row(Tab,row,np,ne);
+    weight(ll)                                  = length([em_X{ll},em_Y{ll},em_Z{ll}]);
+                                        
     
 end
 
