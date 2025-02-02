@@ -1,7 +1,7 @@
 function [potential_rows,photon_flag_Gate,Tab]=detect_Stabs_start_from_photon(Tab,photon,n)
 %--------------------------------------------------------------------------
 %Created by Eva Takou
-%Last modified: June 15, 2024
+%Last modified: Feb 1, 2025
 %--------------------------------------------------------------------------
 %
 %Function to detect a stab whose Left index starts from the photon to be 
@@ -30,37 +30,24 @@ potential_rows=zeros(1,2);
 
 if photon>1
 
-    if photon>=n/2
-       
-        indx_start=n;
-        step=-1;
-        indx_end=1;
-       
-    else
-        
-        indx_start=1;
-        step=1;
-        indx_end=n;
-        
-    end
+%     if photon>=n/2
+%        
+%         indx_start=n;
+%         step=-1;
+%         indx_end=1;
+%        
+%     else
+%         
+%         indx_start=1;
+%         step=1;
+%         indx_end=n;
+%         
+%     end
     
-    for ii=indx_start:step:indx_end %Should not inspect that many rows. Should exclude last rows that were already processed..
-
-        SX_other_photons = StabsXp(ii,:);
-        
-        if any(SX_other_photons)
-            
-            continue
-            
-        end
-        
-        SZ_other_photons = StabsZp(ii,:);
-        
-        if any(SZ_other_photons)
-            
-            continue
-            
-        end
+    to_keep = find(~(any(StabsXp,2) | any(StabsZp,2)));
+    
+    for l=1:length(to_keep)
+        ii = to_keep(l);
         
         xi_target_photon = Tab(ii,photon);
         zi_target_photon = Tab(ii,photon+n);
@@ -93,8 +80,62 @@ if photon>1
         if cnt==2
             break
         end
-
+        
+        
     end
+    
+    
+%     for ii=indx_start:step:indx_end %Should not inspect that many rows. Should exclude last rows that were already processed..
+% 
+%         SX_other_photons = StabsXp(ii,:);
+%         
+%         if any(SX_other_photons)
+%             
+%             continue
+%             
+%         end
+%         
+%         SZ_other_photons = StabsZp(ii,:);
+%         
+%         if any(SZ_other_photons)
+%             
+%             continue
+%             
+%         end
+%         
+%         xi_target_photon = Tab(ii,photon);
+%         zi_target_photon = Tab(ii,photon+n);
+% 
+%         if xi_target_photon==0 && zi_target_photon==0
+%             
+%             continue
+%         
+%         elseif xi_target_photon==0 %&& zi_target_photon==1 %Conditions for non-trivial Paulis on target photon.
+% 
+%             cnt = cnt+1;
+%             photon_flag_Gate{cnt} = 'Z';
+%             potential_rows(cnt)   = ii;
+% 
+%         elseif xi_target_photon==1 && zi_target_photon==1
+% 
+%             cnt = cnt+1;
+%             photon_flag_Gate{cnt} = 'Y';
+%             potential_rows(cnt)   = ii;
+% 
+%         else %if xi_target_photon==1 && zi_target_photon==0    
+% 
+%             cnt = cnt+1;
+%             photon_flag_Gate{cnt} = 'X';
+%             potential_rows(cnt)   = ii;
+% 
+%         end
+% 
+%         %We will have at most 2 photonic rows, due to RREF.
+%         if cnt==2
+%             break
+%         end
+% 
+%     end
     
 elseif photon==1
     
